@@ -1,1 +1,1 @@
-export { Heading, Flex, Text, Stack, Button } from "@chakra-ui/core";
+export { Heading, Flex, Text, Stack, Button, Divider } from "@chakra-ui/core";

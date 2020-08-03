@@ -1,10 +1,9 @@
-import { Heading, Text, Flex, Stack, Button } from "../components";
+import { Divider, Heading, Text, Flex, Stack, Button } from "../../components";
 import * as React from "react";
-import { addItem, removeItem } from "../store/actions";
+import { addItem, removeItem } from "../../store/actions";
+import { State, Item } from "../../store/types";
 
 import { useSelector, useDispatch } from "react-redux";
-import { State, Item } from "../store/types";
-import { Divider } from "@chakra-ui/core";
 // import { Checkbox } from "@chakra-ui/core";
 
 function Selected() {
