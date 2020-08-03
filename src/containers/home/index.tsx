@@ -1,4 +1,12 @@
-import { Divider, Heading, Text, Flex, Stack, Button } from "../../components";
+import {
+  Divider,
+  Heading,
+  Text,
+  HFlex,
+  Stack,
+  Button,
+  VFlex,
+} from "../../components";
 import * as React from "react";
 import { addItem, removeItem } from "../../store/actions";
 import { State, Item } from "../../store/types";
@@ -29,7 +37,7 @@ function Items() {
 
   const dispatch = useDispatch();
   return (
-    <Flex direction="row">
+    <HFlex>
       {items?.map((item: string) => (
         <Button
           m="4"
@@ -41,13 +49,13 @@ function Items() {
           {item}
         </Button>
       ))}
-    </Flex>
+    </HFlex>
   );
 }
 
 export default function Home() {
   return (
-    <Flex
+    <VFlex
       w="100vw"
       h="100vh"
       direction="column"
@@ -69,6 +77,6 @@ export default function Home() {
         <Text marginTop="4">Added Items (Click to remove):</Text>
         <Selected />
       </Stack>
-    </Flex>
+    </VFlex>
   );
 }
