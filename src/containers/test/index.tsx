@@ -16,6 +16,8 @@ import "react-simple-keyboard/build/css/index.css";
 import { useForceUpdate } from "../../hooks";
 import { HeaderData, THeaderData } from "./future";
 import { FaUser, FaLock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
 interface InputFieldProps {
   label: string;
   value: string;
@@ -92,12 +94,13 @@ function Header({ data }: HeaderProps) {
 export default function Test(props: any) {
   const [keyboard, setKeyboard] = React.useState<boolean>(false);
   const [activeInput, setActiveInput] = React.useState<number>(0);
-  const [inputs, setInputs] = React.useState<string[]>([]);
+  const [inputs, setInputs] = React.useState<string[]>(["", ""]);
   const forceUpdate = useForceUpdate();
   const toggleKeyboard = (id: number) => {
     setActiveInput(id);
     setKeyboard(!keyboard);
   };
+
   const onTextChange = (id: number, text: string) => {
     if (id > inputs?.length || id < 0) return;
     let newInputs = inputs;
@@ -105,6 +108,24 @@ export default function Test(props: any) {
     setTimeout(() => setInputs(newInputs), 0);
     forceUpdate();
   };
+
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    //TODO: more accurate validation?
+    let okay = true;
+    for (let input of inputs) {
+      if (!input || input === "") {
+        okay = false;
+        break;
+      }
+    }
+    if (okay) {
+      alert("Proceed.");
+    } else {
+      alert("Username / Password Not okay.");
+    }
+  };
+
   //   React.useEffect(() => {}, inputs);
   return (
     <VFlex>
@@ -124,7 +145,11 @@ export default function Test(props: any) {
           Login
         </Text>
         <Divider color="gray.600" />
-        <FormControl width="370px">
+        <FormControl
+          width="370px"
+          onSubmit={onSubmit}
+          onSubmitCapture={onSubmit}
+        >
           <InputField
             label="Username"
             containerProps={{ mt: "4", mb: "4" }}
@@ -141,7 +166,13 @@ export default function Test(props: any) {
             onButtonClick={() => toggleKeyboard(1)}
           />
           <Divider />
-          <Button variantColor="cyan" size="sm" width="100%" mt="8">
+          <Button
+            onClick={onSubmit}
+            variantColor="cyan"
+            size="sm"
+            width="100%"
+            mt="8"
+          >
             Sign in
           </Button>
         </FormControl>
