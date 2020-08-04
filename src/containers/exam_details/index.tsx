@@ -2,7 +2,7 @@ import * as React from "react";
 import { Text } from "../../components";
 import { useParams } from "react-router";
 
-export default function TestList() {
+export default function ExamsList() {
   const params = useParams();
   return (
     <Text>

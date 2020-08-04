@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Text } from "../../components";
 
-export default function TestList() {
+export default function ExamsList() {
   return <Text>List of Available exams Here</Text>;
 }

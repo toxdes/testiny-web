@@ -7,8 +7,8 @@ import { State } from "../../../store/types";
 import { setBeforeExamStep } from "../../../store/actions";
 const steps = [Login, Instructions, PaperSpecificInstructions];
 
-export default function BeforeTest() {
-  const step = useSelector((state: State) => state.beforeExamStep);
+export default function BeforeExam() {
+  const step = useSelector((state: State) => state.beforeExamState.step);
   const dispatch = useDispatch();
   const CurrentStep = steps[step];
   const onNextStep = () => {

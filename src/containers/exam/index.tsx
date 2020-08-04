@@ -4,8 +4,8 @@ import { State } from "../../store/types";
 import BeforeExam from "./before_exam";
 import MainExam from "./main_exam";
 
-export default function Test() {
-  const done = useSelector((state: State) => state.beforeExamDone);
+export default function Exam() {
+  const done = useSelector((state: State) => state.beforeExamState.done);
   if (done) return <MainExam />;
   return <BeforeExam />;
 }

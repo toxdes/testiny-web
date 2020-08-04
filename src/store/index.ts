@@ -1,11 +1,13 @@
-import reducer from "./reducer";
+import reducers from "./reducers";
 import { createStore } from "redux";
-import { State } from "./types";
-
-const initialState: State = {
-  beforeExamStep: 0,
-  beforeExamDone: false,
-};
+import initialState from "./initialState";
 
 // TODO: Fix this typescript thing, Idk what to do here.
-export default createStore(reducer as any, initialState as any);
+export default createStore(
+  reducers as any,
+  initialState as any,
+  //ts-ignore
+  typeof window !== "undefined" &&
+    (window && (window as any)).__REDUX_DEVTOOLS_EXTENSION__ &&
+    (window && (window as any)).__REDUX_DEVTOOLS_EXTENSION__()
+);

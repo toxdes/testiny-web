@@ -19,7 +19,6 @@ export default function PaperSpecificInstructions({
   const startExam = (e: any) => {
     e.preventDefault();
     dispatch(setBeforeExamDone());
-    // navigate("./start_test", { replace: true });
   };
   return (
     <VFlex h="100vh" justify="space-around">
