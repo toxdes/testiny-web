@@ -1,3 +1,4 @@
+// should be replaced with the api later
 export type THeaderData = {
   systemName: string;
   candidateName: string;

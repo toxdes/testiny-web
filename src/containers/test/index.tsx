@@ -8,6 +8,7 @@ import {
   Image,
   Divider,
 } from "../../components";
+import { card } from "../../components/styles";
 import { MdKeyboard } from "react-icons/md";
 import { FormControl, Button } from "@chakra-ui/core";
 import Keyboard from "react-simple-keyboard";
@@ -44,9 +45,10 @@ function InputField({
         placeholder={label}
         type={type ? type : "text"}
         size="sm"
+        onChange={(e: any) => e.preventDefault()}
         value={value}
         onClick={onClick}
-        isDisabled
+        // isDisabled
       />
       <IconButton
         as={MdKeyboard}
@@ -107,14 +109,7 @@ export default function Test(props: any) {
   return (
     <VFlex>
       <Header data={HeaderData} />
-      <VFlex
-        mt="40"
-        pt="2"
-        pb="6"
-        pl="4"
-        pr="4"
-        boxShadow="0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);"
-      >
+      <VFlex mt="40" pt="2" pb="6" pl="4" pr="4" boxShadow={card.boxShadow}>
         <Text
           // bg="gray.300"
           color="black.600"

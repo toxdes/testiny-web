@@ -6,3 +6,16 @@ More info will be added soon.
 # Quickstart
 
 `yarn dev`
+
+# Stack
+
+| Library                            | Use                                                                  |
+| ---------------------------------- | -------------------------------------------------------------------- |
+| `react-router`, `react-router-dom` | client side routing, using v6, it's in beta, but that's okay I guess |
+| `redux`, `react-redux`             | state management                                                     |
+| `chakra-ui`, `emotion`             | for making life easier with styled system, and css in js             |
+| `react-simple-keyboard`            | for on-screen keyboard                                               |
+
+# Contributing
+
+See [contributing](./contributing.md) guidlines for more information about the project structure.
