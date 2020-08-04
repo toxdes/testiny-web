@@ -5,12 +5,14 @@ export {
   Flex,
   Text,
   Stack,
-  Button,
   Divider,
   Box,
   IconButton,
   Input,
   Image,
+  FormControl,
+  Button,
+  Checkbox,
 } from "@chakra-ui/core";
 
 export function HFlex(props: any) {

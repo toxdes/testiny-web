@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   HFlex,
   VFlex,
@@ -7,26 +6,19 @@ import {
   Text,
   Image,
   Divider,
-} from "../../components";
-import { card } from "../../components/styles";
+  FormControl,
+  Button,
+} from "../../../components";
+import { card } from "../../../components/styles";
+import * as React from "react";
 import { MdKeyboard } from "react-icons/md";
-import { FormControl, Button } from "@chakra-ui/core";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
-import { useForceUpdate } from "../../hooks";
-import { HeaderData, THeaderData } from "./future";
+import { useForceUpdate } from "../../../hooks";
+import { HeaderData } from "../future";
 import { FaUser, FaLock } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { InputFieldProps, HeaderProps, StepProps } from "../types";
 
-interface InputFieldProps {
-  label: string;
-  value: string;
-  type?: string;
-  icon?: string;
-  containerProps?: any;
-  onButtonClick?: () => void;
-  onClick?: () => void;
-}
 function InputField({
   value,
   label,
@@ -63,9 +55,6 @@ function InputField({
   );
 }
 
-interface HeaderProps {
-  data: THeaderData;
-}
 function Header({ data }: HeaderProps) {
   return (
     <HFlex bg="gray.700" w="100vw" minHeight={140} justify="space-between">
@@ -91,7 +80,7 @@ function Header({ data }: HeaderProps) {
   );
 }
 
-export default function Test(props: any) {
+export default function Login({ onNextStep }: StepProps) {
   const [keyboard, setKeyboard] = React.useState<boolean>(false);
   const [activeInput, setActiveInput] = React.useState<number>(0);
   const [inputs, setInputs] = React.useState<string[]>(["", ""]);
@@ -121,6 +110,7 @@ export default function Test(props: any) {
     }
     if (okay) {
       alert("Proceed.");
+      onNextStep();
     } else {
       alert("Username / Password Not okay.");
     }
