@@ -1,5 +1,10 @@
 # Developer Changelog
 
+#### v0.0.3
+
+- Main Exam UI layout done
+- Lot of refactoring
+
 #### v0.0.2
 
 - Modified readme with information about stack/libraries used, added project structure in contributing guide.
