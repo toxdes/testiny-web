@@ -1,9 +1,9 @@
-import { State } from "./types";
+import { RootState } from "./types";
 
-const initialState: State = {
+const initialState: RootState = {
   beforeExamState: {
     step: 0,
-    done: false,
+    done: true, // TODO: set it to false after development
   },
   examState: {},
 };
