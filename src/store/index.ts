@@ -3,7 +3,8 @@ import { createStore } from "redux";
 import { State } from "./types";
 
 const initialState: State = {
-  items: [],
+  beforeExamStep: 0,
+  beforeExamDone: false,
 };
 
 // TODO: Fix this typescript thing, Idk what to do here.

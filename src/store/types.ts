@@ -1,12 +1,9 @@
-export type Item = {
-  id: string | number;
-  text: string;
+export type State = {
+  beforeExamStep: number;
+  beforeExamDone: boolean;
 };
 
-export type State = {
-  items: Item[];
-};
 export type GenericAction = {
   type: string;
-  payload: any;
+  payload?: any;
 };

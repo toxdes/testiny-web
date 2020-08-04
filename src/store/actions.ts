@@ -1,20 +1,17 @@
-import { GenericAction, Item } from "./types";
-
-export const ADD_ITEM = "ADD_ITEM";
-export const REMOVE_ITEM = "REMOVE_ITEM";
+import { GenericAction } from "./types";
+export const SET_BEFORE_EXAM_STEP = "SET_BEFORE_EXAM_STEP";
+export const SET_BEFORE_EXAM_DONE = "SET_BEFORE_EXAM_DONE";
 
 // action creators
-
-export const addItem = (item: string): GenericAction => {
+export const setBeforeExamStep = (step: number): GenericAction => {
   return {
-    type: ADD_ITEM,
-    payload: { item },
+    type: SET_BEFORE_EXAM_STEP,
+    payload: { step },
   };
 };
 
-export const removeItem = (item: Item): GenericAction => {
+export const setBeforeExamDone = (): GenericAction => {
   return {
-    type: REMOVE_ITEM,
-    payload: { item },
+    type: SET_BEFORE_EXAM_DONE,
   };
 };

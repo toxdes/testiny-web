@@ -1,26 +1,19 @@
-import { ADD_ITEM, REMOVE_ITEM } from "./actions";
+import { SET_BEFORE_EXAM_STEP, SET_BEFORE_EXAM_DONE } from "./actions";
 // import { Reducer } from "react";
-import { State, GenericAction, Item } from "./types";
+import { State, GenericAction } from "./types";
 
 export default (state: State, action: GenericAction): State => {
   switch (action.type) {
-    case ADD_ITEM: {
-      let newItems = [
-        ...state.items,
-        { id: Math.floor(Math.random() * 1000), text: action.payload.item },
-      ];
+    case SET_BEFORE_EXAM_STEP: {
       return {
         ...state,
-        items: newItems,
+        beforeExamStep: action.payload.step,
       };
     }
-    case REMOVE_ITEM: {
-      let newItems = state.items.filter(
-        (item: Item) => item.id !== action.payload.item.id
-      );
+    case SET_BEFORE_EXAM_DONE: {
       return {
         ...state,
-        items: newItems,
+        beforeExamDone: true,
       };
     }
     default:
