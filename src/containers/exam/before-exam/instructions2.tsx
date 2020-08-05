@@ -7,7 +7,7 @@ import {
   Divider,
   HFlex,
 } from "../../../components";
-import { StepProps } from "../types";
+import { StepProps } from "./types";
 import { useDispatch } from "react-redux";
 import { setBeforeExamDone } from "../../../store/actions";
 

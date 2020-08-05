@@ -17,7 +17,7 @@ import "react-simple-keyboard/build/css/index.css";
 import { useForceUpdate } from "../../../hooks";
 import { HeaderData } from "../future";
 import { FaUser, FaLock } from "react-icons/fa";
-import { InputFieldProps, HeaderProps, StepProps } from "../types";
+import { InputFieldProps, HeaderProps, StepProps } from "./types";
 
 function InputField({
   value,

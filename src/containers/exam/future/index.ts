@@ -1,4 +1,5 @@
-import { THeaderData, TExamData, TQuestion, TQuestionType } from "../types";
+import { THeaderData } from "../before-exam/types";
+import { TExamData, TQuestion, TQuestionType } from "../main-exam/types";
 import { v4 as uuid } from "uuid";
 // should be replaced with the api later
 export const HeaderData: THeaderData = {
@@ -27,13 +28,12 @@ Harum vitae et nostrum fugiat qui harum. Praesentium eum est est beatae natus. P
 };
 const generateQuestions = (
   sections: number,
-  total_questions_per_section: number[]
+  totalQuestionsPerSection: number[]
 ): TQuestion[][] => {
-  // if (sections !== total_questions_per_section.length) return [];
   let res: TQuestion[][] = [];
   for (let i = 0; i < sections; ++i) {
     let questions = [];
-    for (let j = 0; j < total_questions_per_section[i]; ++j) {
+    for (let j = 0; j < totalQuestionsPerSection[i]; ++j) {
       let q: TQuestion = {
         id: uuid(),
         text: getText(300),
@@ -62,7 +62,7 @@ export const ExamData: TExamData = {
       "https://s3.amazonaws.com/uifaces/faces/twitter/claudioguglieri/128.jpg",
     rollNumber: "112122",
   },
-  // questions -> is an array of questions -> question[section][question_number]
+  // questions -> is an array of questions -> question[section][questionNumber]
   // in this particular example, there are two sections
   // questions: [[""], [""]],
   questions: generateQuestions(2, [15, 65]),
