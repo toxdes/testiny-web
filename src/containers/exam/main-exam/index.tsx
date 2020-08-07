@@ -12,11 +12,34 @@ import {
   QuestionState,
   SubmitExam,
 } from "./components";
+import { ExamData as data } from "../future";
+import { useTypedSelector } from "../../../store/selector";
 
 export default function MainExam() {
+  // navigation-tabs
+  const activeQuestionIndex = useTypedSelector(
+    (state) => state.examState.activeQuestionIndex
+  );
+  const activeSectionIndex = useTypedSelector(
+    (state) => state.examState.activeSectionIndex
+  );
+  const activeSubjectIndex = useTypedSelector(
+    (state) => state.examState.activeSubjectIndex
+  );
+
+  // navigation-questions
+  const onClearResponse = () => {
+    alert("Clear Response");
+  };
+  const onMarkForReviewAndNext = () => {
+    alert("Mark for review and next");
+  };
+  const onSaveAndNext = () => {
+    alert("Save and Next");
+  };
   return (
     <VFlex w="100vw" h="100vh" align="center" justify="flex-start" bg="red.300">
-      <Header />
+      <Header title={`${data.streamName} ${data.examName}`} />
       <HFlex bg="blue.300" flexGrow="1" w="100vw">
         <VFlex
           flexBasis="auto"
@@ -26,12 +49,38 @@ export default function MainExam() {
           h="100%"
           justify="flex-start"
         >
-          <SubjectTab />
+          <SubjectTab
+            subjects={data.subjects.map((each) => {
+              return {
+                title: each,
+              };
+            })}
+            calculatorAllowed={data.calculatorAllowed}
+            activeIndex={activeSubjectIndex}
+          />
           <SectionHeader />
-          <SectionTab />
-          <QuestionHeader />
-          <QuestionArea />
-          <Navigation />
+          <SectionTab
+            sections={data.sections.map((each) => {
+              return {
+                title: each,
+              };
+            })}
+            activeIndex={activeSectionIndex}
+          />
+          <QuestionHeader
+            type={data.questions[activeSectionIndex][activeQuestionIndex].type}
+            correctMarks={1}
+            incorrectMarks={0.33}
+          />
+          <QuestionArea
+            question={data.questions[activeSectionIndex][activeQuestionIndex]}
+            activeIndex={activeQuestionIndex}
+          />
+          <Navigation
+            onClearResponse={onClearResponse}
+            onSaveAndNext={onSaveAndNext}
+            onMarkForReviewAndNext={onMarkForReviewAndNext}
+          />
         </VFlex>
         <VFlex
           flexGrow="0"

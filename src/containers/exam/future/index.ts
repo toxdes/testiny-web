@@ -37,12 +37,16 @@ const generateQuestions = (
       let q: TQuestion = {
         id: uuid(),
         text: getText(300),
-        type: ["mcq", "numeric"][
-          Math.floor(Math.random() * 2)
-        ] as TQuestionType,
+        type: ["mcq", "numeric"][1] as TQuestionType, // Math.floor(Math.random() * 2)
+        correctMarks: 0,
+        incorrectMarks: 0,
       };
+      q.correctMarks = [1, 2][Math.floor(Math.random() * 2)];
       if (q.type === "mcq") {
         q.choices = Array.from({ length: 4 }).map(() => getText(80));
+        q.incorrectMarks = q.correctMarks === 1 ? 0.33 : 0.67;
+      } else {
+        q.incorrectMarks = 0;
       }
       questions.push(q);
     }
@@ -54,7 +58,7 @@ const generateQuestions = (
 export const ExamData: TExamData = {
   streamName: "Computer Science and Information Technology",
   examName: "Mock Test 2020",
-  subjects: ["Computer Science and Information Technology"],
+  subjects: ["Computer Science and Information Technology", "Civil"],
   sections: ["General Aptitude", "Computer Science and Information Technology"],
   candidateData: {
     name: "Albert Einstein",

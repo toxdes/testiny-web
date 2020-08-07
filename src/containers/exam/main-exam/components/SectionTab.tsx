@@ -1,10 +1,46 @@
 import * as React from "react";
-import { Text, HFlex } from "../../../../components";
+import { TabList, Tab, Tabs, HFlex } from "../../../../components";
+import { selectedTabStyle } from "../styles";
 
-export default function SectionTab() {
+type Section = {
+  title: string;
+};
+interface SectionTabProps {
+  sections: Section[];
+  activeIndex: number;
+}
+export default function SubjectTab({ sections, activeIndex }: SectionTabProps) {
+  const onChange = (index: number) => {
+    alert(`Clicked tab ${index}`);
+  };
+
   return (
-    <HFlex alignSelf="flex-start" h="48px" bg="gray.400" w="100%">
-      <Text m="auto">Section Tab</Text>
+    <HFlex bg="gray.200" w="100%">
+      <Tabs
+        align="start"
+        w="100%"
+        px="2"
+        onChange={onChange}
+        variant="unstyled"
+        defaultIndex={activeIndex}
+        // my="2"
+      >
+        <TabList>
+          {sections.map((each) => (
+            <Tab
+              key={each.title}
+              // overflow="hidden"
+              fontSize={"11px"}
+              fontWeight="bold"
+              _selected={selectedTabStyle}
+            >
+              {each.title.length > 18
+                ? `${each.title.slice(0, 18)}...`
+                : each.title}
+            </Tab>
+          ))}
+        </TabList>
+      </Tabs>
     </HFlex>
   );
 }
