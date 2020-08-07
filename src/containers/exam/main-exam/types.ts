@@ -1,4 +1,4 @@
-type TCandidateData = {
+export type TCandidateData = {
   name: string;
   avatar: string;
   rollNumber: string;

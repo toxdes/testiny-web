@@ -84,12 +84,12 @@ export default function MainExam() {
         </VFlex>
         <VFlex
           flexGrow="0"
-          w="300px"
+          minWidth="250px"
           bg="orange.300"
           h="100%"
           justify="flex-start"
         >
-          <Profile />
+          <Profile profile={data.candidateData} />
           <QuestionState />
           <SubmitExam />
         </VFlex>

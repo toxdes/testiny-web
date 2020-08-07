@@ -53,6 +53,10 @@ interface NumericProps {
 }
 function Numeric({ onAnswer, answer }: NumericProps) {
   const [value, setValue] = React.useState<string>("");
+  // TODO: Add visual numeric-keyboard for NAT questions
+  // @body currently the NAT questions are based on the actual physical input
+  // Also, `react-simple-keyboard` should be eliminated in long run, and have an
+  // in-home implementation of a visual-keyboard.
   return (
     <Input
       type="text"

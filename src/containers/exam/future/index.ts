@@ -62,8 +62,8 @@ export const ExamData: TExamData = {
   sections: ["General Aptitude", "Computer Science and Information Technology"],
   candidateData: {
     name: "Albert Einstein",
-    avatar:
-      "https://s3.amazonaws.com/uifaces/faces/twitter/claudioguglieri/128.jpg",
+    avatar: "invalid",
+    // "https://s3.amazonaws.com/uifaces/faces/twitter/claudioguglieri/128.jpg",
     rollNumber: "112122",
   },
   // questions -> is an array of questions -> question[section][questionNumber]
