@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useDispatch } from "react-redux";
 import { VFlex, HFlex } from "../../../components";
 import {
   Header,
@@ -14,6 +15,8 @@ import {
 } from "./components";
 import { ExamData as data } from "../future";
 import { useTypedSelector } from "../../../store/selector";
+import { initAnswers } from "../../../store/actions";
+import { AnswerStatus, AnswerState } from "../../../store/types";
 
 export default function MainExam() {
   // navigation-tabs
@@ -26,7 +29,19 @@ export default function MainExam() {
   const activeSubjectIndex = useTypedSelector(
     (state) => state.examState.activeSubjectIndex
   );
-
+  const answers = useTypedSelector((state) => state.examState.answers);
+  const dispatch = useDispatch();
+  if (!answers || answers.length <= 0) {
+    let ans: AnswerState[] = data.questions[activeSectionIndex].map(
+      (each, i) => {
+        return {
+          index: i,
+          status: AnswerStatus.NOT_VISITED,
+        };
+      }
+    );
+    dispatch(initAnswers(ans));
+  }
   // navigation-questions
   const onClearResponse = () => {
     alert("Clear Response");
@@ -90,7 +105,7 @@ export default function MainExam() {
           justify="flex-start"
         >
           <Profile profile={data.candidateData} />
-          <QuestionState />
+          <QuestionState answers={answers} />
           <SubmitExam />
         </VFlex>
       </HFlex>

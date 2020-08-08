@@ -9,6 +9,7 @@ const initialState: RootState = {
     activeQuestionIndex: 0,
     activeSectionIndex: 0,
     activeSubjectIndex: 0,
+    answers: [],
   },
 };
 
