@@ -3,8 +3,8 @@ import * as React from "react";
 
 import Home from "../containers/home";
 import NotFound from "../containers/errors/404";
-import ExamsList from "../containers/exams_list";
-import ExamDetails from "../containers/exam_details";
+import ExamsList from "../containers/exams-list";
+import ExamDetails from "../containers/exam-details";
 import StartExam from "../containers/exam";
 
 export default function Router() {
@@ -16,7 +16,7 @@ export default function Router() {
           <Route path="/" element={<ExamsList />} />
           <Route path=":id">
             <Route path="/" element={<ExamDetails />} />
-            <Route path="start_exam" element={<StartExam />} />
+            <Route path="start-exam" element={<StartExam />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

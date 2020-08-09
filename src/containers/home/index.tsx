@@ -8,7 +8,7 @@ export default function Home() {
       <Text>Currently Working on:</Text>
       <Link to={"/exams"}>Exams</Link>
       <Link to={"/exams/one"}>A single Exam</Link>
-      <Link to={"/exams/one/start_exam"}>Start a single Exam</Link>
+      <Link to={"/exams/one/start-exam"}>Start a single Exam</Link>
     </VFlex>
   );
 }

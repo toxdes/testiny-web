@@ -13,6 +13,13 @@ export {
   FormControl,
   Button,
   Checkbox,
+  Link,
+  TabList,
+  Tab,
+  Tabs,
+  Radio,
+  RadioGroup,
+  Grid,
 } from "@chakra-ui/core";
 
 export function HFlex(props: any) {

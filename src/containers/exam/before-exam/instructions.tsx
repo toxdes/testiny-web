@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Text, Button, HFlex, VFlex } from "../../../components";
-import { StepProps } from "../types";
+import { StepProps } from "./types";
 export default function Instructions({
   onNextStep,
   onPreviousStep,

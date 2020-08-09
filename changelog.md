@@ -1,5 +1,12 @@
 # Developer Changelog
 
+#### v0.0.4
+
+- Main Exam UI done completely
+- Lot of refactoring
+- Introduced those special buttons that they have (red, green and purple ones), used figma for creating those.
+- Testing out multiline comments for the @body todo-to-issue-bot
+
 #### v0.0.3
 
 - Main Exam UI layout done

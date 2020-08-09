@@ -1,6 +1,6 @@
 {
   "name": "testiny-web",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",

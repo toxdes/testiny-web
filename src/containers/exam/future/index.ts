@@ -1,4 +1,5 @@
-import { THeaderData, TExamData, TQuestion, TQuestionType } from "../types";
+import { THeaderData } from "../before-exam/types";
+import { TExamData, TQuestion, TQuestionType } from "../main-exam/types";
 import { v4 as uuid } from "uuid";
 // should be replaced with the api later
 export const HeaderData: THeaderData = {
@@ -27,22 +28,25 @@ Harum vitae et nostrum fugiat qui harum. Praesentium eum est est beatae natus. P
 };
 const generateQuestions = (
   sections: number,
-  total_questions_per_section: number[]
+  totalQuestionsPerSection: number[]
 ): TQuestion[][] => {
-  // if (sections !== total_questions_per_section.length) return [];
   let res: TQuestion[][] = [];
   for (let i = 0; i < sections; ++i) {
     let questions = [];
-    for (let j = 0; j < total_questions_per_section[i]; ++j) {
+    for (let j = 0; j < totalQuestionsPerSection[i]; ++j) {
       let q: TQuestion = {
         id: uuid(),
         text: getText(300),
-        type: ["mcq", "numeric"][
-          Math.floor(Math.random() * 2)
-        ] as TQuestionType,
+        type: ["mcq", "numeric"][1] as TQuestionType, // Math.floor(Math.random() * 2)
+        correctMarks: 0,
+        incorrectMarks: 0,
       };
+      q.correctMarks = [1, 2][Math.floor(Math.random() * 2)];
       if (q.type === "mcq") {
         q.choices = Array.from({ length: 4 }).map(() => getText(80));
+        q.incorrectMarks = q.correctMarks === 1 ? 0.33 : 0.67;
+      } else {
+        q.incorrectMarks = 0;
       }
       questions.push(q);
     }
@@ -54,18 +58,18 @@ const generateQuestions = (
 export const ExamData: TExamData = {
   streamName: "Computer Science and Information Technology",
   examName: "Mock Test 2020",
-  subjects: ["Computer Science and Information Technology"],
+  subjects: ["Computer Science and Information Technology", "Civil"],
   sections: ["General Aptitude", "Computer Science and Information Technology"],
   candidateData: {
     name: "Albert Einstein",
-    avatar:
-      "https://s3.amazonaws.com/uifaces/faces/twitter/claudioguglieri/128.jpg",
+    avatar: "invalid",
+    // "https://s3.amazonaws.com/uifaces/faces/twitter/claudioguglieri/128.jpg",
     rollNumber: "112122",
   },
-  // questions -> is an array of questions -> question[section][question_number]
+  // questions -> is an array of questions -> question[section][questionNumber]
   // in this particular example, there are two sections
   // questions: [[""], [""]],
-  questions: generateQuestions(2, [15, 65]),
+  questions: generateQuestions(2, [120, 65]),
   totalTimeInMinutes: 180,
   calculatorAllowed: true,
 };

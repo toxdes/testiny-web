@@ -5,7 +5,12 @@ const initialState: RootState = {
     step: 0,
     done: true, // TODO: set it to false after development
   },
-  examState: {},
+  examState: {
+    activeQuestionIndex: 0,
+    activeSectionIndex: 0,
+    activeSubjectIndex: 0,
+    answers: [],
+  },
 };
 
 export default initialState;
