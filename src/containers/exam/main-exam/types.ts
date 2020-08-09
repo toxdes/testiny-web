@@ -7,7 +7,7 @@ export type TCandidateData = {
 export type TQuestionType = "mcq" | "numeric";
 
 // TODO: Reduce duplication in the data-model
-// @body right now, most of the data is repeated unnecessarily. Maybe a better model exists. Replace this on with a model that's space efficient.
+/*@body Right now, most of the data is repeated unnecessarily. Maybe a better model exists. Replace this on with a model that's space efficient.*/
 export type TQuestion = {
   id: string;
   text: string;

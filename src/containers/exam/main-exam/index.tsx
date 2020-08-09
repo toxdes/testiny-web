@@ -57,7 +57,7 @@ export default function MainExam() {
       <Header title={`${data.streamName} ${data.examName}`} />
       <HFlex bg="blue.300" flexGrow="1" w="100vw">
         <VFlex
-          flexBasis="auto"
+          flexBasis="100%"
           flexGrow="1"
           flexShrink="1"
           bg="yellow.300"
@@ -105,7 +105,10 @@ export default function MainExam() {
           justify="flex-start"
         >
           <Profile profile={data.candidateData} />
-          <QuestionState answers={answers} />
+          <QuestionState
+            answers={answers}
+            activeSection={data.sections[activeSectionIndex]}
+          />
           <SubmitExam />
         </VFlex>
       </HFlex>

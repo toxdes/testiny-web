@@ -69,7 +69,7 @@ export const ExamData: TExamData = {
   // questions -> is an array of questions -> question[section][questionNumber]
   // in this particular example, there are two sections
   // questions: [[""], [""]],
-  questions: generateQuestions(2, [15, 65]),
+  questions: generateQuestions(2, [120, 65]),
   totalTimeInMinutes: 180,
   calculatorAllowed: true,
 };

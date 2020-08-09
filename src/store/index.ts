@@ -2,7 +2,6 @@ import reducers from "./reducers";
 import { createStore } from "redux";
 import initialState from "./initialState";
 
-// TODO: Fix this typescript thing, Idk what to do here.
 export default createStore(
   reducers as any,
   initialState as any,

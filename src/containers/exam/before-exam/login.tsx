@@ -100,7 +100,6 @@ export default function Login({ onNextStep }: StepProps) {
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    //TODO: more accurate validation?
     let okay = true;
     for (let input of inputs) {
       if (!input || input === "") {

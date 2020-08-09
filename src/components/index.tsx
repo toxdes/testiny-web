@@ -19,6 +19,7 @@ export {
   Tabs,
   Radio,
   RadioGroup,
+  Grid,
 } from "@chakra-ui/core";
 
 export function HFlex(props: any) {
