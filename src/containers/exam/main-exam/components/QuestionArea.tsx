@@ -19,9 +19,7 @@ interface ChoicesProps {
 }
 function Choices({ choices, onAnswer, answer }: ChoicesProps) {
   // TODO: Clicking on the same radio button choice should de-select the option
-  /* @body 
-  `onChange` is not triggered on clicking the same radioOption twice.
-  so, clicking does not have any effect whatsoever while doing so.*/
+  // @body `onChange` is not triggered on clicking the same radioOption twice. So, clicking does not have any effect whatsoever while doing so.
   return (
     <RadioGroup
       fontFamily={"serif"}
@@ -55,10 +53,7 @@ interface NumericProps {
 function Numeric({ onAnswer, answer }: NumericProps) {
   const [value, setValue] = React.useState<string>("");
   // TODO: Add visual numeric-keyboard for NAT questions
-  /*@body 
-  currently the NAT questions are based on the actual physical input
-  Also, `react-simple-keyboard` should be eliminated in long run, and have an
-  in-home implementation of a visual-keyboard. */
+  //@body currently the NAT questions are based on the actual physical input. Also, `react-simple-keyboard` should be eliminated in long run, and have a in-home implementation of a visual-keyboard.
   return (
     <Input
       type="text"
