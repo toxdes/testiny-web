@@ -37,7 +37,9 @@ const generateQuestions = (
       let q: TQuestion = {
         id: uuid(),
         text: getText(300),
-        type: ["mcq", "numeric"][1] as TQuestionType, // Math.floor(Math.random() * 2)
+        type: ["mcq", "numeric"][
+          Math.floor(Math.random() * 2)
+        ] as TQuestionType, // Math.floor(Math.random() * 2)
         correctMarks: 0,
         incorrectMarks: 0,
       };
@@ -63,7 +65,7 @@ export const ExamData: TExamData = {
   candidateData: {
     name: "Albert Einstein",
     avatar: "invalid",
-    // "https://s3.amazonaws.com/uifaces/faces/twitter/claudioguglieri/128.jpg",
+    //avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/claudioguglieri/128.jpg",
     rollNumber: "112122",
   },
   // questions -> is an array of questions -> question[section][questionNumber]

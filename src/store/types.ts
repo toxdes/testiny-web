@@ -14,9 +14,13 @@ export enum AnswerStatus {
   NOT_ANSWERED,
   NOT_VISITED,
 }
+
+// should also include question_id I think
+// array of questions is for MSQ type questions, they are the "checked" indices
 export type AnswerState = {
   index: number;
   status: AnswerStatus;
+  answer?: number | number[];
 };
 
 export type ExamState = {

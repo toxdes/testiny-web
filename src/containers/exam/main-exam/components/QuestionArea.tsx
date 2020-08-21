@@ -11,11 +11,12 @@ import {
 import { TQuestion } from "../types";
 import { normalFontSize, blue, smallerFontSize } from "../styles";
 import { FaArrowCircleDown } from "react-icons/fa";
+import { AnswerState } from "../../../../store/types";
 
 interface ChoicesProps {
   choices: string[] | undefined;
-  answer: number | null;
-  onAnswer: (answer: number | null) => void;
+  answer: number | number[] | undefined;
+  onAnswer: (answer: number | undefined) => void;
 }
 function Choices({ choices, onAnswer, answer }: ChoicesProps) {
   // TODO: Clicking on the same radio button choice should de-select the option
@@ -47,8 +48,8 @@ function Choices({ choices, onAnswer, answer }: ChoicesProps) {
 }
 
 interface NumericProps {
-  onAnswer: (answer: number | null) => void;
-  answer: number | null;
+  onAnswer: (answer: number | undefined) => void;
+  answer: number | number[] | undefined;
 }
 function Numeric({ onAnswer, answer }: NumericProps) {
   const [value, setValue] = React.useState<string>("");
@@ -64,7 +65,7 @@ function Numeric({ onAnswer, answer }: NumericProps) {
       onBlur={(e: any) => {
         if (isNaN(e.target.value) || e.target.value === "") {
           setValue("");
-          onAnswer(null);
+          onAnswer(undefined);
         } else {
           onAnswer(e.target.value);
         }
@@ -77,23 +78,21 @@ function Numeric({ onAnswer, answer }: NumericProps) {
   );
 }
 
+// TODO: Add MSQ type questions
+// @body apparently, the question has another type, multiple-select-question where more than one questions are correct. So, I'd have to include that too. Right here.
+
 interface QuestionAreaProps {
   question: TQuestion;
   activeIndex: number;
+  answer: AnswerState;
+  onAnswer: (newAns: number | undefined) => void;
 }
 export default function QuestionArea({
   question,
   activeIndex,
+  answer,
+  onAnswer,
 }: QuestionAreaProps) {
-  const [answer, setAnswer] = React.useState<number | null>();
-  const onAnswer = (newAns: number | null) => {
-    if (newAns && isNaN(newAns)) {
-      return;
-    }
-    console.log("answer is", newAns);
-    // if the answer is NULL, then the question is unanswered
-    setAnswer(answer === newAns ? null : newAns);
-  };
   return (
     <HFlex flexGrow="1" bg="gray.100" w="100%" align="flex-start">
       <VFlex justify="flex-start" w="100%">
@@ -123,14 +122,14 @@ export default function QuestionArea({
           <Text fontFamily="serif" fontSize={normalFontSize}>
             {question.text}
           </Text>
-          {question.type === "mcq" ? (
+          {question && question.type === "mcq" ? (
             <Choices
               choices={question.choices}
               onAnswer={onAnswer}
-              answer={answer ? answer : null}
+              answer={answer?.answer}
             />
           ) : (
-            <Numeric onAnswer={onAnswer} answer={answer ? answer : null} />
+            <Numeric onAnswer={onAnswer} answer={answer?.answer} />
           )}
         </VFlex>
       </VFlex>
