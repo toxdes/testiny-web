@@ -15,11 +15,13 @@ import {
 } from "./components";
 import { ExamData as data } from "../future";
 import { useTypedSelector } from "../../../store/selector";
-import { initAnswers } from "../../../store/actions";
+import { initAnswers, setActive, updateAnswer } from "../../../store/actions";
 import { AnswerStatus, AnswerState } from "../../../store/types";
+import { isArray } from "util";
 
 export default function MainExam() {
   // navigation-tabs
+  const dispatch = useDispatch();
   const activeQuestionIndex = useTypedSelector(
     (state) => state.examState.activeQuestionIndex
   );
@@ -30,27 +32,136 @@ export default function MainExam() {
     (state) => state.examState.activeSubjectIndex
   );
   const answers = useTypedSelector((state) => state.examState.answers);
-  const dispatch = useDispatch();
+  // const answer = useTypedSelector(
+  //   (state) => state.examState.answers[activeQuestionIndex]
+  // );
+
+  // there is a case of having an incomplete session continuing, at that time,
+  // the answers should be populated with the answers array.
+  // TODO: use reselect here, somehow, see if it does any perf-improvements
   if (!answers || answers.length <= 0) {
     let ans: AnswerState[] = data.questions[activeSectionIndex].map(
       (each, i) => {
         return {
           index: i,
           status: AnswerStatus.NOT_VISITED,
+          answer: undefined,
         };
       }
     );
     dispatch(initAnswers(ans));
   }
-  // navigation-questions
+
+  // why unncessary dispatches? use a single on that inits all active indices?
+  if (!activeQuestionIndex) {
+    dispatch(setActive("question", 0));
+  }
+  if (!activeSectionIndex) {
+    dispatch(setActive("section", 0));
+  }
+  if (!activeSubjectIndex) {
+    dispatch(setActive("subject", 0));
+  }
+
+  // navingating questions -> actions of buttons at the bottom
+
   const onClearResponse = () => {
-    alert("Clear Response");
+    // set answer of the active index to undefined.
+    dispatch(
+      updateAnswer({
+        index: activeQuestionIndex,
+        status: AnswerStatus.NOT_ANSWERED,
+        answer: undefined,
+      })
+    );
+    // alert("Clear Response");
   };
+
   const onMarkForReviewAndNext = () => {
-    alert("Mark for review and next");
+    let answer = answers[activeQuestionIndex];
+    let newStatus = answer.status;
+    if (!answer.answer) {
+      newStatus = AnswerStatus.MARKED_FOR_REVIEW;
+    } else {
+      newStatus = AnswerStatus.MARKED_FOR_REVIEW_AND_ANSWERED;
+    }
+    dispatch(
+      updateAnswer({
+        index: activeQuestionIndex,
+        status: newStatus,
+        answer: answer.answer,
+      })
+    );
+    // TODO: Merge setting the next activeQuestionIndex with updateAnswer
+    dispatch(setActive("question", (activeQuestionIndex + 1) % answers.length));
   };
+
   const onSaveAndNext = () => {
-    alert("Save and Next");
+    let newStatus;
+    if (answers[activeQuestionIndex].answer) {
+      newStatus = AnswerStatus.ANSWERED;
+    } else {
+      newStatus = AnswerStatus.NOT_ANSWERED;
+    }
+    dispatch(
+      updateAnswer({
+        index: activeQuestionIndex,
+        status: newStatus,
+        answer: answers[activeQuestionIndex].answer,
+      })
+    );
+    dispatch(setActive("question", (activeQuestionIndex + 1) % answers.length));
+  };
+
+  // for setting the activeQuestionIndex arbitrarily from the sidebar
+  /**
+   * The bottom navigation bar only dictates if the question should be answered or not,if the question should be marked for review or not etc.
+   * So, here, we need to restore the answer only if it was commited, otherwise we should set it to undefined, cause without commiting, on navigating with the sidebar, the question should not be marked as answered at all.
+   * So, in nutshell
+      MarkedForReview stays same
+      Answered stays same
+      MarkedForReviewAndAnswered stays same
+      NotVisited -> NotAnswered
+   */
+  const onQuestionStateChange = (next: number) => {
+    if (next >= answers.length || next < 0) return;
+    let answer = answers[activeQuestionIndex];
+    let isAnswerCommited =
+      answer.status === AnswerStatus.ANSWERED ||
+      answer.status === AnswerStatus.MARKED_FOR_REVIEW_AND_ANSWERED;
+    let newAnsValue = isAnswerCommited ? answer.answer : undefined;
+    // change from NotVisited to NotAnswered, just in case
+    let newStatusValue =
+      answer.status === AnswerStatus.NOT_VISITED
+        ? AnswerStatus.NOT_ANSWERED
+        : answer.status;
+    dispatch(
+      updateAnswer({
+        index: answer.index,
+        status: newStatusValue,
+        answer: newAnsValue,
+      })
+    );
+
+    dispatch(setActive("question", next));
+  };
+
+  // this function is called when the radioButton is clicked, or when the value is entered in the textfield of NAT questions
+  const onAnswer = (newAns: number | number[] | undefined) => {
+    // for now, MSQs are not implemented, so we'd just return
+    if (isArray(newAns)) return;
+
+    if (newAns && isNaN(newAns)) {
+      return;
+    }
+    // console.log("answer is", newAns);
+    // if the answer is undefined, then the question is unanswered
+    dispatch(
+      updateAnswer({
+        ...answers[activeQuestionIndex],
+        answer: newAns,
+      })
+    );
   };
   return (
     <VFlex w="100vw" h="100vh" align="center" justify="flex-start" bg="red.300">
@@ -90,6 +201,8 @@ export default function MainExam() {
           <QuestionArea
             question={data.questions[activeSectionIndex][activeQuestionIndex]}
             activeIndex={activeQuestionIndex}
+            answer={answers[activeQuestionIndex]}
+            onAnswer={onAnswer}
           />
           <Navigation
             onClearResponse={onClearResponse}
@@ -106,6 +219,7 @@ export default function MainExam() {
         >
           <Profile profile={data.candidateData} />
           <QuestionState
+            onQuestionClick={onQuestionStateChange}
             answers={answers}
             activeSection={data.sections[activeSectionIndex]}
           />

@@ -25,7 +25,7 @@ export const setBeforeExamDone = (): GenericAction => {
 // generic one, so that code is not duplicated
 export const setActive = (what: string, index: number) => {
   return {
-    action: SET_ACTIVE_GENERIC,
+    type: SET_ACTIVE_GENERIC,
     payload: { what, index },
   };
 };
@@ -39,6 +39,6 @@ export const initAnswers = (answers: AnswerState[]): GenericAction => {
 export const updateAnswer = (answer: AnswerState): GenericAction => {
   return {
     type: UPDATE_ANSWER,
-    payload: answer,
+    payload: { answer },
   };
 };

@@ -1,6 +1,6 @@
-import { ExamState, GenericAction } from "../types";
+import { ExamState, GenericAction, AnswerStatus } from "../types";
 import initialState from "../initialState";
-import { SET_ACTIVE_GENERIC, INIT_ANSWERS } from "../actions";
+import { SET_ACTIVE_GENERIC, INIT_ANSWERS, UPDATE_ANSWER } from "../actions";
 
 export default (state: ExamState, action: GenericAction): ExamState => {
   switch (action.type) {
@@ -16,11 +16,24 @@ export default (state: ExamState, action: GenericAction): ExamState => {
             ...state,
             activeSectionIndex: action.payload.index,
           };
-        case "question":
+        case "question": {
+          if (
+            state.answers[action.payload.index].status ===
+            AnswerStatus.NOT_VISITED
+          ) {
+            let newAns = [...state.answers];
+            newAns[action.payload.index].status = AnswerStatus.NOT_ANSWERED;
+            return {
+              ...state,
+              answers: newAns,
+              activeQuestionIndex: action.payload.index,
+            };
+          }
           return {
             ...state,
             activeQuestionIndex: action.payload.index,
           };
+        }
         default: {
           return state;
         }
@@ -30,6 +43,14 @@ export default (state: ExamState, action: GenericAction): ExamState => {
       return {
         ...state,
         answers: action.payload.answers,
+      };
+    }
+    case UPDATE_ANSWER: {
+      let newAns = [...state.answers];
+      newAns[action.payload.answer.index] = action.payload.answer;
+      return {
+        ...state,
+        answers: newAns,
       };
     }
     default:

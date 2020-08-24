@@ -1,5 +1,11 @@
 # Developer Changelog
 
+#### v0.0.5
+
+- Added a development preview, to the vercel
+- Lots of refactoring
+- Hooking up redux store with the UI components
+
 #### v0.0.4
 
 - Main Exam UI done completely

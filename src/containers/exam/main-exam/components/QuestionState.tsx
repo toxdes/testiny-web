@@ -12,7 +12,7 @@ interface SpecialButtonProps {
   value: number;
   status: AnswerStatus;
   isDisabled?: boolean;
-  onClick: (index: number) => void;
+  onQuestionClick?: (index: number) => void;
 }
 
 // const images = {
@@ -23,10 +23,16 @@ interface SpecialButtonProps {
 //   "not-answered": NotAnsweredImage,
 // };
 
-function SpecialButton({ value, status, onClick }: SpecialButtonProps) {
+function SpecialButton({ value, status, onQuestionClick }: SpecialButtonProps) {
   const symbolInfo = getSymbolInfo(status);
   return (
-    <VFlex cursor={"pointer"} flexShrink="0">
+    <VFlex
+      cursor={"pointer"}
+      flexShrink="0"
+      onClick={() => {
+        onQuestionClick && onQuestionClick(value);
+      }}
+    >
       <Image src={symbolInfo.image} w="40px" h="40px" />
       <Text
         textAlign="center"
@@ -77,7 +83,7 @@ function SymbolInfo({ symbol, containerProps }: SymbolInfoProps) {
   let res = getSymbolInfo(symbol);
   return (
     <HFlex {...containerProps} justify="flex-start">
-      <SpecialButton status={symbol} value={1} onClick={() => {}} />
+      <SpecialButton status={symbol} value={1} />
       <Text fontSize={normalFontSize} mx="2" w="auto">
         {res.info}
       </Text>
@@ -88,15 +94,14 @@ function SymbolInfo({ symbol, containerProps }: SymbolInfoProps) {
 interface QuestionStateProps {
   answers: AnswerState[];
   activeSection: string;
+  onQuestionClick: (index: number) => void;
 }
 
 export default function QuestionState({
   answers,
   activeSection,
+  onQuestionClick,
 }: QuestionStateProps) {
-  const onClick = (index: number) => {
-    alert(`navigate to: ${index}`);
-  };
   return (
     <HFlex
       flexWrap="nowrap"
@@ -181,7 +186,8 @@ export default function QuestionState({
           >
             {answers.map((each) => (
               <SpecialButton
-                onClick={onClick}
+                onQuestionClick={onQuestionClick}
+                key={each.index}
                 value={each.index}
                 status={each.status}
               />
