@@ -1,4 +1,4 @@
-import { RootState } from "./types";
+import { RootState, AnswerStatus } from "./types";
 
 const initialState: RootState = {
   beforeExamState: {
@@ -9,6 +9,11 @@ const initialState: RootState = {
     activeQuestionIndex: 0,
     activeSectionIndex: 0,
     activeSubjectIndex: 0,
+    activeAnswer: {
+      index: 0,
+      status: AnswerStatus.NOT_ANSWERED,
+      answer: undefined,
+    },
     answers: [],
   },
 };

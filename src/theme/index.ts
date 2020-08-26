@@ -7,5 +7,6 @@ export default {
     heading: '"Inter", sans-serif',
     body: "Inter, sans-serif",
     mono: "Menlo, monospace",
+    serif: "'Spectral', 'Georgia', 'Times New Roman' ,serif",
   },
 };

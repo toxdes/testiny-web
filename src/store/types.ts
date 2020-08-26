@@ -28,6 +28,7 @@ export type ExamState = {
   activeSectionIndex: number;
   activeSubjectIndex: number;
   answers: AnswerState[];
+  activeAnswer: AnswerState;
 };
 
 export type GenericAction = {
