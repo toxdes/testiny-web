@@ -1,5 +1,11 @@
 # Developer Changelog
 
+#### v0.0.6
+
+- Added a separate `activeAnswer` state
+- Refactor, fixing bugs, perf increase
+- Preview pages are more human friendly now.
+
 #### v0.0.5
 
 - Added a development preview, to the vercel
