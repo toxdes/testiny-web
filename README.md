@@ -7,6 +7,8 @@ This project is in very early stages of development, so hold your horses.
 
 #### Development Preview: [Visit](https://testiny.vercel.app)
 
+![Screenshot](./images/scr1.png)
+
 # Quickstart
 
 `yarn dev`
