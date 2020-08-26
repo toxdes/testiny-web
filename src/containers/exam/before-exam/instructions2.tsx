@@ -30,7 +30,9 @@ export default function PaperSpecificInstructions({
           isChecked={checked}
           onChange={(e) => setChecked(e.target.checked)}
         />
-        <Text>I read all instructions and I agree to all this and shite. </Text>
+        <Text cursor="pointer" onClick={() => setChecked(!checked)}>
+          I read all instructions and I agree to all this and shite.{" "}
+        </Text>
       </HFlex>
       <Divider />
       <HFlex>
