@@ -3,6 +3,7 @@ export const SET_BEFORE_EXAM_STEP = "SET_BEFORE_EXAM_STEP";
 export const SET_BEFORE_EXAM_DONE = "SET_BEFORE_EXAM_DONE";
 export const INIT_ANSWERS = "INIT_ANSWERS";
 export const UPDATE_ANSWER = "UPDATE_ANSWER";
+export const COMMIT_ANSWER = "COMMIT_ANSWER";
 export const SET_ACTIVE_GENERIC = "SET_ACTIVE_GENERIC";
 // action creators
 
@@ -40,5 +41,12 @@ export const updateAnswer = (answer: AnswerState): GenericAction => {
   return {
     type: UPDATE_ANSWER,
     payload: { answer },
+  };
+};
+
+export const commitAnswer = (answer?: AnswerState) => {
+  return {
+    type: COMMIT_ANSWER,
+    payload: { answer: answer },
   };
 };

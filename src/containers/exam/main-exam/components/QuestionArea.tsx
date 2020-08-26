@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "../../../../components";
 import { TQuestion } from "../types";
-import { normalFontSize, blue, smallerFontSize } from "../styles";
+import { normalFontSize, blue, largeFontSize } from "../styles";
 import { FaArrowCircleDown } from "react-icons/fa";
 import { AnswerState } from "../../../../store/types";
 
@@ -25,6 +25,7 @@ function Choices({ choices, onAnswer, answer }: ChoicesProps) {
     <RadioGroup
       fontFamily={"serif"}
       m="4"
+      alignSelf="flex-start"
       onChange={(e) => {
         onAnswer(Number(e.target.value));
       }}
@@ -33,12 +34,7 @@ function Choices({ choices, onAnswer, answer }: ChoicesProps) {
       {choices &&
         choices.map((each, i) => {
           return (
-            <Radio
-              value={i + 1}
-              size="sm"
-              fontSize={smallerFontSize}
-              key={each}
-            >
+            <Radio value={i + 1} size="md" key={each}>
               {each}
             </Radio>
           );
@@ -52,29 +48,35 @@ interface NumericProps {
   answer: number | number[] | undefined;
 }
 function Numeric({ onAnswer, answer }: NumericProps) {
-  const [value, setValue] = React.useState<string>("");
+  // const [value, setValue] = React.useState<string>("");
   // TODO: Add visual numeric-keyboard for NAT questions
   //@body currently the NAT questions are based on the actual physical input. Also, `react-simple-keyboard` should be eliminated in long run, and have a in-home implementation of a visual-keyboard.
   return (
-    <Input
-      type="text"
-      value={value}
-      size="sm"
-      mt="10"
-      width="40"
-      onBlur={(e: any) => {
-        if (isNaN(e.target.value) || e.target.value === "") {
-          setValue("");
-          onAnswer(undefined);
-        } else {
+    <HFlex m="10">
+      <Text fontFamily="serif" fontSize={largeFontSize}>
+        Answer:{" "}
+      </Text>
+      <Input
+        type="text"
+        fontFamily="serif"
+        fontSize={largeFontSize}
+        value={answer ? `${answer}` : ""}
+        size="sm"
+        mx="4"
+        width="40"
+        onBlur={(e: any) => {
+          if (isNaN(e.target.value) || e.target.value === "") {
+            onAnswer(undefined);
+          } else {
+            onAnswer(e.target.value);
+          }
+        }}
+        onChange={(e: any) => {
+          // console.log(answer);
           onAnswer(e.target.value);
-        }
-      }}
-      onChange={(e: any) => {
-        console.log(answer);
-        setValue(e.target.value);
-      }}
-    />
+        }}
+      />
+    </HFlex>
   );
 }
 
@@ -85,14 +87,19 @@ interface QuestionAreaProps {
   question: TQuestion;
   activeIndex: number;
   answer: AnswerState;
-  onAnswer: (newAns: number | undefined) => void;
+  defaultAnswer: AnswerState;
+  onAnswer: (newAnswer: number | undefined) => void;
 }
 export default function QuestionArea({
   question,
   activeIndex,
   answer,
+  defaultAnswer,
   onAnswer,
 }: QuestionAreaProps) {
+  // TODO: Radio Buttons and Input Fields of Question Area are extremely slow.
+  //@body Maybe it's because the state is not implemented correctly. Need to do some research on why these fields (readio buttons and textinputs) are not buttery smooth, and make them smooth.
+
   return (
     <HFlex flexGrow="1" bg="gray.100" w="100%" align="flex-start">
       <VFlex justify="flex-start" w="100%">
@@ -118,18 +125,21 @@ export default function QuestionArea({
             ml="auto"
           />
         </HFlex>
-        <VFlex w="100%" p="4" flexWrap="wrap">
-          <Text fontFamily="serif" fontSize={normalFontSize}>
+        <VFlex w="100%" p="4">
+          <Text fontFamily="serif" fontSize={largeFontSize}>
             {question.text}
           </Text>
           {question && question.type === "mcq" ? (
             <Choices
               choices={question.choices}
               onAnswer={onAnswer}
-              answer={answer?.answer}
+              answer={answer ? answer.answer : defaultAnswer.answer}
             />
           ) : (
-            <Numeric onAnswer={onAnswer} answer={answer?.answer} />
+            <Numeric
+              onAnswer={onAnswer}
+              answer={answer ? answer.answer : defaultAnswer.answer}
+            />
           )}
         </VFlex>
       </VFlex>

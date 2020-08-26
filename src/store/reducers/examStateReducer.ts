@@ -1,6 +1,11 @@
 import { ExamState, GenericAction, AnswerStatus } from "../types";
 import initialState from "../initialState";
-import { SET_ACTIVE_GENERIC, INIT_ANSWERS, UPDATE_ANSWER } from "../actions";
+import {
+  SET_ACTIVE_GENERIC,
+  INIT_ANSWERS,
+  UPDATE_ANSWER,
+  COMMIT_ANSWER,
+} from "../actions";
 
 export default (state: ExamState, action: GenericAction): ExamState => {
   switch (action.type) {
@@ -27,11 +32,13 @@ export default (state: ExamState, action: GenericAction): ExamState => {
               ...state,
               answers: newAns,
               activeQuestionIndex: action.payload.index,
+              activeAnswer: state.answers[action.payload.index],
             };
           }
           return {
             ...state,
             activeQuestionIndex: action.payload.index,
+            activeAnswer: state.answers[action.payload.index],
           };
         }
         default: {
@@ -43,14 +50,22 @@ export default (state: ExamState, action: GenericAction): ExamState => {
       return {
         ...state,
         answers: action.payload.answers,
+        activeAnswer: action.payload.answers[state.activeQuestionIndex],
       };
     }
     case UPDATE_ANSWER: {
-      let newAns = [...state.answers];
-      newAns[action.payload.answer.index] = action.payload.answer;
       return {
         ...state,
-        answers: newAns,
+        activeAnswer: action.payload.answer,
+      };
+    }
+
+    case COMMIT_ANSWER: {
+      let newAnswers = [...state.answers];
+      newAnswers[action.payload.answer.index] = action.payload.answer;
+      return {
+        ...state,
+        answers: newAnswers,
       };
     }
     default:

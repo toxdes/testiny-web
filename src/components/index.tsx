@@ -18,6 +18,7 @@ export {
   Tab,
   Tabs,
   Radio,
+  Code,
   RadioGroup,
   Grid,
 } from "@chakra-ui/core";

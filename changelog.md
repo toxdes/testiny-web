@@ -1,5 +1,14 @@
 # Developer Changelog
 
+#### v0.0.6
+
+- Added Screenshot to readme, and designed a tentative logo as well!
+- Edited some meta tags.
+- Polished some UI elements and Meta tags so the preview looks better.
+- Added a separate `activeAnswer` state
+- Refactor, fixing bugs, perf increase
+- Preview pages are more human friendly now.
+
 #### v0.0.5
 
 - Added a development preview, to the vercel

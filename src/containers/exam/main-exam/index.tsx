@@ -15,9 +15,13 @@ import {
 } from "./components";
 import { ExamData as data } from "../future";
 import { useTypedSelector } from "../../../store/selector";
-import { initAnswers, setActive, updateAnswer } from "../../../store/actions";
+import {
+  initAnswers,
+  setActive,
+  updateAnswer,
+  commitAnswer,
+} from "../../../store/actions";
 import { AnswerStatus, AnswerState } from "../../../store/types";
-import { isArray } from "util";
 
 export default function MainExam() {
   // navigation-tabs
@@ -31,7 +35,11 @@ export default function MainExam() {
   const activeSubjectIndex = useTypedSelector(
     (state) => state.examState.activeSubjectIndex
   );
+
   const answers = useTypedSelector((state) => state.examState.answers);
+  const activeAnswer = useTypedSelector(
+    (state) => state.examState.activeAnswer
+  );
   // const answer = useTypedSelector(
   //   (state) => state.examState.answers[activeQuestionIndex]
   // );
@@ -44,7 +52,8 @@ export default function MainExam() {
       (each, i) => {
         return {
           index: i,
-          status: AnswerStatus.NOT_VISITED,
+          status:
+            i === 0 ? AnswerStatus.NOT_ANSWERED : AnswerStatus.NOT_VISITED,
           answer: undefined,
         };
       }
@@ -53,13 +62,13 @@ export default function MainExam() {
   }
 
   // why unncessary dispatches? use a single on that inits all active indices?
-  if (!activeQuestionIndex) {
+  if (activeQuestionIndex === undefined) {
     dispatch(setActive("question", 0));
   }
-  if (!activeSectionIndex) {
+  if (activeSectionIndex === undefined) {
     dispatch(setActive("section", 0));
   }
-  if (!activeSubjectIndex) {
+  if (activeSubjectIndex === undefined) {
     dispatch(setActive("subject", 0));
   }
 
@@ -68,7 +77,7 @@ export default function MainExam() {
   const onClearResponse = () => {
     // set answer of the active index to undefined.
     dispatch(
-      updateAnswer({
+      commitAnswer({
         index: activeQuestionIndex,
         status: AnswerStatus.NOT_ANSWERED,
         answer: undefined,
@@ -78,7 +87,7 @@ export default function MainExam() {
   };
 
   const onMarkForReviewAndNext = () => {
-    let answer = answers[activeQuestionIndex];
+    let answer = activeAnswer;
     let newStatus = answer.status;
     if (!answer.answer) {
       newStatus = AnswerStatus.MARKED_FOR_REVIEW;
@@ -86,7 +95,7 @@ export default function MainExam() {
       newStatus = AnswerStatus.MARKED_FOR_REVIEW_AND_ANSWERED;
     }
     dispatch(
-      updateAnswer({
+      commitAnswer({
         index: activeQuestionIndex,
         status: newStatus,
         answer: answer.answer,
@@ -98,16 +107,16 @@ export default function MainExam() {
 
   const onSaveAndNext = () => {
     let newStatus;
-    if (answers[activeQuestionIndex].answer) {
+    if (activeAnswer.answer) {
       newStatus = AnswerStatus.ANSWERED;
     } else {
       newStatus = AnswerStatus.NOT_ANSWERED;
     }
     dispatch(
-      updateAnswer({
+      commitAnswer({
         index: activeQuestionIndex,
         status: newStatus,
-        answer: answers[activeQuestionIndex].answer,
+        answer: activeAnswer.answer,
       })
     );
     dispatch(setActive("question", (activeQuestionIndex + 1) % answers.length));
@@ -125,7 +134,7 @@ export default function MainExam() {
    */
   const onQuestionStateChange = (next: number) => {
     if (next >= answers.length || next < 0) return;
-    let answer = answers[activeQuestionIndex];
+    let answer = activeAnswer;
     let isAnswerCommited =
       answer.status === AnswerStatus.ANSWERED ||
       answer.status === AnswerStatus.MARKED_FOR_REVIEW_AND_ANSWERED;
@@ -147,19 +156,18 @@ export default function MainExam() {
   };
 
   // this function is called when the radioButton is clicked, or when the value is entered in the textfield of NAT questions
-  const onAnswer = (newAns: number | number[] | undefined) => {
+  const onAnswer = (newAnswer: number | number[] | undefined) => {
     // for now, MSQs are not implemented, so we'd just return
-    if (isArray(newAns)) return;
-
-    if (newAns && isNaN(newAns)) {
+    if (Array.isArray(newAnswer)) return;
+    if (newAnswer === activeAnswer.answer) {
       return;
     }
-    // console.log("answer is", newAns);
     // if the answer is undefined, then the question is unanswered
     dispatch(
       updateAnswer({
-        ...answers[activeQuestionIndex],
-        answer: newAns,
+        index: activeQuestionIndex,
+        status: activeAnswer.status,
+        answer: newAnswer,
       })
     );
   };
@@ -201,7 +209,8 @@ export default function MainExam() {
           <QuestionArea
             question={data.questions[activeSectionIndex][activeQuestionIndex]}
             activeIndex={activeQuestionIndex}
-            answer={answers[activeQuestionIndex]}
+            answer={activeAnswer}
+            defaultAnswer={answers[activeQuestionIndex]}
             onAnswer={onAnswer}
           />
           <Navigation

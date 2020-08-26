@@ -186,9 +186,9 @@ export default function QuestionState({
           >
             {answers.map((each) => (
               <SpecialButton
-                onQuestionClick={onQuestionClick}
+                onQuestionClick={() => onQuestionClick(each.index)}
                 key={each.index}
-                value={each.index}
+                value={each.index + 1}
                 status={each.status}
               />
             ))}
