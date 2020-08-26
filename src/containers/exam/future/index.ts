@@ -79,7 +79,7 @@ export const ExamData: TExamData = {
   sections: ["General Aptitude", "Computer Science and Information Technology"],
   candidateData: {
     name: "Albert Einstein",
-    avatar: "invalid",
+    avatar: require("../../../assets/albert-einstein.webp"),
     //avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/claudioguglieri/128.jpg",
     rollNumber: "112122",
   },
