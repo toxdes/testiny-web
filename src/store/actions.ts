@@ -5,6 +5,9 @@ export const INIT_ANSWERS = "INIT_ANSWERS";
 export const UPDATE_ANSWER = "UPDATE_ANSWER";
 export const COMMIT_ANSWER = "COMMIT_ANSWER";
 export const SET_ACTIVE_GENERIC = "SET_ACTIVE_GENERIC";
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+
 // action creators
 
 // before exam actions
@@ -48,5 +51,19 @@ export const commitAnswer = (answer?: AnswerState) => {
   return {
     type: COMMIT_ANSWER,
     payload: { answer: answer },
+  };
+};
+
+// global state updates
+// obviously this will change later, this is just temporary.
+export const login = () => {
+  return {
+    type: LOGIN,
+  };
+};
+
+export const logout = () => {
+  return {
+    type: LOGIN,
   };
 };

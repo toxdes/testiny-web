@@ -16,6 +16,9 @@ const initialState: RootState = {
     },
     answers: [],
   },
+  globalState: {
+    userLoggedIn: false,
+  },
 };
 
 export default initialState;
