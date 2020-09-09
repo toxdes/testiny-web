@@ -1,5 +1,13 @@
 import * as React from "react";
-import { VFlex, HFlex, Image, Link, Text } from "../../components";
+import {
+  VFlex,
+  HFlex,
+  Image,
+  Link,
+  Text,
+  Input,
+  Button,
+} from "../../components";
 import { colors } from "./styles";
 
 interface CustomButtonProps {
@@ -63,13 +71,23 @@ export default function LandingPage() {
               cursor="pointer"
             />
             <HFlex ml="auto">
-              <Link href="#" color={colors.white2} fontWeight="700" mx="4">
+              <Link
+                href="#how-it-works"
+                color={colors.white2}
+                fontWeight="700"
+                mx="4"
+              >
                 How it works
               </Link>
-              <Link href="#" color={colors.white2} fontWeight="700" mx="4">
+              <Link href="#why" color={colors.white2} fontWeight="700" mx="4">
                 Why
               </Link>
-              <Link href="#" color={colors.white2} fontWeight="700" mx="4">
+              <Link
+                href="#feedback"
+                color={colors.white2}
+                fontWeight="700"
+                mx="4"
+              >
                 Feedback
               </Link>
               <CustomButton
@@ -142,17 +160,167 @@ export default function LandingPage() {
         <Image
           src={require("../../assets/landing-page/wave2.svg")}
           w="100%"
+          pointerEvents="none"
           mt="-60px"
         />
       </VFlex>
 
-      <VFlex w="100%" h="100vh" justify="start">
-        <VFlex w="100%" px="12" align="start" maxW="1250px">
-          <Text fontSize="48px" fontWeight="900">
-            How it works
-          </Text>
-          <VFlex w="140px" h="16px" color={colors.pink} position="absolute" />
+      <VFlex w="100%" mt="90px" justify="start">
+        <VFlex w="100%" px="12" align="start" maxW="1250px" id="how-it-works">
+          <HFlex mt="40px">
+            <Text
+              textDecoration="underline #DC188D double"
+              fontSize="48px"
+              mr="2"
+              fontWeight="900"
+            >
+              How
+            </Text>
+            <Text fontSize="48px" fontWeight="900">
+              it works
+            </Text>
+          </HFlex>
+          <HFlex flexWrap="wrap" my="200px">
+            <VFlex w="280px" mx="12" textAlign="center">
+              <Image
+                src={require("../../assets/landing-page/one.png")}
+                w="280px"
+                my="12"
+                h="auto"
+              />
+              <Text fontWeight="bold" my="4" fontSize="24px">
+                Create an exam
+              </Text>
+              <Text textAlign="center" fontSize="16px" my="2" fontWeight="300">
+                Write out the questions, let it be a quiz, an essay or a
+                multiple correct questions.
+              </Text>
+            </VFlex>
+            <VFlex w="280px" mx="12" textAlign="center">
+              <Image
+                src={require("../../assets/landing-page/two.png")}
+                w="280px"
+                my="12"
+                h="auto"
+              />
+              <Text fontWeight="bold" my="4" fontSize="24px">
+                Select your aspirants
+              </Text>
+              <Text fontSize="16px" my="2" fontWeight="300">
+                Selected aspirants will get a special password that they can use
+                to login for the test
+              </Text>
+            </VFlex>
+            <VFlex w="280px" mx="12" textAlign="center">
+              <Image
+                src={require("../../assets/landing-page/three.png")}
+                w="280px"
+                my="12"
+                h="auto"
+              />
+              <Text fontWeight="bold" my="4" fontSize="24px">
+                Discuss doubts after exam
+              </Text>
+              <Text fontSize="16px" my="2" w="280px" fontWeight="300">
+                Communicate with your followers about the difficulties and the
+                detailed solutions.
+              </Text>
+            </VFlex>
+          </HFlex>
         </VFlex>
+        <VFlex
+          w="720px"
+          h="480px"
+          cursor="pointer"
+          my="200px"
+          bg="rgba(255, 255, 255, 0.69);"
+          boxShadow="0px 0px 21px 5px rgba(163, 163, 163, 0.21), inset -2px -9px 27px 2px rgba(0, 0, 0, 0.1);"
+          borderRadius="32px"
+        >
+          <Image
+            src={require("../../assets/landing-page/play.svg")}
+            color="#ff9"
+          />
+        </VFlex>
+      </VFlex>
+      <VFlex bg={colors.purple} id="why">
+        <Text fontWeight="900" fontSize="48px" mt="40" color={colors.white2}>
+          Why?
+        </Text>
+        <Text fontWeight="900" fontSize="96px" mt="60px" color={colors.yellow}>
+          I wish I knew.
+        </Text>
+        <Text
+          fontWeight="700"
+          fontSize="24px"
+          opacity={0.7}
+          mt="40px"
+          lineHeight="164%"
+          maxW="960px"
+          color={colors.white2}
+          textAlign="center"
+        >
+          There are some reasons to be honest, but it’s all in the air for now.
+          Nothing concrete, so hang in there.{" "}
+        </Text>
+        <HFlex mt="120px">
+          <Text
+            fontWeight="700"
+            fontSize="24px"
+            lineHeight="164%"
+            color={colors.white2}
+            textAlign="center"
+          >
+            Want to reach out?
+          </Text>
+          <Text
+            fontWeight="700"
+            fontSize="24px"
+            lineHeight="164%"
+            mx="2px"
+            color={colors.pink}
+            cursor="pointer"
+            textDecoration="underline"
+            textAlign="center"
+          >
+            Email us
+          </Text>
+          <Text
+            fontWeight="700"
+            fontSize="24px"
+            lineHeight="164%"
+            color={colors.white2}
+            textAlign="center"
+          >
+            , or give us your email, and we'll get back to you.
+          </Text>
+        </HFlex>
+        <HFlex mt="60px" mb="200px">
+          <Input
+            type="email"
+            placeholder="Email"
+            fontSize="28px"
+            border="none"
+            py="30px"
+            borderRadius="0px"
+            pl="20px"
+            h="100px"
+            fontWeight="900"
+            variant="outline"
+          />
+          <Button
+            variant="solid"
+            h="100px"
+            w="360px"
+            borderRadius="0px"
+            bg={colors.pink}
+            color={colors.white}
+            fontSize="28px"
+            fontWeight="700"
+          >
+            Let's talk!
+          </Button>
+        </HFlex>
       </VFlex>
     </>
   );
