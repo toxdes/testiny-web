@@ -307,7 +307,7 @@ export default function LandingPage() {
             , or give us your email, and we'll get back to you.
           </Text>
         </HFlex>
-        <HFlex mt="60px" mb="200px">
+        <HFlex mt="60px" mb="200px" id="feedback">
           <Input
             type="email"
             placeholder="Email"
