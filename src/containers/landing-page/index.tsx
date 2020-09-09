@@ -7,8 +7,15 @@ interface CustomButtonProps {
   variant: string;
   bgProps?: any;
   fgProps?: any;
+  hasIcon?: boolean;
 }
-function CustomButton({ value, variant, bgProps, fgProps }: CustomButtonProps) {
+function CustomButton({
+  value,
+  variant,
+  bgProps,
+  fgProps,
+  hasIcon,
+}: CustomButtonProps) {
   let bg, fg;
   if (variant === "yellow") {
     bg = colors.yellow;
@@ -18,11 +25,19 @@ function CustomButton({ value, variant, bgProps, fgProps }: CustomButtonProps) {
     fg = colors.purple;
   }
   return (
-    <VFlex bg={bg} {...bgProps}>
+    <HFlex bg={bg} {...bgProps} justify="center">
+      {hasIcon && (
+        <Image
+          src={require("../../assets/landing-page/play.svg")}
+          w="34px"
+          mr="2ch"
+          h="34px"
+        />
+      )}
       <Text color={fg} {...fgProps} fontWeight="700">
         {value}
       </Text>
-    </VFlex>
+    </HFlex>
   );
 }
 
@@ -78,7 +93,7 @@ export default function LandingPage() {
               <Text fontSize="54px" color={colors.white} fontWeight="900">
                 Mock Tests Platform
               </Text>
-              <HFlex my="24">
+              <HFlex my="24" flexWrap="wrap">
                 <CustomButton
                   variant="yellow"
                   value="Get Started"
@@ -86,7 +101,7 @@ export default function LandingPage() {
                     w: "260px",
                     h: "56px",
                     borderRadius: "12px",
-                    mr: "8",
+                    mr: "12",
                     cursor: "pointer",
                   }}
                   fgProps={{
@@ -101,9 +116,10 @@ export default function LandingPage() {
                     w: "260px",
                     h: "56px",
                     borderRadius: "12px",
-                    mr: "8",
+                    mr: "12",
                     cursor: "pointer",
                   }}
+                  hasIcon
                   fgProps={{
                     fontSize: "22px",
                     fontWeight: "bold",
