@@ -139,6 +139,20 @@ export default function LandingPage() {
             </VFlex> */}
           </HFlex>
         </VFlex>
+        <Image
+          src={require("../../assets/landing-page/wave2.svg")}
+          w="100%"
+          mt="-60px"
+        />
+      </VFlex>
+
+      <VFlex w="100%" h="100vh" justify="start">
+        <VFlex w="100%" px="12" align="start" maxW="1250px">
+          <Text fontSize="48px" fontWeight="900">
+            How it works
+          </Text>
+          <VFlex w="140px" h="16px" color={colors.pink} position="absolute" />
+        </VFlex>
       </VFlex>
     </>
   );
