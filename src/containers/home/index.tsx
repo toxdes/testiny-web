@@ -3,9 +3,12 @@ import * as React from "react";
 import { useNavigate } from "react-router";
 import LandingPage from "../landing-page";
 import { useTypedSelector } from "../../store/selector";
+import { logout } from "../../store/actions";
+import { useDispatch } from "react-redux";
 
 export default function Home() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userLoggedIn = useTypedSelector(
     (state) => state.globalState.userLoggedIn
   );
@@ -38,12 +41,19 @@ export default function Home() {
           onClick={() => navigateTo("/exams/one/start-exam")}
           w="48"
           my="2"
-          variantColor="green"
+          variantColor="purple"
         >
           Start a single Exam
+        </Button>
+        <Button
+          onClick={() => dispatch(logout())}
+          w="48"
+          my="2"
+          variantColor="red"
+        >
+          Logout
         </Button>
       </VFlex>
     );
   }
-  return <LandingPage />;
 }

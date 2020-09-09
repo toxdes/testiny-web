@@ -20,6 +20,9 @@ export default function ExamsList() {
       >
         Start Exam
       </Button>
+      <Button mt="12" onClick={() => navigate(-1)} variantColor="red" size="lg">
+        Go back
+      </Button>
     </VFlex>
   );
 }

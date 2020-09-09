@@ -111,7 +111,9 @@ export default function Login({ onNextStep }: StepProps) {
       alert("Proceed.");
       onNextStep();
     } else {
-      alert("Username / Password Not okay.");
+      alert(
+        "Username / Password Not okay. Just enter anything as username and password. They just shouldn't be empty."
+      );
     }
   };
 
