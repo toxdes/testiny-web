@@ -1,10 +1,15 @@
 export type RootState = {
   beforeExamState: BeforeExamState;
   examState: ExamState;
+  globalState: GlobalState;
 };
 export type BeforeExamState = {
   step: number;
   done: boolean;
+};
+
+export type GlobalState = {
+  userLoggedIn: boolean;
 };
 
 export enum AnswerStatus {

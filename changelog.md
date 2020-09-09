@@ -1,5 +1,12 @@
 # Developer Changelog
 
+#### v0.0.7
+
+- Added a landing page, used figma to design a simple one, cause I'm not creative enough to create vector illustrations myself, so used some random geometric figures.
+- Added assets for the landing-page, and the project structure as well.
+- Developed it using mostly the flexboxes.
+- Not responsive yet, so that's next thing on the agenda, whenever I get time.
+
 #### v0.0.6
 
 - Added Screenshot to readme, and designed a tentative logo as well!
