@@ -10,12 +10,16 @@ import {
 } from "../../components";
 import { colors } from "./styles";
 
+import { login } from "../../store/actions";
+import { useDispatch } from "react-redux";
+
 interface CustomButtonProps {
   value: string;
   variant: string;
   bgProps?: any;
   fgProps?: any;
   hasIcon?: boolean;
+  onClick: () => void;
 }
 function CustomButton({
   value,
@@ -23,6 +27,7 @@ function CustomButton({
   bgProps,
   fgProps,
   hasIcon,
+  onClick,
 }: CustomButtonProps) {
   let bg, fg;
   if (variant === "yellow") {
@@ -33,7 +38,7 @@ function CustomButton({
     fg = colors.purple;
   }
   return (
-    <HFlex bg={bg} {...bgProps} justify="center">
+    <HFlex bg={bg} {...bgProps} onClick={onClick} justify="center">
       {hasIcon && (
         <Image
           src={require("../../assets/landing-page/play.svg")}
@@ -52,6 +57,10 @@ function CustomButton({
 // TODO: Figure out what to do with the background image
 //@body Currenntly I cannot tilt the background div as I wanted, it adds a horizontal scrollbar dispite having a `overflow:hidden` on the parent div. I thought I had all this figured out, but I don't.
 export default function LandingPage() {
+  const dispatch = useDispatch();
+  const doLogin = () => {
+    dispatch(login());
+  };
   return (
     <>
       <VFlex w="100%" justify="start">
@@ -92,6 +101,7 @@ export default function LandingPage() {
               </Link>
               <CustomButton
                 value="Login"
+                onClick={doLogin}
                 variant="yellow"
                 bgProps={{
                   w: "140px",
@@ -114,6 +124,7 @@ export default function LandingPage() {
               <HFlex my="24" flexWrap="wrap">
                 <CustomButton
                   variant="yellow"
+                  onClick={doLogin}
                   value="Get Started"
                   bgProps={{
                     w: "260px",
@@ -130,6 +141,7 @@ export default function LandingPage() {
                 <CustomButton
                   variant="white"
                   value="Watch a video"
+                  onClick={() => alert("Navigate to the Demo video")}
                   bgProps={{
                     w: "260px",
                     h: "56px",

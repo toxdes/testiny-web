@@ -4,7 +4,6 @@ import { GlobalState, GenericAction } from "../types";
 import initialState from "../initialState";
 
 export default (state: GlobalState, action: GenericAction): GlobalState => {
-  if (state === undefined) return initialState.globalState;
   switch (action.type) {
     case LOGIN:
       return {
@@ -17,6 +16,6 @@ export default (state: GlobalState, action: GenericAction): GlobalState => {
         userLoggedIn: false,
       };
     default:
-      return state;
+      return initialState.globalState;
   }
 };

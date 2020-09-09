@@ -12,8 +12,9 @@ export default function Home() {
   const navigateTo = (to: string) => {
     navigate(to, { replace: false });
   };
-
-  if (userLoggedIn) {
+  if (!userLoggedIn) {
+    return <LandingPage />;
+  } else {
     return (
       <VFlex w="100vw" h="100vh">
         <Text mb="4">Currently Working on</Text>
