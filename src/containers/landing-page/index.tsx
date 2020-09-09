@@ -1,5 +1,5 @@
 import * as React from "react";
-import { VFlex, HFlex, Image, Link, Text, Box } from "../../components";
+import { VFlex, HFlex, Image, Link, Text } from "../../components";
 import { colors } from "./styles";
 
 interface CustomButtonProps {
@@ -25,55 +25,104 @@ function CustomButton({ value, variant, bgProps, fgProps }: CustomButtonProps) {
     </VFlex>
   );
 }
+
+// TODO: Figure out what to do with the background image
+//@body Currenntly I cannot tilt the background div as I wanted, it adds a horizontal scrollbar dispite having a `overflow:hidden` on the parent div. I thought I had all this figured out, but I don't.
 export default function LandingPage() {
   return (
     <>
-      <VFlex position="relative">
-        <VFlex
-          flexGrow="1"
-          w="100vw"
-          h="100vh"
-          mt="-40vh"
-          zIndex="-2"
-          backgroundColor={colors.purple}
-          position="absolute"
-          top="0px"
-          left="0px"
-        ></VFlex>
-      </VFlex>
-      <VFlex w="100%" justify="start" o="hidden">
-        <HFlex maxWidth="1250px" w="100%" justify="flex-start">
-          <Image
-            src={require("../../assets/landing-page/logo.svg")}
-            h="36px"
-            mx="12"
-            my="4"
-            w="auto"
-            cursor="pointer"
-          />
-          <HFlex ml="auto">
-            <Link href="#" color={colors.white2} fontWeight="700" mx="4">
-              How it works
-            </Link>
-            <Link href="#" color={colors.white2} fontWeight="700" mx="4">
-              Why
-            </Link>
-            <Link href="#" color={colors.white2} fontWeight="700" mx="4">
-              Feedback
-            </Link>
-            <CustomButton
-              value="Login"
-              variant="yellow"
-              bgProps={{
-                w: "140px",
-                h: "42px",
-                borderRadius: "12px",
-                mr: "8",
-                cursor: "pointer",
-              }}
+      <VFlex w="100%" justify="start">
+        <VFlex w="100%" bg={colors.purple} px="12">
+          <HFlex
+            maxWidth="1250px"
+            backgroundColor={colors.purple}
+            w="100%"
+            justify="flex-start"
+          >
+            <Image
+              src={require("../../assets/landing-page/logo.svg")}
+              h="36px"
+              // mx="12"
+              my="4"
+              w="auto"
+              cursor="pointer"
             />
+            <HFlex ml="auto">
+              <Link href="#" color={colors.white2} fontWeight="700" mx="4">
+                How it works
+              </Link>
+              <Link href="#" color={colors.white2} fontWeight="700" mx="4">
+                Why
+              </Link>
+              <Link href="#" color={colors.white2} fontWeight="700" mx="4">
+                Feedback
+              </Link>
+              <CustomButton
+                value="Login"
+                variant="yellow"
+                bgProps={{
+                  w: "140px",
+                  h: "42px",
+                  borderRadius: "12px",
+                  mr: "8",
+                  cursor: "pointer",
+                }}
+              />
+            </HFlex>
           </HFlex>
-        </HFlex>
+          <HFlex w="100%" maxW="1250px" h="60vh">
+            <VFlex align="start" flexGrow="1" textAlign="left" minW="640px">
+              <Text fontSize="54px" color={colors.white} fontWeight="900">
+                The best
+              </Text>
+              <Text fontSize="54px" color={colors.white} fontWeight="900">
+                Mock Tests Platform
+              </Text>
+              <HFlex my="24">
+                <CustomButton
+                  variant="yellow"
+                  value="Get Started"
+                  bgProps={{
+                    w: "260px",
+                    h: "56px",
+                    borderRadius: "12px",
+                    mr: "8",
+                    cursor: "pointer",
+                  }}
+                  fgProps={{
+                    fontSize: "22px",
+                    fontWeight: "bold",
+                  }}
+                />
+                <CustomButton
+                  variant="white"
+                  value="Watch a video"
+                  bgProps={{
+                    w: "260px",
+                    h: "56px",
+                    borderRadius: "12px",
+                    mr: "8",
+                    cursor: "pointer",
+                  }}
+                  fgProps={{
+                    fontSize: "22px",
+                    fontWeight: "bold",
+                  }}
+                />
+              </HFlex>
+            </VFlex>
+
+            {/* <VFlex position="relative" w="60vw" h="640px" overflow="hidden">
+              <Image
+                position="absolute"
+                transform="scale(1.5);"
+                ml="-120px"
+                src={require("../../assets/landing-page/background-1.svg")}
+                // bg="blue.300"
+              />
+            </VFlex> */}
+          </HFlex>
+        </VFlex>
       </VFlex>
     </>
   );
