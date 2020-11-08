@@ -9,17 +9,19 @@ interface SubjectTabProps {
   subjects: Subject[];
   calculatorAllowed?: boolean;
   activeIndex: number;
+  containerProps?: any;
 }
 export default function SubjectTab({
   subjects,
   calculatorAllowed,
   activeIndex,
+  containerProps,
 }: SubjectTabProps) {
   const onChange = (index: number) => {
     alert(`Clicked tab ${index}`);
   };
   return (
-    <HFlex bg="gray.200" w="100%">
+    <HFlex bg="gray.200" w="100%" {...containerProps}>
       <Tabs
         align="start"
         w="100%"

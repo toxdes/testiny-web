@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { VFlex, HFlex } from "../../../components";
+import { VFlex, HFlex, Grid } from "../../../components";
 import {
   Header,
   SubjectTab,
@@ -172,69 +172,148 @@ export default function MainExam() {
     );
   };
   return (
-    <VFlex w="100vw" h="100vh" align="center" justify="flex-start" bg="red.300">
-      <Header title={`${data.streamName} ${data.examName}`} />
-      <HFlex bg="blue.300" flexGrow="1" w="100vw">
-        <VFlex
-          flexBasis="100%"
-          flexGrow="1"
-          flexShrink="1"
-          bg="yellow.300"
-          h="100%"
-          justify="flex-start"
-        >
-          <SubjectTab
-            subjects={data.subjects.map((each) => {
-              return {
-                title: each,
-              };
-            })}
-            calculatorAllowed={data.calculatorAllowed}
-            activeIndex={activeSubjectIndex}
-          />
-          <SectionHeader />
-          <SectionTab
-            sections={data.sections.map((each) => {
-              return {
-                title: each,
-              };
-            })}
-            activeIndex={activeSectionIndex}
-          />
-          <QuestionHeader
-            type={data.questions[activeSectionIndex][activeQuestionIndex].type}
-            correctMarks={1}
-            incorrectMarks={0.33}
-          />
-          <QuestionArea
-            question={data.questions[activeSectionIndex][activeQuestionIndex]}
-            activeIndex={activeQuestionIndex}
-            answer={activeAnswer}
-            defaultAnswer={answers[activeQuestionIndex]}
-            onAnswer={onAnswer}
-          />
-          <Navigation
-            onClearResponse={onClearResponse}
-            onSaveAndNext={onSaveAndNext}
-            onMarkForReviewAndNext={onMarkForReviewAndNext}
-          />
-        </VFlex>
-        <VFlex
-          flexGrow="0"
-          minWidth="250px"
-          bg="orange.300"
-          h="100%"
-          justify="flex-start"
-        >
-          <Profile profile={data.candidateData} />
-          <QuestionState
-            onQuestionClick={onQuestionStateChange}
-            answers={answers}
-            activeSection={data.sections[activeSectionIndex]}
-          />
-          <SubmitExam />
-        </VFlex>
+    <Grid
+      templateAreas={`
+      "header header"
+      "main sidebar"
+      "footer footer"`}
+      templateRows="60px 1fr 60px"
+      templateColumns="6fr 1fr"
+      height="100vh"
+      width="100vw"
+    >
+      <Header
+        title={`${data.streamName} ${data.examName}`}
+        containerProps={{ area: "header" }}
+      />
+      <VFlex area="header" />
+      <VFlex area="main" overflow="auto" justify="start" align="start">
+        <SubjectTab
+          subjects={data.subjects.map((each) => {
+            return {
+              title: each,
+            };
+          })}
+          calculatorAllowed={data.calculatorAllowed}
+          activeIndex={activeSubjectIndex}
+          // containerProps={{ area: "header2" }}
+        />
+        <SectionHeader />
+        <SectionTab
+          sections={data.sections.map((each) => {
+            return {
+              title: each,
+            };
+          })}
+          activeIndex={activeSectionIndex}
+        />
+        <QuestionHeader
+          type={data.questions[activeSectionIndex][activeQuestionIndex].type}
+          correctMarks={1}
+          incorrectMarks={0.33}
+        />
+        <QuestionArea
+          containerProps={{ w: "100%", h: "100%" }}
+          question={data.questions[activeSectionIndex][activeQuestionIndex]}
+          activeIndex={activeQuestionIndex}
+          answer={activeAnswer}
+          defaultAnswer={answers[activeQuestionIndex]}
+          onAnswer={onAnswer}
+        />
+      </VFlex>
+
+      <VFlex
+        bg="orange.300"
+        area="sidebar"
+        overflow="auto"
+        align="start"
+        justify="start"
+      >
+        <Profile profile={data.candidateData} />
+        <QuestionState
+          onQuestionClick={onQuestionStateChange}
+          answers={answers}
+          activeSection={data.sections[activeSectionIndex]}
+        />
+      </VFlex>
+
+      <HFlex area="footer" w="100%">
+        <Navigation
+          onClearResponse={onClearResponse}
+          onSaveAndNext={onSaveAndNext}
+          onMarkForReviewAndNext={onMarkForReviewAndNext}
+        />
       </HFlex>
-    </VFlex>
+      <SubmitExam containerProps={{ area: "footer" }} />
+    </Grid>
   );
 }
+// return (
+//   <VFlex w="100vw" h="100vh" align="center" justify="flex-start" bg="red.300">
+//     <Header title={`${data.streamName} ${data.examName}`} />
+//     <HFlex bg="blue.300" flexGrow="1" w="100vw">
+//       <VFlex
+//         flexBasis="100%"
+//         flexGrow="1"
+//         flexShrink="1"
+//         bg="yellow.300"
+//         h="100%"
+//         justify="flex-start"
+//       >
+//         <SubjectTab
+//           subjects={data.subjects.map((each) => {
+//             return {
+//               title: each,
+//             };
+//           })}
+//           calculatorAllowed={data.calculatorAllowed}
+//           activeIndex={activeSubjectIndex}
+//         />
+//         <SectionHeader />
+//         <SectionTab
+//           sections={data.sections.map((each) => {
+//             return {
+//               title: each,
+//             };
+//           })}
+//           activeIndex={activeSectionIndex}
+//         />
+//         <QuestionHeader
+//           type={data.questions[activeSectionIndex][activeQuestionIndex].type}
+//           correctMarks={1}
+//           incorrectMarks={0.33}
+//         />
+//         <QuestionArea
+//           question={data.questions[activeSectionIndex][activeQuestionIndex]}
+//           activeIndex={activeQuestionIndex}
+//           answer={activeAnswer}
+//           defaultAnswer={answers[activeQuestionIndex]}
+//           onAnswer={onAnswer}
+//         />
+//         <Navigation
+//           onClearResponse={onClearResponse}
+//           onSaveAndNext={onSaveAndNext}
+//           onMarkForReviewAndNext={onMarkForReviewAndNext}
+//         />
+//       </VFlex>
+//       <VFlex
+//         // flexGrow="0"
+//         flexShrink="1"
+//         minWidth="250px"
+//         bg="orange.300"
+//         // oy="scroll"
+//         h="100%"
+//         // align="flex-start"
+//         // justify="flex-start"
+//       >
+//         <Profile profile={data.candidateData} />
+//         <QuestionState
+//           onQuestionClick={onQuestionStateChange}
+//           answers={answers}
+//           activeSection={data.sections[activeSectionIndex]}
+//         />
+//         <SubmitExam />
+//       </VFlex>
+//     </HFlex>
+//   </VFlex>
+// );

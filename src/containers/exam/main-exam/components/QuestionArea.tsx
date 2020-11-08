@@ -89,6 +89,7 @@ interface QuestionAreaProps {
   answer: AnswerState;
   defaultAnswer: AnswerState;
   onAnswer: (newAnswer: number | undefined) => void;
+  containerProps?: any;
 }
 export default function QuestionArea({
   question,
@@ -96,12 +97,19 @@ export default function QuestionArea({
   answer,
   defaultAnswer,
   onAnswer,
+  containerProps,
 }: QuestionAreaProps) {
   // TODO: Radio Buttons and Input Fields of Question Area are extremely slow.
   //@body Maybe it's because the state is not implemented correctly. Need to do some research on why these fields (readio buttons and textinputs) are not buttery smooth, and make them smooth.
 
   return (
-    <HFlex flexGrow="1" bg="gray.100" w="100%" align="flex-start">
+    <HFlex
+      // flexGrow="1"
+      bg="gray.100"
+      // w="100%"
+      // align="flex-start"
+      {...containerProps}
+    >
       <VFlex justify="flex-start" w="100%">
         <HFlex
           h="32px"

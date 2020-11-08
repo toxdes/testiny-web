@@ -2,9 +2,12 @@ import * as React from "react";
 import { Text, HFlex } from "../../../../components";
 import { normalFontSize } from "../styles";
 
-export default function SectionHeader() {
+interface SectionHeaderProps {
+  containerProps?: any;
+}
+export default function SectionHeader({ containerProps }: SectionHeaderProps) {
   return (
-    <HFlex minHeight="32px" bg="gray.100" w="100%">
+    <HFlex minHeight="32px" bg="gray.100" w="100%" {...containerProps}>
       <Text ml="2" fontSize={normalFontSize} color="gray.600">
         Section
       </Text>

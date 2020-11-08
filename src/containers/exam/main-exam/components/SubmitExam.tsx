@@ -2,9 +2,12 @@ import * as React from "react";
 import { Button, HFlex } from "../../../../components";
 import { normalFontSize } from "../styles";
 
-export default function SubmitExam() {
+interface SubmitExamProps {
+  containerProps?: any;
+}
+export default function SubmitExam({ containerProps }: SubmitExamProps) {
   return (
-    <HFlex alignSelf="flex-end" h="60px" bg="blue.50" w="100%">
+    <HFlex mt="auto" h="60px" bg="blue.50" w="100%" {...containerProps}>
       <Button
         variant="solid"
         variantColor="cyan"

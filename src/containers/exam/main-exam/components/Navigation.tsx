@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Button, HFlex } from "../../../../components";
 import { normalFontSize } from "../styles";
-
 interface NavigationProps {
   onClearResponse: () => void;
   onMarkForReviewAndNext: () => void;
   onSaveAndNext: () => void;
+  containerProps?: any;
 }
 
 const specialButtonProps = {
@@ -22,9 +22,16 @@ export default function Navigation({
   onClearResponse,
   onMarkForReviewAndNext,
   onSaveAndNext,
+  containerProps,
 }: NavigationProps) {
   return (
-    <HFlex alignSelf="flex-end" h="60px" bg="gray.100" w="100%">
+    <HFlex
+      alignSelf="flex-end"
+      h="60px"
+      bg="gray.100"
+      w="100%"
+      {...containerProps}
+    >
       <Button {...specialButtonProps} onClick={onMarkForReviewAndNext}>
         Mark for Review & Next
       </Button>

@@ -8,14 +8,19 @@ type Section = {
 interface SectionTabProps {
   sections: Section[];
   activeIndex: number;
+  containerProps?: any;
 }
-export default function SubjectTab({ sections, activeIndex }: SectionTabProps) {
+export default function SubjectTab({
+  sections,
+  activeIndex,
+  containerProps,
+}: SectionTabProps) {
   const onChange = (index: number) => {
     alert(`Clicked tab ${index}`);
   };
 
   return (
-    <HFlex bg="gray.200" w="100%">
+    <HFlex bg="gray.200" w="100%" {...containerProps}>
       <Tabs
         align="start"
         w="100%"
