@@ -105,9 +105,9 @@ export default function QuestionArea({
   return (
     <HFlex
       // flexGrow="1"
-      bg="gray.100"
+      bg="white"
       // w="100%"
-      // align="flex-start"
+      align="flex-start"
       {...containerProps}
     >
       <VFlex justify="flex-start" w="100%">

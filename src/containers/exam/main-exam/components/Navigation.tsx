@@ -27,9 +27,10 @@ export default function Navigation({
   return (
     <HFlex
       alignSelf="flex-end"
-      h="60px"
-      bg="gray.100"
-      w="100%"
+      h="80px"
+      bg="white"
+      px="4"
+      borderTop="1px solid #dedede"
       {...containerProps}
     >
       <Button {...specialButtonProps} onClick={onMarkForReviewAndNext}>

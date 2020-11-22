@@ -5,8 +5,9 @@ import { normalFontSize } from "../styles";
 
 interface ProfileProps {
   profile: TCandidateData;
+  containerProps:any;
 }
-export default function Profile({ profile }: ProfileProps) {
+export default function Profile({ profile, containerProps }: ProfileProps) {
   return (
     <HFlex
       alignSelf="flex-start"
@@ -15,6 +16,7 @@ export default function Profile({ profile }: ProfileProps) {
       w="100%"
       p="2"
       justify="flex-start"
+      {...containerProps}
     >
       <Image
         width="100px"

@@ -6,14 +6,16 @@ interface QuestionHeaderProps {
   type: string;
   correctMarks: number;
   incorrectMarks: number;
+  containerProps:any;
 }
 export default function QuestionHeader({
   type,
   correctMarks,
   incorrectMarks,
+  containerProps
 }: QuestionHeaderProps) {
   return (
-    <HFlex h="32px" bg="gray.100" w="100%" justify="flex-start">
+    <HFlex h="32px" bg="gray.100" w="100%" justify="flex-start" {...containerProps}>
       <Text color={orange} fontSize={smallerFontSize} fontWeight="bold" mx="2">
         Question Type: {type === "mcq" ? "MCQ" : "NAT"}
       </Text>

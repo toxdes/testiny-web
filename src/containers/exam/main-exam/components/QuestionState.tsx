@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, HFlex, Image, VFlex, Grid, Stack } from "../../../../components";
+import { Text, HFlex, Image, VFlex,Stack, Grid } from "../../../../components";
 import { AnswerState, AnswerStatus } from "../../../../store/types";
 import NotVisitedImage from "../../../../assets/not-visited.svg";
 import NotAnsweredImage from "../../../../assets/not-answered.svg";
@@ -84,10 +84,10 @@ interface SymbolInfoProps {
   containerProps?: any;
 }
 
-function SymbolInfo({ symbol, containerProps }: SymbolInfoProps) {
+export function SymbolInfo({ symbol, containerProps }: SymbolInfoProps) {
   let res = getSymbolInfo(symbol);
   return (
-    <HFlex {...containerProps} justify="flex-start">
+    <HFlex {...containerProps} justify="center">
       <SpecialButton status={symbol} value={1} />
       <Text fontSize={smallerFontSize} mx="2" w="auto">
         {res.info}
@@ -100,53 +100,20 @@ interface QuestionStateProps {
   answers: AnswerState[];
   activeSection: string;
   onQuestionClick: (index: number) => void;
+  containerProps?:any;
 }
 
 export default function QuestionState({
   answers,
   activeSection,
   onQuestionClick,
+  containerProps
 }: QuestionStateProps) {
   return (
-    <HFlex
-      flexWrap="nowrap"
-      flexGrow="1"
-      bg="gray.100"
-      border="2px solid"
-      w="100%"
-      maxWidth="250px"
-      align="flex-start"
-    >
-      <VFlex flexWrap="nowrap" w="100%" justify="flex-start" bg="red.300">
-        <Stack>
-          <HFlex w="100%" align="flex-start">
-            <VFlex w="100%" align="flex-start">
-              <SymbolInfo
-                symbol={AnswerStatus.ANSWERED}
-                containerProps={{ m: "2" }}
-              />
-              <SymbolInfo
-                symbol={AnswerStatus.NOT_VISITED}
-                containerProps={{ m: "2" }}
-              />
-            </VFlex>
-            <VFlex w="100%" align="flex-start">
-              <SymbolInfo
-                symbol={AnswerStatus.NOT_ANSWERED}
-                containerProps={{ m: "2" }}
-              />
-              <SymbolInfo
-                symbol={AnswerStatus.MARKED_FOR_REVIEW}
-                containerProps={{ m: "2" }}
-              />
-            </VFlex>
-          </HFlex>
-          <SymbolInfo
-            symbol={AnswerStatus.MARKED_FOR_REVIEW_AND_ANSWERED}
-            containerProps={{ mx: "2" }}
-          />
-        </Stack>
-        <Text
+   
+      
+<Stack {...containerProps} bg="blue.50">
+<Text
           bg="blue.500"
           color="white"
           fontWeight="bold"
@@ -157,19 +124,19 @@ export default function QuestionState({
         >
           {activeSection}
         </Text>
-        <VFlex w="100%" bg="blue.50">
-          <Text w="100%" p="2" fontWeight="bold" fontSize={normalFontSize}>
+        <Text w="100%" px="2" fontWeight="bold" fontSize={normalFontSize}>
             Choose a Question
           </Text>
-        </VFlex>
         <Grid
           templateColumns="repeat(4,1fr)"
-          gridRowGap="4"
-          gridColumnGap="4"
-          // overflowY="scroll"
+          gridRowGap="8"
+          gridColumnGap="2"
+          overflowY="auto"
           // height="40vh"
           p="4"
+          mx="6"
         >
+         
           {answers.map((each) => (
             <SpecialButton
               onQuestionClick={() => onQuestionClick(each.index)}
@@ -179,7 +146,6 @@ export default function QuestionState({
             />
           ))}
         </Grid>
-      </VFlex>
-    </HFlex>
+        </Stack>
   );
 }

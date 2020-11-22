@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { VFlex, HFlex, Grid } from "../../../components";
+import { Grid } from "../../../components";
 import {
   Header,
   SubjectTab,
@@ -12,6 +12,7 @@ import {
   Profile,
   QuestionState,
   SubmitExam,
+  SymbolsInfo
 } from "./components";
 import { ExamData as data } from "../future";
 import { useTypedSelector } from "../../../store/selector";
@@ -175,76 +176,79 @@ export default function MainExam() {
     <Grid
       templateAreas={`
       "header header"
-      "main sidebar"
-      "footer footer"`}
-      templateRows="60px 1fr 60px"
-      templateColumns="6fr 1fr"
+      "left_row_1 profile"
+      "left_row_2 profile"
+      "left_row_3 profile"
+      "left_row_4 symbols_info"
+      "question_area symbols_info"
+      "question_area question_state"
+      "nav_left submit"`}
+      templateRows={`32px 48px 32px 48px 36px 180px 1fr auto`}
+      templateColumns="0.84fr 0.16fr"
+      rowGap="0px"
+      columnGap="0px"
       height="100vh"
       width="100vw"
     >
       <Header
         title={`${data.streamName} ${data.examName}`}
-        containerProps={{ area: "header" }}
+        containerProps={{ gridArea: "header" }}
       />
-      <VFlex area="header" />
-      <VFlex area="main" overflow="auto" justify="start" align="start">
         <SubjectTab
           subjects={data.subjects.map((each) => {
             return {
               title: each,
             };
           })}
+          containerProps={{gridArea:'left_row_1'}}
           calculatorAllowed={data.calculatorAllowed}
           activeIndex={activeSubjectIndex}
           // containerProps={{ area: "header2" }}
         />
-        <SectionHeader />
+        <SectionHeader containerProps={{gridArea:'left_row_2'}}/>
         <SectionTab
           sections={data.sections.map((each) => {
             return {
               title: each,
             };
           })}
+          containerProps={{gridArea:'left_row_3'}}
           activeIndex={activeSectionIndex}
         />
         <QuestionHeader
           type={data.questions[activeSectionIndex][activeQuestionIndex].type}
           correctMarks={1}
+          containerProps={{gridArea:"left_row_4"}}
           incorrectMarks={0.33}
         />
         <QuestionArea
-          containerProps={{ w: "100%", h: "100%" }}
+          containerProps={{  gridArea:'question_area', overflow:'auto' }}
           question={data.questions[activeSectionIndex][activeQuestionIndex]}
           activeIndex={activeQuestionIndex}
           answer={activeAnswer}
           defaultAnswer={answers[activeQuestionIndex]}
           onAnswer={onAnswer}
         />
-      </VFlex>
 
-      <VFlex
-        bg="orange.300"
-        area="sidebar"
-        overflow="auto"
-        align="start"
-        justify="start"
-      >
-        <Profile profile={data.candidateData} />
+      
+        <Profile profile={data.candidateData} containerProps={{gridArea:'profile'}} />
+        <SymbolsInfo containerProps={{gridArea:'symbols_info', border:"2px solid", borderBottom:0}}/>
         <QuestionState
+          containerProps={{gridArea:'question_state', overflow:"auto", border:"2px solid", borderTop:0}}
           onQuestionClick={onQuestionStateChange}
           answers={answers}
           activeSection={data.sections[activeSectionIndex]}
         />
-      </VFlex>
+     
 
-      <HFlex area="footer" w="100%">
+      
         <Navigation
           onClearResponse={onClearResponse}
           onSaveAndNext={onSaveAndNext}
+          containerProps={{gridArea:"nav_left"}}
           onMarkForReviewAndNext={onMarkForReviewAndNext}
         />
-      </HFlex>
-      <SubmitExam containerProps={{ area: "footer" }} />
+      <SubmitExam containerProps={{ gridArea: "submit" }} />
     </Grid>
   );
 }

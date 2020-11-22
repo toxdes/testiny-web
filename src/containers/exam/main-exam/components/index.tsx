@@ -8,3 +8,4 @@ export { default as Navigation } from "./Navigation";
 export { default as Profile } from "./Profile";
 export { default as QuestionState } from "./QuestionState";
 export { default as SubmitExam } from "./SubmitExam";
+export {default as SymbolsInfo} from './SymbolsInfo';
