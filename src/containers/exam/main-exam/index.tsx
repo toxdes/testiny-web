@@ -84,6 +84,12 @@ export default function MainExam() {
         answer: undefined,
       })
     );
+    // update activeAnswer
+    dispatch(updateAnswer({
+      index:activeQuestionIndex,
+      status:AnswerStatus.NOT_ANSWERED,
+      answer:undefined
+    }))
     // alert("Clear Response");
   };
 
@@ -160,9 +166,11 @@ export default function MainExam() {
   const onAnswer = (newAnswer: number | number[] | undefined) => {
     // for now, MSQs are not implemented, so we'd just return
     if (Array.isArray(newAnswer)) return;
-    if (newAnswer === activeAnswer.answer) {
+    if(data.questions[activeSectionIndex][activeQuestionIndex].type === 'mcq' && (activeAnswer.answer === newAnswer || newAnswer === 6969420)){
+      onClearResponse();
       return;
     }
+    if(newAnswer === activeAnswer.answer)return;
     // if the answer is undefined, then the question is unanswered
     dispatch(
       updateAnswer({

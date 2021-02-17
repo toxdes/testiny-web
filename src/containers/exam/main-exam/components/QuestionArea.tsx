@@ -29,8 +29,10 @@ function Choices({ choices, onAnswer, answer }: ChoicesProps) {
       onChange={(e) => {
         onAnswer(Number(e.target.value));
       }}
-      value={Number(answer)}
+      value={answer?Number(answer):6969420}
     >
+      { /*dummy radio button for invalid value 6969420, so we can deselect the answer when user clicks on any option twice*/}
+    <Radio value = {6969420} size="md" key={'invalid-hidden'} display="none"/>
       {choices &&
         choices.map((each, i) => {
           return (
@@ -141,12 +143,12 @@ export default function QuestionArea({
             <Choices
               choices={question.choices}
               onAnswer={onAnswer}
-              answer={answer ? answer.answer : defaultAnswer.answer}
+              answer={answer.answer}
             />
           ) : (
             <Numeric
               onAnswer={onAnswer}
-              answer={answer ? answer.answer : defaultAnswer.answer}
+              answer={answer.answer}
             />
           )}
         </VFlex>
