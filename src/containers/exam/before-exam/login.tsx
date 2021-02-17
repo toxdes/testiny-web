@@ -159,7 +159,7 @@ export default function Login({ onNextStep }: StepProps) {
           <Divider />
           <Button
             onClick={onSubmit}
-            variantColor="cyan"
+            colorScheme="cyan"
             size="sm"
             width="100%"
             mt="8"

@@ -10,10 +10,12 @@ export default function SubmitExam({ containerProps }: SubmitExamProps) {
     <HFlex mt="auto" h="80px" bg="blue.50" w="100%"  {...containerProps}>
       <Button
         variant="solid"
-        variantColor="cyan"
+        colorScheme="cyan"
+        fontSize={normalFontSize}
+        fontWeight="bold"
+        color="white"
         w="32"
         h="40px"
-        fontSize={normalFontSize}
       >
         Submit
       </Button>

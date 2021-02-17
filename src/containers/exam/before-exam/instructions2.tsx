@@ -40,13 +40,13 @@ export default function PaperSpecificInstructions({
           onClick={() => onPreviousStep && onPreviousStep()}
           variant="outline"
           m="4"
-          variantColor="cyan"
+          colorScheme="cyan"
         >
           &lt; Previous
         </Button>
         <Button
           onClick={startExam}
-          variantColor="cyan"
+          colorScheme="cyan"
           m="4"
           isDisabled={!checked}
         >

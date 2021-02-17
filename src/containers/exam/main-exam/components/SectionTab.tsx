@@ -8,24 +8,22 @@ type Section = {
 interface SectionTabProps {
   sections: Section[];
   activeIndex: number;
+  onTabChange: (index:number) => void;
   containerProps?: any;
 }
 export default function SubjectTab({
   sections,
   activeIndex,
+  onTabChange,
   containerProps,
 }: SectionTabProps) {
-  const onChange = (index: number) => {
-    alert(`Clicked tab ${index}`);
-  };
-
   return (
     <HFlex bg="gray.200" w="100%" {...containerProps}>
       <Tabs
         align="start"
         w="100%"
         px="2"
-        onChange={onChange}
+        onChange={onTabChange}
         variant="unstyled"
         defaultIndex={activeIndex}
         // my="2"

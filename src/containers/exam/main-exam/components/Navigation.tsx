@@ -9,7 +9,7 @@ interface NavigationProps {
 }
 
 const specialButtonProps = {
-  variantColor: "gray",
+  colorScheme: "gray",
   fontWeight: "normal",
   fontSize: normalFontSize,
   size: "sm" as "sm",
@@ -29,7 +29,7 @@ export default function Navigation({
       alignSelf="flex-end"
       h="80px"
       bg="white"
-      px="4"
+      px="8"
       borderTop="1px solid #dedede"
       {...containerProps}
     >
@@ -43,7 +43,9 @@ export default function Navigation({
         {...specialButtonProps}
         onClick={onSaveAndNext}
         variant="solid"
-        variantColor="cyan"
+        fontSize={normalFontSize}
+        colorScheme="cyan"
+        color="white"
         ml="auto"
       >
         Save & Next

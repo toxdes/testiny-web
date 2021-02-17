@@ -38,7 +38,7 @@ function CustomButton({
     fg = colors.purple;
   }
   return (
-    <HFlex bg={bg} {...bgProps} onClick={onClick} justify="center">
+    <HFlex bg={bg} {...bgProps} color={fg} onClick={onClick} justify="center">
       {hasIcon && (
         <Image
           src={require("../../assets/landing-page/play.svg")}
@@ -47,9 +47,9 @@ function CustomButton({
           h="34px"
         />
       )}
-      <Text color={fg} {...fgProps} fontWeight="700">
+      <Button  {...fgProps} fontWeight="700" variant="ghost" colorScheme="whitealpha">
         {value}
-      </Text>
+      </Button>
     </HFlex>
   );
 }
@@ -319,6 +319,7 @@ export default function LandingPage() {
             h="100px"
             fontWeight="900"
             variant="outline"
+            bgColor="white"
           />
           <Button
             variant="solid"

@@ -180,6 +180,18 @@ export default function MainExam() {
       })
     );
   };
+
+  const onSubjectTabChange = (index:number) =>{
+    if(index === activeSubjectIndex)return;
+    alert(`change to subject ${index}`);
+    dispatch(setActive("subject", index));
+  }
+
+  const onSectionTabChange = (index: number) =>{
+    if(index === activeSectionIndex) return;
+    alert(`change to section ${index}`);
+    dispatch(setActive('section', index));
+  }
   return (
     <Grid
       templateAreas={`
@@ -211,6 +223,7 @@ export default function MainExam() {
           containerProps={{gridArea:'left_row_1'}}
           calculatorAllowed={data.calculatorAllowed}
           activeIndex={activeSubjectIndex}
+          onTabChange={onSubjectTabChange}
           // containerProps={{ area: "header2" }}
         />
         <SectionHeader containerProps={{gridArea:'left_row_2'}}/>
@@ -222,6 +235,7 @@ export default function MainExam() {
           })}
           containerProps={{gridArea:'left_row_3'}}
           activeIndex={activeSectionIndex}
+          onTabChange={onSectionTabChange}
         />
         <QuestionHeader
           type={data.questions[activeSectionIndex][activeQuestionIndex].type}

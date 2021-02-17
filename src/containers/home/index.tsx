@@ -25,7 +25,7 @@ export default function Home() {
           onClick={() => navigateTo("/exams")}
           w="48"
           my="2"
-          variantColor="green"
+          colorScheme="green"
         >
           Exams
         </Button>
@@ -33,7 +33,7 @@ export default function Home() {
           onClick={() => navigateTo("/exams/one")}
           w="48"
           my="2"
-          variantColor="green"
+          colorScheme="green"
         >
           A single Exam
         </Button>
@@ -41,7 +41,7 @@ export default function Home() {
           onClick={() => navigateTo("/exams/one/start-exam")}
           w="48"
           my="2"
-          variantColor="purple"
+          colorScheme="purple"
         >
           Start a single Exam
         </Button>
@@ -49,7 +49,7 @@ export default function Home() {
           onClick={() => dispatch(logout())}
           w="48"
           my="2"
-          variantColor="red"
+          colorScheme="red"
         >
           Logout
         </Button>

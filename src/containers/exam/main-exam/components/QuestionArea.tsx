@@ -27,7 +27,7 @@ function Choices({ choices, onAnswer, answer }: ChoicesProps) {
       m="4"
       alignSelf="flex-start"
       onChange={(e) => {
-        onAnswer(Number(e.target.value));
+        onAnswer(Number(e));
       }}
       value={answer?Number(answer):6969420}
     >
