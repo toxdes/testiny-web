@@ -21,6 +21,11 @@ export {
   Code,
   RadioGroup,
   Grid,
+  Fade,
+  ScaleFade,
+  Slide,
+  SlideFade,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 export function HFlex(props: any) {
