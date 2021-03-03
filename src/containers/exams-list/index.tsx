@@ -9,7 +9,7 @@ export default function ExamsList() {
       <Heading as="h3" size="md">
         List of Available exams Here
       </Heading>
-      <Button mt="12" onClick={() => navigate(-1)} variantColor="red" size="lg">
+      <Button mt="12" onClick={() => navigate(-1)} colorScheme="red" size="lg">
         Go back
       </Button>
     </VFlex>

@@ -27,10 +27,12 @@ function Choices({ choices, onAnswer, answer }: ChoicesProps) {
       m="4"
       alignSelf="flex-start"
       onChange={(e) => {
-        onAnswer(Number(e.target.value));
+        onAnswer(Number(e));
       }}
-      value={Number(answer)}
+      value={answer?Number(answer):6969420}
     >
+      { /*dummy radio button for invalid value 6969420, so we can deselect the answer when user clicks on any option twice*/}
+    <Radio value = {6969420} size="md" key={'invalid-hidden'} display="none"/>
       {choices &&
         choices.map((each, i) => {
           return (
@@ -89,6 +91,7 @@ interface QuestionAreaProps {
   answer: AnswerState;
   defaultAnswer: AnswerState;
   onAnswer: (newAnswer: number | undefined) => void;
+  containerProps?: any;
 }
 export default function QuestionArea({
   question,
@@ -96,12 +99,19 @@ export default function QuestionArea({
   answer,
   defaultAnswer,
   onAnswer,
+  containerProps,
 }: QuestionAreaProps) {
   // TODO: Radio Buttons and Input Fields of Question Area are extremely slow.
   //@body Maybe it's because the state is not implemented correctly. Need to do some research on why these fields (readio buttons and textinputs) are not buttery smooth, and make them smooth.
 
   return (
-    <HFlex flexGrow="1" bg="gray.100" w="100%" align="flex-start">
+    <HFlex
+      // flexGrow="1"
+      bg="white"
+      // w="100%"
+      align="flex-start"
+      {...containerProps}
+    >
       <VFlex justify="flex-start" w="100%">
         <HFlex
           h="32px"
@@ -133,12 +143,12 @@ export default function QuestionArea({
             <Choices
               choices={question.choices}
               onAnswer={onAnswer}
-              answer={answer ? answer.answer : defaultAnswer.answer}
+              answer={answer.answer}
             />
           ) : (
             <Numeric
               onAnswer={onAnswer}
-              answer={answer ? answer.answer : defaultAnswer.answer}
+              answer={answer.answer}
             />
           )}
         </VFlex>

@@ -6,6 +6,7 @@ import { BsInfoCircleFill } from "react-icons/bs";
 
 interface HeaderProps {
   title: string;
+  containerProps?: any;
 }
 interface ActionProps {
   title: string;
@@ -31,7 +32,7 @@ function Action({ title, onClick }: ActionProps) {
     </HFlex>
   );
 }
-export default function Header({ title }: HeaderProps) {
+export default function Header({ title, containerProps }: HeaderProps) {
   const openQuestionPaper = () => {
     alert("Open question paper");
   };
@@ -40,7 +41,13 @@ export default function Header({ title }: HeaderProps) {
   };
 
   return (
-    <HFlex minHeight="32px" bg={darkGray} w="100%" justify="flex-start">
+    <HFlex
+      minHeight="32px"
+      bg={darkGray}
+      w="100%"
+      justify="flex-start"
+      {...containerProps}
+    >
       <Text color={yellow} fontSize={normalFontSize} mx="4">
         {title}
       </Text>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Flex as ChakraFlex } from "@chakra-ui/core";
+import { Flex as ChakraFlex } from "@chakra-ui/react";
 export {
   Heading,
   Flex,
@@ -21,7 +21,12 @@ export {
   Code,
   RadioGroup,
   Grid,
-} from "@chakra-ui/core";
+  Fade,
+  ScaleFade,
+  Slide,
+  SlideFade,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 export function HFlex(props: any) {
   return (

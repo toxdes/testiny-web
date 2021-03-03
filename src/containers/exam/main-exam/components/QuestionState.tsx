@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Text, HFlex, Image, VFlex, Grid, Stack } from "../../../../components";
+import { Text, HFlex, Image, VFlex,Stack, Grid } from "../../../../components";
 import { AnswerState, AnswerStatus } from "../../../../store/types";
 import NotVisitedImage from "../../../../assets/not-visited.svg";
 import NotAnsweredImage from "../../../../assets/not-answered.svg";
 import AnsweredImage from "../../../../assets/answered.svg";
 import MarkedForReviewImage from "../../../../assets/marked-for-review.svg";
 import MarkedForReviewAndAnsweredImage from "../../../../assets/marked-for-review-and-answered.svg";
-import { normalFontSize } from "../styles";
+import { normalFontSize, smallerFontSize } from "../styles";
 
 interface SpecialButtonProps {
   value: number;
@@ -36,8 +36,13 @@ function SpecialButton({ value, status, onQuestionClick }: SpecialButtonProps) {
       <Image src={symbolInfo.image} w="40px" h="40px" />
       <Text
         textAlign="center"
+        fontWeight="bold"
         color={status === AnswerStatus.NOT_VISITED ? "black" : "white"}
-        mt="-28px"
+        mt={
+          status === AnswerStatus.MARKED_FOR_REVIEW_AND_ANSWERED
+            ? "-34px"
+            : "-30px"
+        }
       >
         {value}
       </Text>
@@ -79,12 +84,12 @@ interface SymbolInfoProps {
   containerProps?: any;
 }
 
-function SymbolInfo({ symbol, containerProps }: SymbolInfoProps) {
+export function SymbolInfo({ symbol, containerProps }: SymbolInfoProps) {
   let res = getSymbolInfo(symbol);
   return (
-    <HFlex {...containerProps} justify="flex-start">
+    <HFlex {...containerProps} justify="center">
       <SpecialButton status={symbol} value={1} />
-      <Text fontSize={normalFontSize} mx="2" w="auto">
+      <Text fontSize={smallerFontSize} mx="2" w="auto">
         {res.info}
       </Text>
     </HFlex>
@@ -95,73 +100,20 @@ interface QuestionStateProps {
   answers: AnswerState[];
   activeSection: string;
   onQuestionClick: (index: number) => void;
+  containerProps?:any;
 }
 
 export default function QuestionState({
   answers,
   activeSection,
   onQuestionClick,
+  containerProps
 }: QuestionStateProps) {
   return (
-    <HFlex
-      flexWrap="nowrap"
-      flexGrow="1"
-      bg="gray.100"
-      border="2px solid"
-      w="100%"
-      align="flex-start"
-    >
-      <VFlex flexWrap="nowrap" w="100%" h="100%" justify="flex-start">
-        {/* <Text bg="purple.300">
-          Details about why the navigation buttons below are styled the way they
-          are.
-        </Text> */}
-        {/* <HFlex w="100%">
-          <VFlex w="100%" bg="green.200" justify="flex-start">
-            <SymbolInfo symbol={AnswerStatus.ANSWERED} />
-            <SymbolInfo
-              symbol={AnswerStatus.NOT_ANSWERED}
-              containerProps={{ ml: "2" }}
-            />
-          </VFlex>
-          <VFlex w="100%" bg="green.200" justify="flex-start">
-            <SymbolInfo symbol={AnswerStatus.NOT_VISITED} />
-            <SymbolInfo
-              symbol={AnswerStatus.MARKED_FOR_REVIEW}
-              containerProps={{ ml: "2" }}
-            />
-          </VFlex>
-          <SymbolInfo symbol={AnswerStatus.MARKED_FOR_REVIEW_AND_ANSWERED} />
-        </HFlex> */}
-        <Stack>
-          <HFlex w="100%" align="flex-start">
-            <VFlex w="100%" align="flex-start">
-              <SymbolInfo
-                symbol={AnswerStatus.ANSWERED}
-                containerProps={{ m: "2" }}
-              />
-              <SymbolInfo
-                symbol={AnswerStatus.NOT_VISITED}
-                containerProps={{ m: "2" }}
-              />
-            </VFlex>
-            <VFlex w="100%" align="flex-start">
-              <SymbolInfo
-                symbol={AnswerStatus.NOT_ANSWERED}
-                containerProps={{ m: "2" }}
-              />
-              <SymbolInfo
-                symbol={AnswerStatus.MARKED_FOR_REVIEW}
-                containerProps={{ m: "2" }}
-              />
-            </VFlex>
-          </HFlex>
-          <SymbolInfo
-            symbol={AnswerStatus.MARKED_FOR_REVIEW_AND_ANSWERED}
-            containerProps={{ mx: "2" }}
-          />
-        </Stack>
-        <Text
+   
+      
+<Stack {...containerProps} bg="blue.50">
+<Text
           bg="blue.500"
           color="white"
           fontWeight="bold"
@@ -172,29 +124,28 @@ export default function QuestionState({
         >
           {activeSection}
         </Text>
-        <VFlex w="100%" bg="blue.50">
-          <Text w="100%" p="2" fontWeight="bold" fontSize={normalFontSize}>
+        <Text w="100%" px="2" fontWeight="bold" fontSize={normalFontSize}>
             Choose a Question
           </Text>
-          <Grid
-            templateColumns="repeat(4,1fr)"
-            gridRowGap="4"
-            gridColumnGap="4"
-            height="480px"
-            overflowY="scroll"
-            p="4"
-          >
-            {answers.map((each) => (
-              <SpecialButton
-                onQuestionClick={() => onQuestionClick(each.index)}
-                key={each.index}
-                value={each.index + 1}
-                status={each.status}
-              />
-            ))}
-          </Grid>
-        </VFlex>
-      </VFlex>
-    </HFlex>
+        <Grid
+          templateColumns="repeat(4,1fr)"
+          gridRowGap="8"
+          gridColumnGap="2"
+          overflowY="auto"
+          // height="40vh"
+          p="4"
+          mx="6"
+        >
+         
+          {answers.map((each) => (
+            <SpecialButton
+              onQuestionClick={() => onQuestionClick(each.index)}
+              key={each.index}
+              value={each.index + 1}
+              status={each.status}
+            />
+          ))}
+        </Grid>
+        </Stack>
   );
 }

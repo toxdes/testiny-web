@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Button, HFlex } from "../../../../components";
 import { normalFontSize } from "../styles";
-
 interface NavigationProps {
   onClearResponse: () => void;
   onMarkForReviewAndNext: () => void;
   onSaveAndNext: () => void;
+  containerProps?: any;
 }
 
 const specialButtonProps = {
-  variantColor: "gray",
+  colorScheme: "gray",
   fontWeight: "normal",
   fontSize: normalFontSize,
   size: "sm" as "sm",
@@ -22,9 +22,17 @@ export default function Navigation({
   onClearResponse,
   onMarkForReviewAndNext,
   onSaveAndNext,
+  containerProps,
 }: NavigationProps) {
   return (
-    <HFlex alignSelf="flex-end" h="60px" bg="gray.100" w="100%">
+    <HFlex
+      alignSelf="flex-end"
+      h="80px"
+      bg="white"
+      px="8"
+      borderTop="1px solid #dedede"
+      {...containerProps}
+    >
       <Button {...specialButtonProps} onClick={onMarkForReviewAndNext}>
         Mark for Review & Next
       </Button>
@@ -35,7 +43,9 @@ export default function Navigation({
         {...specialButtonProps}
         onClick={onSaveAndNext}
         variant="solid"
-        variantColor="cyan"
+        fontSize={normalFontSize}
+        colorScheme="cyan"
+        color="white"
         ml="auto"
       >
         Save & Next

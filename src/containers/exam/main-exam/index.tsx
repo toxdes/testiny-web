@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { VFlex, HFlex } from "../../../components";
+import { Grid } from "../../../components";
 import {
   Header,
   SubjectTab,
@@ -12,6 +12,7 @@ import {
   Profile,
   QuestionState,
   SubmitExam,
+  SymbolsInfo
 } from "./components";
 import { ExamData as data } from "../future";
 import { useTypedSelector } from "../../../store/selector";
@@ -83,6 +84,12 @@ export default function MainExam() {
         answer: undefined,
       })
     );
+    // update activeAnswer
+    dispatch(updateAnswer({
+      index:activeQuestionIndex,
+      status:AnswerStatus.NOT_ANSWERED,
+      answer:undefined
+    }))
     // alert("Clear Response");
   };
 
@@ -159,9 +166,11 @@ export default function MainExam() {
   const onAnswer = (newAnswer: number | number[] | undefined) => {
     // for now, MSQs are not implemented, so we'd just return
     if (Array.isArray(newAnswer)) return;
-    if (newAnswer === activeAnswer.answer) {
+    if(data.questions[activeSectionIndex][activeQuestionIndex].type === 'mcq' && (activeAnswer.answer === newAnswer || newAnswer === 6969420)){
+      onClearResponse();
       return;
     }
+    if(newAnswer === activeAnswer.answer)return;
     // if the answer is undefined, then the question is unanswered
     dispatch(
       updateAnswer({
@@ -171,70 +180,166 @@ export default function MainExam() {
       })
     );
   };
+
+  const onSubjectTabChange = (index:number) =>{
+    if(index === activeSubjectIndex)return;
+    alert(`change to subject ${index}`);
+    dispatch(setActive("subject", index));
+  }
+
+  const onSectionTabChange = (index: number) =>{
+    if(index === activeSectionIndex) return;
+    alert(`change to section ${index}`);
+    dispatch(setActive('section', index));
+  }
   return (
-    <VFlex w="100vw" h="100vh" align="center" justify="flex-start" bg="red.300">
-      <Header title={`${data.streamName} ${data.examName}`} />
-      <HFlex bg="blue.300" flexGrow="1" w="100vw">
-        <VFlex
-          flexBasis="100%"
-          flexGrow="1"
-          flexShrink="1"
-          bg="yellow.300"
-          h="100%"
-          justify="flex-start"
-        >
-          <SubjectTab
-            subjects={data.subjects.map((each) => {
-              return {
-                title: each,
-              };
-            })}
-            calculatorAllowed={data.calculatorAllowed}
-            activeIndex={activeSubjectIndex}
-          />
-          <SectionHeader />
-          <SectionTab
-            sections={data.sections.map((each) => {
-              return {
-                title: each,
-              };
-            })}
-            activeIndex={activeSectionIndex}
-          />
-          <QuestionHeader
-            type={data.questions[activeSectionIndex][activeQuestionIndex].type}
-            correctMarks={1}
-            incorrectMarks={0.33}
-          />
-          <QuestionArea
-            question={data.questions[activeSectionIndex][activeQuestionIndex]}
-            activeIndex={activeQuestionIndex}
-            answer={activeAnswer}
-            defaultAnswer={answers[activeQuestionIndex]}
-            onAnswer={onAnswer}
-          />
-          <Navigation
-            onClearResponse={onClearResponse}
-            onSaveAndNext={onSaveAndNext}
-            onMarkForReviewAndNext={onMarkForReviewAndNext}
-          />
-        </VFlex>
-        <VFlex
-          flexGrow="0"
-          minWidth="250px"
-          bg="orange.300"
-          h="100%"
-          justify="flex-start"
-        >
-          <Profile profile={data.candidateData} />
-          <QuestionState
-            onQuestionClick={onQuestionStateChange}
-            answers={answers}
-            activeSection={data.sections[activeSectionIndex]}
-          />
-          <SubmitExam />
-        </VFlex>
-      </HFlex>
-    </VFlex>
+    <Grid
+      templateAreas={`
+      "header header"
+      "left_row_1 profile"
+      "left_row_2 profile"
+      "left_row_3 profile"
+      "left_row_4 symbols_info"
+      "question_area symbols_info"
+      "question_area question_state"
+      "nav_left submit"`}
+      templateRows={`32px 48px 32px 48px 36px 180px 1fr auto`}
+      templateColumns="0.84fr 0.16fr"
+      rowGap="0px"
+      columnGap="0px"
+      height="100vh"
+      width="100vw"
+    >
+      <Header
+        title={`${data.streamName} ${data.examName}`}
+        containerProps={{ gridArea: "header" }}
+      />
+        <SubjectTab
+          subjects={data.subjects.map((each) => {
+            return {
+              title: each,
+            };
+          })}
+          containerProps={{gridArea:'left_row_1'}}
+          calculatorAllowed={data.calculatorAllowed}
+          activeIndex={activeSubjectIndex}
+          onTabChange={onSubjectTabChange}
+          // containerProps={{ area: "header2" }}
+        />
+        <SectionHeader containerProps={{gridArea:'left_row_2'}}/>
+        <SectionTab
+          sections={data.sections.map((each) => {
+            return {
+              title: each,
+            };
+          })}
+          containerProps={{gridArea:'left_row_3'}}
+          activeIndex={activeSectionIndex}
+          onTabChange={onSectionTabChange}
+        />
+        <QuestionHeader
+          type={data.questions[activeSectionIndex][activeQuestionIndex].type}
+          correctMarks={1}
+          containerProps={{gridArea:"left_row_4"}}
+          incorrectMarks={0.33}
+        />
+        <QuestionArea
+          containerProps={{  gridArea:'question_area', overflow:'auto' }}
+          question={data.questions[activeSectionIndex][activeQuestionIndex]}
+          activeIndex={activeQuestionIndex}
+          answer={activeAnswer}
+          defaultAnswer={answers[activeQuestionIndex]}
+          onAnswer={onAnswer}
+        />
+
+      
+        <Profile profile={data.candidateData} containerProps={{gridArea:'profile'}} />
+        <SymbolsInfo containerProps={{gridArea:'symbols_info', border:"2px solid", borderBottom:0}}/>
+        <QuestionState
+          containerProps={{gridArea:'question_state', overflow:"auto", border:"2px solid", borderTop:0}}
+          onQuestionClick={onQuestionStateChange}
+          answers={answers}
+          activeSection={data.sections[activeSectionIndex]}
+        />
+     
+
+      
+        <Navigation
+          onClearResponse={onClearResponse}
+          onSaveAndNext={onSaveAndNext}
+          containerProps={{gridArea:"nav_left"}}
+          onMarkForReviewAndNext={onMarkForReviewAndNext}
+        />
+      <SubmitExam containerProps={{ gridArea: "submit" }} />
+    </Grid>
   );
 }
+// return (
+//   <VFlex w="100vw" h="100vh" align="center" justify="flex-start" bg="red.300">
+//     <Header title={`${data.streamName} ${data.examName}`} />
+//     <HFlex bg="blue.300" flexGrow="1" w="100vw">
+//       <VFlex
+//         flexBasis="100%"
+//         flexGrow="1"
+//         flexShrink="1"
+//         bg="yellow.300"
+//         h="100%"
+//         justify="flex-start"
+//       >
+//         <SubjectTab
+//           subjects={data.subjects.map((each) => {
+//             return {
+//               title: each,
+//             };
+//           })}
+//           calculatorAllowed={data.calculatorAllowed}
+//           activeIndex={activeSubjectIndex}
+//         />
+//         <SectionHeader />
+//         <SectionTab
+//           sections={data.sections.map((each) => {
+//             return {
+//               title: each,
+//             };
+//           })}
+//           activeIndex={activeSectionIndex}
+//         />
+//         <QuestionHeader
+//           type={data.questions[activeSectionIndex][activeQuestionIndex].type}
+//           correctMarks={1}
+//           incorrectMarks={0.33}
+//         />
+//         <QuestionArea
+//           question={data.questions[activeSectionIndex][activeQuestionIndex]}
+//           activeIndex={activeQuestionIndex}
+//           answer={activeAnswer}
+//           defaultAnswer={answers[activeQuestionIndex]}
+//           onAnswer={onAnswer}
+//         />
+//         <Navigation
+//           onClearResponse={onClearResponse}
+//           onSaveAndNext={onSaveAndNext}
+//           onMarkForReviewAndNext={onMarkForReviewAndNext}
+//         />
+//       </VFlex>
+//       <VFlex
+//         // flexGrow="0"
+//         flexShrink="1"
+//         minWidth="250px"
+//         bg="orange.300"
+//         // oy="scroll"
+//         h="100%"
+//         // align="flex-start"
+//         // justify="flex-start"
+//       >
+//         <Profile profile={data.candidateData} />
+//         <QuestionState
+//           onQuestionClick={onQuestionStateChange}
+//           answers={answers}
+//           activeSection={data.sections[activeSectionIndex]}
+//         />
+//         <SubmitExam />
+//       </VFlex>
+//     </HFlex>
+//   </VFlex>
+// );

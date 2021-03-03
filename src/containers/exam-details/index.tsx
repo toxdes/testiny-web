@@ -15,12 +15,12 @@ export default function ExamsList() {
       <Code p="2">Information from the URL: {JSON.stringify(params)}</Code>
       <Button
         onClick={() => navigate("start-exam", { replace: true })}
-        variantColor="green"
+        colorScheme="green"
         my="4"
       >
         Start Exam
       </Button>
-      <Button mt="12" onClick={() => navigate(-1)} variantColor="red" size="lg">
+      <Button mt="12" onClick={() => navigate(-1)} colorScheme="red" size="lg">
         Go back
       </Button>
     </VFlex>

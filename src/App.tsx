@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeProvider, CSSReset } from "@chakra-ui/core";
+import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme";
 import store from "./store";
 import { Provider as StoreProvider } from "react-redux";
@@ -8,10 +8,9 @@ import Router from "./router";
 function App() {
   return (
     <StoreProvider store={store}>
-      <ThemeProvider theme={theme}>
-        <CSSReset />
+      <ChakraProvider theme={theme}>
         <Router />
-      </ThemeProvider>
+      </ChakraProvider>
     </StoreProvider>
   );
 }
