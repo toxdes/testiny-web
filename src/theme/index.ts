@@ -1,6 +1,7 @@
 import { DEBUG_MODE } from "./../config/constants";
 import { extendTheme } from "@chakra-ui/react";
 import { createBreakpoints } from "@chakra-ui/theme-tools";
+import colors from "./colors";
 // export default {
 //   ...theme,
 //   fonts: {
@@ -34,4 +35,5 @@ export default extendTheme({
   fontWeights: {
     bold: 800,
   },
+  colors,
 });

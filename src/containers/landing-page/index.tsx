@@ -14,8 +14,6 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { colors } from "./styles";
 import { useDisableBodyScroll } from "../../hooks";
-import { login } from "../../store/actions";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 interface CustomButtonProps {
   value?: string;
@@ -85,10 +83,9 @@ function PlayIcon() {
 // TODO: Figure out what to do with the background image
 //@body Currenntly I cannot tilt the background div as I wanted, it adds a horizontal scrollbar dispite having a `overflow:hidden` on the parent div. I thought I had all this figured out, but I don't.
 export default function LandingPage() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const doLogin = () => {
-    dispatch(login());
+    navigate("/login");
   };
   const { isOpen, onToggle } = useDisclosure();
   useDisableBodyScroll(isOpen);

@@ -25,3 +25,7 @@ This project is in very early stages of development, so hold your horses.
 # Contributing
 
 See [contributing](./contributing.md) guidlines for more information about the project structure.
+
+# References / Links
+
+1. https://themera.vercel.app/ - For generating color shades.
