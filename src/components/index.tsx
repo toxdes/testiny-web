@@ -53,6 +53,7 @@ interface InputWithLabelProps {
   label: string;
   value?: string;
   type: string;
+  required?: boolean;
   onChange: (e: any) => void;
   onBlur?: (e: any) => void;
   onActive?: (e: any) => void;
@@ -64,6 +65,7 @@ export function InputWithLabel({
   label,
   value,
   type,
+  required,
   onChange,
   onBlur,
   onActive,
@@ -80,6 +82,7 @@ export function InputWithLabel({
         w="100%"
         placeholder={label}
         value={value}
+        required={required}
         onChange={onChange}
         mt="2"
         onBlur={onBlur}

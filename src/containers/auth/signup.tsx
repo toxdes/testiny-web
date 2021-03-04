@@ -1,5 +1,5 @@
 import * as React from "react";
-import { VFlex, Input, Button, Heading, Link } from "../../components";
+import { VFlex, Button, Heading, Link, InputWithLabel } from "../../components";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/actions";
@@ -36,51 +36,75 @@ export function Signup({ successRoute }: LoginProps) {
   };
 
   return (
-    <VFlex m="auto" minW="40">
-      <Heading as="h2"> Signup </Heading>
-      <Input
-        type="text"
-        placeholder="email"
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-        onBlur={validate}
-        required
-      />
-      <Input
-        type="text"
-        placeholder="username"
-        value={username}
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}
-        onBlur={validate}
-        required
-      />
-      <Input
-        type="password"
-        placeholder="Create a super secure password..."
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        onBlur={validate}
-        required
-      />
+    <VFlex h="100vh" w="100vw">
+      <VFlex
+        w={{ base: "80%", lg: "50%" }}
+        maxW="420px"
+        border="1px solid"
+        borderColor="gray.200"
+        borderRadius="4px"
+        m="auto"
+        p={{ base: "4", lg: "12" }}
+      >
+        <Heading as="h2"> Signup </Heading>
+        <InputWithLabel
+          type="text"
+          label="Email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          onBlur={validate}
+          required
+        />
+        <InputWithLabel
+          type="text"
+          label="Username"
+          value={username}
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}
+          onBlur={validate}
+          required
+        />
+        <InputWithLabel
+          type="password"
+          label="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onBlur={validate}
+          required
+        />
 
-      <Input
-        type="password"
-        placeholder="Confirm that super secure password..."
-        value={passwordConfirm}
-        onChange={(e) => setPasswordConfirm(e.target.value)}
-        onBlur={validate}
-        required
-      />
-      <Button onClick={doSignup} disabled={valid}>
-        Signup
-      </Button>
-      <Link onClick={doLogin} ml="2" href="#">
-        Already have an account? Login instead
-      </Link>
+        <InputWithLabel
+          type="password"
+          label="Confirm Password"
+          value={passwordConfirm}
+          onChange={(e) => setPasswordConfirm(e.target.value)}
+          onBlur={validate}
+          required
+        />
+        <Button
+          onClick={doSignup}
+          w="100%"
+          variant="solid"
+          bg="purple.500"
+          color="white"
+          mt="8"
+        >
+          Signup
+        </Button>
+        <Link
+          onClick={doLogin}
+          ml="2"
+          my="4"
+          href="#"
+          color="purple.500"
+          textAlign="center"
+        >
+          Already have an account? Login instead
+        </Link>
+      </VFlex>
     </VFlex>
   );
 }

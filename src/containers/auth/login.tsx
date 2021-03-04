@@ -56,7 +56,7 @@ export function Login({ successRoute }: LoginProps) {
   return (
     <VFlex h="100vh" w="100vw">
       <VFlex
-        w={{ sm: "100%", lg: "50%" }}
+        w={{ base: "80%", lg: "50%" }}
         maxW="420px"
         border="1px solid"
         borderColor="gray.200"
@@ -104,7 +104,14 @@ export function Login({ successRoute }: LoginProps) {
         >
           Login
         </Button>
-        <Link onClick={doSignup} ml="2" my="4" href="#" color="purple.500">
+        <Link
+          onClick={doSignup}
+          ml="2"
+          my="4"
+          href="#"
+          color="purple.500"
+          textAlign="center"
+        >
           Don't have an account? Sign up.
         </Link>
       </VFlex>
