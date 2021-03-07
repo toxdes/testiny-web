@@ -1,3 +1,4 @@
+import { Dispatch } from "redux";
 import { GenericAction, AnswerState } from "./types";
 export const SET_BEFORE_EXAM_STEP = "SET_BEFORE_EXAM_STEP";
 export const SET_BEFORE_EXAM_DONE = "SET_BEFORE_EXAM_DONE";
@@ -6,8 +7,9 @@ export const UPDATE_ANSWER = "UPDATE_ANSWER";
 export const COMMIT_ANSWER = "COMMIT_ANSWER";
 export const SET_ACTIVE_GENERIC = "SET_ACTIVE_GENERIC";
 export const LOGIN = "LOGIN";
+export const SIGNUP = "SIGNUP";
 export const LOGOUT = "LOGOUT";
-
+export const SET_LOADING = "SET_LOADING";
 // action creators
 
 // before exam actions
@@ -56,14 +58,54 @@ export const commitAnswer = (answer?: AnswerState) => {
 
 // global state updates
 // obviously this will change later, this is just temporary.
-export const login = () => {
-  return {
-    type: LOGIN,
+export const login = (
+  username: string,
+  password: string,
+  remember: boolean
+) => {
+  return async (dispatch: Dispatch, _: any, { api }: any) => {
+    dispatch(loading(true));
+    try {
+      let token = await api.post("/login", { data: { username, password } });
+      alert(JSON.stringify(token));
+      return {
+        type: LOGIN,
+        payload: { token },
+      };
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // return {
+  //   type: LOGIN,
+  //   payload: { username, password, remember },
+  // };
+};
+
+export const signup = (username: string, email: string, password: string) => {
+  return async (dispatch: Dispatch, _: any, { api }: any) => {
+    dispatch(loading(true));
+    const token = await api.post("/signup", {
+      data: { username, password, email },
+    });
+    alert(JSON.stringify(token));
+    return {
+      type: SIGNUP,
+      payload: { token },
+    };
   };
 };
 
 export const logout = () => {
   return {
     type: LOGOUT,
+  };
+};
+
+export const loading = (l: boolean) => {
+  return {
+    type: SET_LOADING,
+    payload: { loading: l },
   };
 };

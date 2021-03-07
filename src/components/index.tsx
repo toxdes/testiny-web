@@ -86,7 +86,7 @@ export function InputWithLabel({
         onChange={onChange}
         mt="2"
         onBlur={onBlur}
-        onActive={onActive}
+        onBeforeInput={onActive}
         onSubmit={onSubmit}
       />
     </VFlex>

@@ -2,7 +2,7 @@ import * as React from "react";
 import { VFlex, Button, Heading, Link, InputWithLabel } from "../../components";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { login } from "../../store/actions";
+import { signup } from "../../store/actions";
 
 interface LoginProps {
   // if user was accessing something that required him to be signed in
@@ -31,8 +31,8 @@ export function Signup({ successRoute }: LoginProps) {
   };
 
   const doSignup = () => {
+    dispatch(signup(username as string, email as string, password as string));
     navigate(successRoute ? successRoute : "/");
-    dispatch(login());
   };
 
   return (

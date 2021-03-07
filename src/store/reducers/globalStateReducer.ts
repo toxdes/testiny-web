@@ -1,5 +1,4 @@
-import { LOGIN, LOGOUT } from "../actions";
-// import { Reducer } from "react";
+import { LOGIN, LOGOUT, SIGNUP } from "../actions";
 import { GlobalState, GenericAction } from "../types";
 import initialState from "../initialState";
 
@@ -10,6 +9,8 @@ export default (state: GlobalState, action: GenericAction): GlobalState => {
         ...state,
         userLoggedIn: true,
       };
+    case SIGNUP:
+      return state;
     case LOGOUT:
       return {
         ...state,

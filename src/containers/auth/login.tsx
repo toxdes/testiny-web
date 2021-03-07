@@ -10,29 +10,28 @@ import {
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/actions";
+import { useTypedSelector } from "../../store/selector";
+
 interface LoginProps {
   // if user was accessing something that required him to be signed in
   // then on successful sign in, we should redirect him there.
   successRoute?: string;
 }
 export function Login({ successRoute }: LoginProps) {
-  const [username, setUsername] = React.useState<string>();
-  const [password, setPassword] = React.useState<string>();
+  const [username, setUsername] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
   const [valid, setValid] = React.useState<boolean>(true);
   const [rememberMe, setRememberMe] = React.useState<boolean>(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const loading = useTypedSelector(
+    (state) => state.globalVolatileState.loading
+  );
   const validate = () => {
-    if (username === "" && password === "") {
-      if (valid) return;
-      setValid(true);
-    }
-    if (username === "bruh" && password === "bruh") {
-      if (valid) return;
-      setValid(true);
+    if (username === "" || password === "") {
+      if (valid) setValid(false);
     } else {
-      if (!valid) return;
-      setValid(false);
+      if (!valid) setValid(true);
     }
   };
 
@@ -45,8 +44,8 @@ export function Login({ successRoute }: LoginProps) {
       alert("bruh, cannot be empty.");
       return;
     }
-    navigate(successRoute ? successRoute : "/");
-    dispatch(login());
+    dispatch(login(username as string, password as string, rememberMe));
+    if (!loading) navigate(successRoute ? successRoute : "/");
   };
 
   const doSignup = () => {
@@ -95,12 +94,13 @@ export function Login({ successRoute }: LoginProps) {
         />
         <Button
           onClick={doLogin}
-          disabled={!valid}
+          disabled={!valid || loading}
           w="100%"
           variant="solid"
           bg="purple.500"
           color="white"
           mt="8"
+          isLoading={loading}
         >
           Login
         </Button>
