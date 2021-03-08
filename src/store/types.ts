@@ -13,8 +13,10 @@ export type GlobalState = {
   userLoggedIn: boolean;
   token: string;
 };
+
 export type GlobalVolatileState = {
-  loading: boolean;
+  status: ResponseStatusType;
+  data?: any;
 };
 export enum AnswerStatus {
   MARKED_FOR_REVIEW,
@@ -44,3 +46,11 @@ export type GenericAction = {
   type: string;
   payload?: any;
 };
+
+export enum ResponseStatusType {
+  IDLE,
+  FETCHING,
+  SUCCESS,
+  ERROR,
+  UNEXPECTED_ERROR,
+}

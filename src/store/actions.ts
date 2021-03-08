@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { GenericAction, AnswerState } from "./types";
+import { GenericAction, AnswerState, ResponseStatusType } from "./types";
 export const SET_BEFORE_EXAM_STEP = "SET_BEFORE_EXAM_STEP";
 export const SET_BEFORE_EXAM_DONE = "SET_BEFORE_EXAM_DONE";
 export const INIT_ANSWERS = "INIT_ANSWERS";
@@ -9,7 +9,7 @@ export const SET_ACTIVE_GENERIC = "SET_ACTIVE_GENERIC";
 export const LOGIN = "LOGIN";
 export const SIGNUP = "SIGNUP";
 export const LOGOUT = "LOGOUT";
-export const SET_LOADING = "SET_LOADING";
+export const SET_STATUS = "SET_STATUS";
 // action creators
 
 // before exam actions
@@ -64,16 +64,19 @@ export const login = (
   remember: boolean
 ) => {
   return async (dispatch: Dispatch, _: any, { api }: any) => {
-    dispatch(loading(true));
+    dispatch(setStatus("fetching", undefined));
     try {
-      let token = await api.post("/login", { data: { username, password } });
-      alert(JSON.stringify(token));
-      return {
-        type: LOGIN,
-        payload: { token },
-      };
+      let data = await api.post("/login", { data: { username, password } });
+      data = data.data;
+      if (data?.status === "error") {
+        dispatch(setStatus("error", data.message));
+        console.log("error", data);
+        return;
+      }
+      dispatch(setStatus("success", data));
+      dispatch(setUserLoggedIn(true, data.token));
     } catch (e) {
-      console.log(e);
+      console.log(JSON.stringify(e));
     }
   };
 
@@ -83,17 +86,26 @@ export const login = (
   // };
 };
 
+export const setUserLoggedIn = (userLoggedIn: boolean, token: string) => {
+  return {
+    type: LOGIN,
+    payload: { userLoggedIn, token },
+  };
+};
 export const signup = (username: string, email: string, password: string) => {
   return async (dispatch: Dispatch, _: any, { api }: any) => {
-    dispatch(loading(true));
-    const token = await api.post("/signup", {
+    dispatch(setStatus("fetching"));
+    let data = await api.post("/signup", {
       data: { username, password, email },
     });
-    alert(JSON.stringify(token));
-    return {
-      type: SIGNUP,
-      payload: { token },
-    };
+    data = data.data;
+    if (data?.status === "error") {
+      dispatch(setStatus("error", data.message));
+      console.log("error", data);
+      return;
+    }
+    dispatch(setStatus("success", data));
+    dispatch(setUserLoggedIn(true, data.token));
   };
 };
 
@@ -103,9 +115,22 @@ export const logout = () => {
   };
 };
 
-export const loading = (l: boolean) => {
+const getStatus = (s: string) => {
+  switch (s) {
+    case "error":
+      return ResponseStatusType.ERROR;
+    case "fetching":
+      return ResponseStatusType.FETCHING;
+    case "success":
+      return ResponseStatusType.SUCCESS;
+    default:
+      return ResponseStatusType.UNEXPECTED_ERROR;
+  }
+};
+
+export const setStatus = (status: string, data?: any) => {
   return {
-    type: SET_LOADING,
-    payload: { loading: l },
+    type: SET_STATUS,
+    payload: { status: getStatus(status), data },
   };
 };

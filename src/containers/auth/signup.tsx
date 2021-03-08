@@ -1,20 +1,38 @@
 import * as React from "react";
-import { VFlex, Button, Heading, Link, InputWithLabel } from "../../components";
+import {
+  VFlex,
+  Button,
+  Heading,
+  Link,
+  InputWithLabel,
+  Text,
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  Alert,
+} from "../../components";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { signup } from "../../store/actions";
-
+import { useTypedSelector } from "../../store/selector";
+import { ResponseStatusType } from "../../store/types";
 interface LoginProps {
   // if user was accessing something that required him to be signed in
   // then on successful sign in, we should redirect him there.
   successRoute?: string;
 }
 export function Signup({ successRoute }: LoginProps) {
-  const [username, setUsername] = React.useState<string>();
-  const [email, setEmail] = React.useState<string>();
-  const [password, setPassword] = React.useState<string>();
-  const [passwordConfirm, setPasswordConfirm] = React.useState<string>();
-  const [valid, setValid] = React.useState<boolean>();
+  const [username, setUsername] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
+  const [passwordConfirm, setPasswordConfirm] = React.useState<string>("");
+  const [valid, setValid] = React.useState<boolean>(true);
+  const status = useTypedSelector((state) => state.globalVolatileState.status);
+  const data = useTypedSelector((state) => state.globalVolatileState.data);
+  const token = useTypedSelector((state) => state.globalState.token);
+  const userLoggedIn = useTypedSelector(
+    (state) => state.globalState.userLoggedIn
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -32,9 +50,13 @@ export function Signup({ successRoute }: LoginProps) {
 
   const doSignup = () => {
     dispatch(signup(username as string, email as string, password as string));
-    navigate(successRoute ? successRoute : "/");
+    if (status === ResponseStatusType.SUCCESS)
+      navigate(successRoute ? successRoute : "/");
   };
-
+  if (userLoggedIn) {
+    navigate("/", { replace: true });
+    return null;
+  }
   return (
     <VFlex h="100vh" w="100vw">
       <VFlex
@@ -47,6 +69,20 @@ export function Signup({ successRoute }: LoginProps) {
         p={{ base: "4", lg: "12" }}
       >
         <Heading as="h2"> Signup </Heading>
+        <Text color="gray.500" size="sm" my="2">
+          We're glad that you're interested.
+        </Text>
+        <FormControl
+          isInvalid={
+            status === ResponseStatusType.ERROR ||
+            status === ResponseStatusType.UNEXPECTED_ERROR
+          }
+        >
+          <FormHelperText>{token}</FormHelperText>
+          <FormErrorMessage>
+            <Alert status="error">{JSON.stringify(data)}</Alert>
+          </FormErrorMessage>
+        </FormControl>
         <InputWithLabel
           type="text"
           label="Email"

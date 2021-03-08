@@ -12,14 +12,18 @@ export default function Home() {
   const userLoggedIn = useTypedSelector(
     (state) => state.globalState.userLoggedIn
   );
+  const token = useTypedSelector((state) => state.globalState.token);
   const navigateTo = (to: string) => {
     navigate(to, { replace: false });
   };
   if (!userLoggedIn) {
     return <LandingPage />;
   } else {
+    // dispatch(fetchUser());
     return (
       <VFlex w="100vw" h="100vh">
+        <Text>Welcome, you are logged in.</Text>
+        <Text>Token: {token}</Text>
         <Text mb="4">Currently Working on</Text>
         <Button
           onClick={() => navigateTo("/exams")}

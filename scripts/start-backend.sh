@@ -4,6 +4,6 @@
 # Note: Not to be used in production
 
 # root directory where testiny-backend is located
-SERVER_ROOT="../testiny-backend"
+SERVER_ROOT="$HOME/pro/real/testiny-backend"
 cd $SERVER_ROOT
-yarn dev
+yarn all

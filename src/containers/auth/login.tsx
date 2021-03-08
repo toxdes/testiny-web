@@ -6,11 +6,17 @@ import {
   Link,
   InputWithLabel,
   CheckboxWithLabel,
+  Text,
+  FormControl,
+  Alert,
+  FormErrorMessage,
+  FormHelperText,
 } from "../../components";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/actions";
 import { useTypedSelector } from "../../store/selector";
+import { ResponseStatusType } from "../../store/types";
 
 interface LoginProps {
   // if user was accessing something that required him to be signed in
@@ -21,11 +27,17 @@ export function Login({ successRoute }: LoginProps) {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [valid, setValid] = React.useState<boolean>(true);
+
+  // TODO: Implement Remember Me in Login
+  //@body Currently, once a user is logged in, they stay logged in unless they logout themselves.
   const [rememberMe, setRememberMe] = React.useState<boolean>(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loading = useTypedSelector(
-    (state) => state.globalVolatileState.loading
+  const status = useTypedSelector((state) => state.globalVolatileState.status);
+  const data = useTypedSelector((state) => state.globalVolatileState.data);
+  const token = useTypedSelector((state) => state.globalState.token);
+  const userLoggedIn = useTypedSelector(
+    (state) => state.globalState.userLoggedIn
   );
   const validate = () => {
     if (username === "" || password === "") {
@@ -45,13 +57,16 @@ export function Login({ successRoute }: LoginProps) {
       return;
     }
     dispatch(login(username as string, password as string, rememberMe));
-    if (!loading) navigate(successRoute ? successRoute : "/");
+    if (status === ResponseStatusType.SUCCESS)
+      navigate(successRoute ? successRoute : "/");
   };
 
   const doSignup = () => {
     navigate("/signup");
   };
-
+  if (userLoggedIn) {
+    navigate("/", { replace: true });
+  }
   return (
     <VFlex h="100vh" w="100vw">
       <VFlex
@@ -63,11 +78,23 @@ export function Login({ successRoute }: LoginProps) {
         m="auto"
         p={{ base: "4", lg: "12" }}
       >
-        <Heading as="h3" mb="8">
-          {" "}
-          Login{" "}
+        <Heading as="h3" mb="4">
+          Login
         </Heading>
-
+        <Text color="gray.500" size="sm" my="2">
+          To continue, please login.
+        </Text>
+        <FormControl
+          isInvalid={
+            status === ResponseStatusType.ERROR ||
+            status === ResponseStatusType.UNEXPECTED_ERROR
+          }
+        >
+          <FormHelperText>{token}</FormHelperText>
+          <FormErrorMessage>
+            <Alert status="error">{JSON.stringify(data)}</Alert>
+          </FormErrorMessage>
+        </FormControl>
         <InputWithLabel
           type="text"
           label="Username /  Email"
@@ -77,7 +104,6 @@ export function Login({ successRoute }: LoginProps) {
           value={username}
           onBlur={validate}
         />
-
         <InputWithLabel
           type="password"
           label="Password"
@@ -94,13 +120,13 @@ export function Login({ successRoute }: LoginProps) {
         />
         <Button
           onClick={doLogin}
-          disabled={!valid || loading}
+          disabled={!valid || status === ResponseStatusType.FETCHING}
           w="100%"
           variant="solid"
           bg="purple.500"
           color="white"
           mt="8"
-          isLoading={loading}
+          isLoading={status === ResponseStatusType.FETCHING}
         >
           Login
         </Button>

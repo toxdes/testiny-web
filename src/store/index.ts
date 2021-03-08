@@ -32,7 +32,7 @@ const store = createStore(reducers as any, initialState as RootState, composed);
 // save state to localStorage at regular time intervals
 // stolen from https://stackoverflow.com/a/35675304/6027457
 let lastUpdated = Date.now().valueOf();
-const timeIntervalInMillis = 4000;
+const timeIntervalInMillis = 0;
 
 const writeStateToLocalStorage = (state: RootState) => {
   const current = Date.now().valueOf();

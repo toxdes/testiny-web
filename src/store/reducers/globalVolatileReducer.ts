@@ -1,4 +1,4 @@
-import { SET_LOADING } from "../actions";
+import { SET_STATUS } from "../actions";
 import { GlobalVolatileState, GenericAction } from "../types";
 import initialState from "../initialState";
 
@@ -7,10 +7,12 @@ export default (
   action: GenericAction
 ): GlobalVolatileState => {
   switch (action.type) {
-    case SET_LOADING:
+    case SET_STATUS:
+      console.log("from reducer, ", action.payload);
       return {
         ...state,
-        loading: action.payload.loading,
+        status: action.payload.status,
+        data: action.payload?.data,
       };
     default:
       return initialState.globalVolatileState;
