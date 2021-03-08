@@ -6,6 +6,7 @@ import NotFound from "../containers/errors/404";
 import ExamsList from "../containers/exams-list";
 import ExamDetails from "../containers/exam-details";
 import StartExam from "../containers/exam";
+import { Login, Signup } from "../containers/auth";
 
 export default function Router() {
   return (
@@ -19,6 +20,8 @@ export default function Router() {
             <Route path="start-exam" element={<StartExam />} />
           </Route>
         </Route>
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

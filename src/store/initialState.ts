@@ -1,9 +1,9 @@
-import { RootState, AnswerStatus } from "./types";
+import { RootState, AnswerStatus, ResponseStatusType } from "./types";
 
 const initialState: RootState = {
   beforeExamState: {
     step: 0,
-    done: true, // TODO: set it to true during development
+    done: true, // TODO: set it to false during production
   },
   examState: {
     activeQuestionIndex: 0,
@@ -16,8 +16,14 @@ const initialState: RootState = {
     },
     answers: [],
   },
+  // only persisting globalState for now :)
   globalState: {
     userLoggedIn: false,
+    token: "",
+  },
+  // not persisted
+  globalVolatileState: {
+    status: ResponseStatusType.IDLE,
   },
 };
 

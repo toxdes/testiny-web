@@ -2,6 +2,7 @@ export type RootState = {
   beforeExamState: BeforeExamState;
   examState: ExamState;
   globalState: GlobalState;
+  globalVolatileState: GlobalVolatileState;
 };
 export type BeforeExamState = {
   step: number;
@@ -10,8 +11,13 @@ export type BeforeExamState = {
 
 export type GlobalState = {
   userLoggedIn: boolean;
+  token: string;
 };
 
+export type GlobalVolatileState = {
+  status: ResponseStatusType;
+  data?: any;
+};
 export enum AnswerStatus {
   MARKED_FOR_REVIEW,
   MARKED_FOR_REVIEW_AND_ANSWERED,
@@ -40,3 +46,11 @@ export type GenericAction = {
   type: string;
   payload?: any;
 };
+
+export enum ResponseStatusType {
+  IDLE,
+  FETCHING,
+  SUCCESS,
+  ERROR,
+  UNEXPECTED_ERROR,
+}
