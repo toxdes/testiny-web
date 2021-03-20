@@ -22,6 +22,13 @@ $ # make sure the backend is running
 $ yarn start
 ```
 
+# Environment Variables (for production)
+
+| Environment variable name | value                                    |
+| ------------------------- | ---------------------------------------- |
+| `ENV`                     | "production"                             |
+| `BACKEND_URL`             | "https://your-backend-app.herokuapp.com" |
+
 # Stack
 
 | Library                               | Use                                                                    |
