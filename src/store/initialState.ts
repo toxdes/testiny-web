@@ -1,4 +1,4 @@
-import { RootState, AnswerStatus, ResponseStatusType } from "./types";
+import { RootState, AnswerStatus } from "./types";
 
 const initialState: RootState = {
   beforeExamState: {
@@ -20,11 +20,10 @@ const initialState: RootState = {
   globalState: {
     userLoggedIn: false,
     token: "",
+    successRoute: "",
   },
   // not persisted
-  globalVolatileState: {
-    status: ResponseStatusType.IDLE,
-  },
+  globalVolatileState: {},
 };
 
 export default initialState;

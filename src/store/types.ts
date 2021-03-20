@@ -12,12 +12,10 @@ export type BeforeExamState = {
 export type GlobalState = {
   userLoggedIn: boolean;
   token: string;
+  successRoute: string;
 };
 
-export type GlobalVolatileState = {
-  status: ResponseStatusType;
-  data?: any;
-};
+export type GlobalVolatileState = {};
 export enum AnswerStatus {
   MARKED_FOR_REVIEW,
   MARKED_FOR_REVIEW_AND_ANSWERED,
@@ -53,4 +51,9 @@ export enum ResponseStatusType {
   SUCCESS,
   ERROR,
   UNEXPECTED_ERROR,
+}
+
+export interface FetchDataType {
+  status: ResponseStatusType;
+  data?: any;
 }
