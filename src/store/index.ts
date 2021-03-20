@@ -17,7 +17,8 @@ if (globalState) initialState.globalState = globalState;
 console.log("loaded persisted state", initialState.globalState);
 
 // set authorization header, if user is logged in, then token exists.
-api.defaults.headers.common["Authorization"] = `Bearer ${globalState.token}`;
+if (initialState.globalState.token)
+  api.defaults.headers.common["Authorization"] = `Bearer ${globalState.token}`;
 // compose middlewares
 const composed = compose(
   applyMiddleware(

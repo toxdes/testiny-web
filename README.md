@@ -9,6 +9,8 @@ This project is in very early stages of development, so hold your horses.
 
 Since it's not only a skeleton-frontend anymore, you won't be able to completely browse the development preview. I can't pay for the backend server right now, so you can try running the [backend](https://github.com/toxdes/testiny-backend) locally. There are helper scripts in [`scripts`](./scripts) as well for ease of development.
 
+**In production, make sure to redirect everything to `build/index.html` for whatever server you use. Otherwise [`react-router` doesn't work.](https://create-react-app.dev/docs/deployment/#serving-apps-with-client-side-routing)**
+
 #### Development Preview: [Visit](https://testiny.vercel.app)
 
 ![Screenshot](./images/scr1.png)
