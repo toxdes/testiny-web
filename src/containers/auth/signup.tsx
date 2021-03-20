@@ -8,14 +8,14 @@ import {
   Text,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   Alert,
+  AlertIcon,
 } from "../../components";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
-import { signup } from "../../store/actions";
-import { useTypedSelector } from "../../store/selector";
-import { ResponseStatusType } from "../../store/types";
+import { setUserLoggedIn } from "../../store/actions";
+import { FetchDataType, ResponseStatusType } from "../../store/types";
+import api from "../../api";
 interface LoginProps {
   // if user was accessing something that required him to be signed in
   // then on successful sign in, we should redirect him there.
@@ -27,15 +27,18 @@ export function Signup({ successRoute }: LoginProps) {
   const [password, setPassword] = React.useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = React.useState<string>("");
   const [valid, setValid] = React.useState<boolean>(true);
-  const status = useTypedSelector((state) => state.globalVolatileState.status);
-  const data = useTypedSelector((state) => state.globalVolatileState.data);
-  const token = useTypedSelector((state) => state.globalState.token);
-  const userLoggedIn = useTypedSelector(
-    (state) => state.globalState.userLoggedIn
-  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [data, setData] = React.useState<FetchDataType>({
+    status: ResponseStatusType.IDLE,
+  });
 
+  let params = useParams();
+  // let user continue whatever he was doing after login, by rerouting them on success.
+
+  if (!successRoute) {
+    if (params.success_redirect) successRoute = params.success_redirect;
+  }
   const validate = () => {
     if (password === passwordConfirm) {
       if (!valid) setValid(true);
@@ -48,15 +51,31 @@ export function Signup({ successRoute }: LoginProps) {
     navigate("/login");
   };
 
-  const doSignup = () => {
-    dispatch(signup(username as string, email as string, password as string));
-    if (status === ResponseStatusType.SUCCESS)
-      navigate(successRoute ? successRoute : "/");
-  };
-  if (userLoggedIn) {
-    navigate("/", { replace: true });
-    return null;
-  }
+  const doSignup = React.useCallback(async () => {
+    if (!valid) {
+      console.log("fields are not valid, cannot post to the API.");
+      return;
+    }
+    if (data.status === ResponseStatusType.FETCHING) {
+      console.log("already fetching...");
+      return;
+    }
+    setData({ status: ResponseStatusType.FETCHING });
+    try {
+      let res: any = await api.post("/signup", {
+        data: { username, email, password },
+      });
+      res = res.data;
+      console.log("SIGNUP RES", res);
+      if (res.status === "error") {
+        setData({ status: ResponseStatusType.ERROR, data: res.message });
+        return;
+      }
+      // update global state, to indicate that user has logged in successfully.
+      dispatch(setUserLoggedIn(true, res.token, successRoute));
+    } catch (e) {}
+  }, [valid, data, email, username, password, dispatch, successRoute]);
+
   return (
     <VFlex h="100vh" w="100vw">
       <VFlex
@@ -74,13 +93,15 @@ export function Signup({ successRoute }: LoginProps) {
         </Text>
         <FormControl
           isInvalid={
-            status === ResponseStatusType.ERROR ||
-            status === ResponseStatusType.UNEXPECTED_ERROR
+            data.status === ResponseStatusType.ERROR ||
+            data.status === ResponseStatusType.UNEXPECTED_ERROR
           }
         >
-          <FormHelperText>{token}</FormHelperText>
           <FormErrorMessage>
-            <Alert status="error">{JSON.stringify(data)}</Alert>
+            <Alert status="error">
+              <AlertIcon />
+              {JSON.stringify(data)}
+            </Alert>
           </FormErrorMessage>
         </FormControl>
         <InputWithLabel
@@ -122,6 +143,8 @@ export function Signup({ successRoute }: LoginProps) {
         />
         <Button
           onClick={doSignup}
+          isLoading={data.status === ResponseStatusType.FETCHING}
+          disabled={!valid || data.status === ResponseStatusType.FETCHING}
           w="100%"
           variant="solid"
           bg="purple.500"

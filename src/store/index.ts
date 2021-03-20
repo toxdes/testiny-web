@@ -14,7 +14,10 @@ const globalState = persistedStateValue
 
 // replace the initial state based on localStorage
 if (globalState) initialState.globalState = globalState;
+console.log("loaded persisted state", initialState.globalState);
 
+// set authorization header, if user is logged in, then token exists.
+api.defaults.headers.common["Authorization"] = `Bearer ${globalState.token}`;
 // compose middlewares
 const composed = compose(
   applyMiddleware(
@@ -45,7 +48,8 @@ const writeStateToLocalStorage = (state: RootState) => {
 
 // subscribe to state changes
 store.subscribe(() => {
-  writeStateToLocalStorage(store.getState());
+  const state = store.getState();
+  writeStateToLocalStorage(state);
 });
 
 export default store;

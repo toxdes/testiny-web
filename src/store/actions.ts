@@ -68,6 +68,7 @@ export const login = (
     try {
       let data = await api.post("/login", { data: { username, password } });
       data = data.data;
+      console.log("inside login", data);
       if (data?.status === "error") {
         dispatch(setStatus("error", data.message));
         console.log("error", data);
@@ -86,26 +87,14 @@ export const login = (
   // };
 };
 
-export const setUserLoggedIn = (userLoggedIn: boolean, token: string) => {
+export const setUserLoggedIn = (
+  userLoggedIn: boolean,
+  token: string,
+  successRoute?: string
+) => {
   return {
     type: LOGIN,
-    payload: { userLoggedIn, token },
-  };
-};
-export const signup = (username: string, email: string, password: string) => {
-  return async (dispatch: Dispatch, _: any, { api }: any) => {
-    dispatch(setStatus("fetching"));
-    let data = await api.post("/signup", {
-      data: { username, password, email },
-    });
-    data = data.data;
-    if (data?.status === "error") {
-      dispatch(setStatus("error", data.message));
-      console.log("error", data);
-      return;
-    }
-    dispatch(setStatus("success", data));
-    dispatch(setUserLoggedIn(true, data.token));
+    payload: { userLoggedIn, token, successRoute },
   };
 };
 
