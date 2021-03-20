@@ -62,7 +62,7 @@ export default function Profile({ own, containerProps }: ProfileProps) {
         <VFlex mt="40" p={{ base: "4", lg: "12" }}>
           <Alert status="error">
             <AlertIcon />
-            <AlertDescription>{data.data}</AlertDescription>
+            <AlertDescription>{JSON.stringify(data.data)}</AlertDescription>
           </Alert>
           <Text my="20">Should I just give 404 NOT FOUND here?</Text>
         </VFlex>
