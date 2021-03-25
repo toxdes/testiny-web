@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, HFlex, Image, VFlex,Stack, Grid } from "../../../../components";
+import { Text, HFlex, Image, VFlex, Grid } from "../../../../components";
 import { AnswerState, AnswerStatus } from "../../../../store/types";
 import NotVisitedImage from "../../../../assets/not-visited.svg";
 import NotAnsweredImage from "../../../../assets/not-answered.svg";
@@ -89,7 +89,7 @@ export function SymbolInfo({ symbol, containerProps }: SymbolInfoProps) {
   return (
     <HFlex {...containerProps} justify="center">
       <SpecialButton status={symbol} value={1} />
-      <Text fontSize={smallerFontSize} mx="2" w="auto">
+      <Text fontSize={smallerFontSize} mx="2" w="100%" textOverflow="ellipsis">
         {res.info}
       </Text>
     </HFlex>
@@ -100,52 +100,49 @@ interface QuestionStateProps {
   answers: AnswerState[];
   activeSection: string;
   onQuestionClick: (index: number) => void;
-  containerProps?:any;
+  containerProps?: any;
 }
 
 export default function QuestionState({
   answers,
   activeSection,
   onQuestionClick,
-  containerProps
+  containerProps,
 }: QuestionStateProps) {
   return (
-   
-      
-<Stack {...containerProps} bg="blue.50">
-<Text
-          bg="blue.500"
-          color="white"
-          fontWeight="bold"
-          textAlign="left"
-          w="100%"
-          mt="4"
-          p="2"
-        >
-          {activeSection}
-        </Text>
-        <Text w="100%" px="2" fontWeight="bold" fontSize={normalFontSize}>
-            Choose a Question
-          </Text>
-        <Grid
-          templateColumns="repeat(4,1fr)"
-          gridRowGap="8"
-          gridColumnGap="2"
-          overflowY="auto"
-          // height="40vh"
-          p="4"
-          mx="6"
-        >
-         
-          {answers.map((each) => (
-            <SpecialButton
-              onQuestionClick={() => onQuestionClick(each.index)}
-              key={each.index}
-              value={each.index + 1}
-              status={each.status}
-            />
-          ))}
-        </Grid>
-        </Stack>
+    <VFlex {...containerProps} bg="blue.50">
+      <Text
+        bg="blue.500"
+        color="white"
+        fontWeight="bold"
+        textAlign="left"
+        w="100%"
+        mt="4"
+        p="2"
+      >
+        {activeSection}
+      </Text>
+      <Text w="100%" px="2" mt="4" fontWeight="bold" fontSize={normalFontSize}>
+        Choose a Question
+      </Text>
+      <Grid
+        templateColumns="repeat(4,1fr)"
+        gridRowGap="8"
+        gridColumnGap="2"
+        overflowY="auto"
+        // height="40vh"
+        mt="4"
+        mx="4"
+      >
+        {answers.map((each) => (
+          <SpecialButton
+            onQuestionClick={() => onQuestionClick(each.index)}
+            key={each.index}
+            value={each.index + 1}
+            status={each.status}
+          />
+        ))}
+      </Grid>
+    </VFlex>
   );
 }

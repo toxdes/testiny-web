@@ -181,12 +181,12 @@ export default function Login({ onNextStep }: StepProps) {
           >
             Sign in
           </Button>
-          {/* {keyboard && ( */}
-          <Keyboard
-            maxW="10px"
-            onChange={(text) => onTextChange(activeInput, text)}
-          />
-          {/* )} */}
+          {keyboard && (
+            <Keyboard
+              maxW="10px"
+              onChange={(text) => onTextChange(activeInput, text)}
+            />
+          )}
         </FormControl>
       </VFlex>
     </VFlex>

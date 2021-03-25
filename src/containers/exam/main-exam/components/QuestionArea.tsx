@@ -24,19 +24,21 @@ function Choices({ choices, onAnswer, answer }: ChoicesProps) {
   return (
     <RadioGroup
       fontFamily={"serif"}
+      display="flex"
+      flexDirection="column"
       m="4"
-      alignSelf="flex-start"
+      mr="auto"
       onChange={(e) => {
         onAnswer(Number(e));
       }}
-      value={answer?Number(answer):6969420}
+      value={answer ? Number(answer) : 6969420}
     >
-      { /*dummy radio button for invalid value 6969420, so we can deselect the answer when user clicks on any option twice*/}
-    <Radio value = {6969420} size="md" key={'invalid-hidden'} display="none"/>
+      {/*dummy radio button for invalid value 6969420, so we can deselect the answer when user clicks on any option twice*/}
+      <Radio value={6969420} size="md" key={"invalid-hidden"} display="none" />
       {choices &&
         choices.map((each, i) => {
           return (
-            <Radio value={i + 1} size="md" key={each}>
+            <Radio value={i + 1} size="md" key={each} my="4">
               {each}
             </Radio>
           );
@@ -108,11 +110,17 @@ export default function QuestionArea({
     <HFlex
       // flexGrow="1"
       bg="white"
-      // w="100%"
+      // minW="100%"
       align="flex-start"
+      justify="flex-start"
       {...containerProps}
     >
-      <VFlex justify="flex-start" w="100%">
+      <VFlex
+        justifyContent="flex-start"
+        w="100%"
+        alignItems="flex-start"
+        textAlign="justify"
+      >
         <HFlex
           h="32px"
           w="100%"
@@ -136,7 +144,7 @@ export default function QuestionArea({
           />
         </HFlex>
         <VFlex w="100%" p="4">
-          <Text fontFamily="serif" fontSize={largeFontSize}>
+          <Text fontFamily="serif" textAlign="justify" fontSize={largeFontSize}>
             {question.text}
           </Text>
           {question && question.type === "mcq" ? (
@@ -146,10 +154,7 @@ export default function QuestionArea({
               answer={answer.answer}
             />
           ) : (
-            <Numeric
-              onAnswer={onAnswer}
-              answer={answer.answer}
-            />
+            <Numeric onAnswer={onAnswer} answer={answer.answer} />
           )}
         </VFlex>
       </VFlex>

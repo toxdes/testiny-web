@@ -12,7 +12,7 @@ import {
   Profile,
   QuestionState,
   SubmitExam,
-  SymbolsInfo
+  SymbolsInfo,
 } from "./components";
 import { ExamData as data } from "../future";
 import { useTypedSelector } from "../../../store/selector";
@@ -85,11 +85,13 @@ export default function MainExam() {
       })
     );
     // update activeAnswer
-    dispatch(updateAnswer({
-      index:activeQuestionIndex,
-      status:AnswerStatus.NOT_ANSWERED,
-      answer:undefined
-    }))
+    dispatch(
+      updateAnswer({
+        index: activeQuestionIndex,
+        status: AnswerStatus.NOT_ANSWERED,
+        answer: undefined,
+      })
+    );
     // alert("Clear Response");
   };
 
@@ -166,11 +168,14 @@ export default function MainExam() {
   const onAnswer = (newAnswer: number | number[] | undefined) => {
     // for now, MSQs are not implemented, so we'd just return
     if (Array.isArray(newAnswer)) return;
-    if(data.questions[activeSectionIndex][activeQuestionIndex].type === 'mcq' && (activeAnswer.answer === newAnswer || newAnswer === 6969420)){
+    if (
+      data.questions[activeSectionIndex][activeQuestionIndex].type === "mcq" &&
+      (activeAnswer.answer === newAnswer || newAnswer === 6969420)
+    ) {
       onClearResponse();
       return;
     }
-    if(newAnswer === activeAnswer.answer)return;
+    if (newAnswer === activeAnswer.answer) return;
     // if the answer is undefined, then the question is unanswered
     dispatch(
       updateAnswer({
@@ -181,17 +186,17 @@ export default function MainExam() {
     );
   };
 
-  const onSubjectTabChange = (index:number) =>{
-    if(index === activeSubjectIndex)return;
+  const onSubjectTabChange = (index: number) => {
+    if (index === activeSubjectIndex) return;
     alert(`change to subject ${index}`);
     dispatch(setActive("subject", index));
-  }
+  };
 
-  const onSectionTabChange = (index: number) =>{
-    if(index === activeSectionIndex) return;
+  const onSectionTabChange = (index: number) => {
+    if (index === activeSectionIndex) return;
     alert(`change to section ${index}`);
-    dispatch(setActive('section', index));
-  }
+    dispatch(setActive("section", index));
+  };
   return (
     <Grid
       templateAreas={`
@@ -204,72 +209,86 @@ export default function MainExam() {
       "question_area question_state"
       "nav_left submit"`}
       templateRows={`32px 48px 32px 48px 36px 180px 1fr auto`}
-      templateColumns="0.84fr 0.16fr"
+      templateColumns="1fr min-content"
       rowGap="0px"
+      w="100%"
+      h="100vh"
       columnGap="0px"
-      height="100vh"
-      width="100vw"
+      overflow="hidden"
     >
       <Header
         title={`${data.streamName} ${data.examName}`}
         containerProps={{ gridArea: "header" }}
       />
-        <SubjectTab
-          subjects={data.subjects.map((each) => {
-            return {
-              title: each,
-            };
-          })}
-          containerProps={{gridArea:'left_row_1'}}
-          calculatorAllowed={data.calculatorAllowed}
-          activeIndex={activeSubjectIndex}
-          onTabChange={onSubjectTabChange}
-          // containerProps={{ area: "header2" }}
-        />
-        <SectionHeader containerProps={{gridArea:'left_row_2'}}/>
-        <SectionTab
-          sections={data.sections.map((each) => {
-            return {
-              title: each,
-            };
-          })}
-          containerProps={{gridArea:'left_row_3'}}
-          activeIndex={activeSectionIndex}
-          onTabChange={onSectionTabChange}
-        />
-        <QuestionHeader
-          type={data.questions[activeSectionIndex][activeQuestionIndex].type}
-          correctMarks={1}
-          containerProps={{gridArea:"left_row_4"}}
-          incorrectMarks={0.33}
-        />
-        <QuestionArea
-          containerProps={{  gridArea:'question_area', overflow:'auto' }}
-          question={data.questions[activeSectionIndex][activeQuestionIndex]}
-          activeIndex={activeQuestionIndex}
-          answer={activeAnswer}
-          defaultAnswer={answers[activeQuestionIndex]}
-          onAnswer={onAnswer}
-        />
+      <SubjectTab
+        subjects={data.subjects.map((each) => {
+          return {
+            title: each,
+          };
+        })}
+        containerProps={{ gridArea: "left_row_1" }}
+        calculatorAllowed={data.calculatorAllowed}
+        activeIndex={activeSubjectIndex}
+        onTabChange={onSubjectTabChange}
+        // containerProps={{ area: "header2" }}
+      />
+      <SectionHeader containerProps={{ gridArea: "left_row_2" }} />
+      <SectionTab
+        sections={data.sections.map((each) => {
+          return {
+            title: each,
+          };
+        })}
+        containerProps={{ gridArea: "left_row_3" }}
+        activeIndex={activeSectionIndex}
+        onTabChange={onSectionTabChange}
+      />
+      <QuestionHeader
+        type={data.questions[activeSectionIndex][activeQuestionIndex].type}
+        correctMarks={1}
+        containerProps={{ gridArea: "left_row_4" }}
+        incorrectMarks={0.33}
+      />
+      <QuestionArea
+        containerProps={{ gridArea: "question_area", overflow: "auto" }}
+        question={data.questions[activeSectionIndex][activeQuestionIndex]}
+        activeIndex={activeQuestionIndex}
+        answer={activeAnswer}
+        defaultAnswer={answers[activeQuestionIndex]}
+        onAnswer={onAnswer}
+      />
 
-      
-        <Profile profile={data.candidateData} containerProps={{gridArea:'profile'}} />
-        <SymbolsInfo containerProps={{gridArea:'symbols_info', border:"2px solid", borderBottom:0}}/>
-        <QuestionState
-          containerProps={{gridArea:'question_state', overflow:"auto", border:"2px solid", borderTop:0}}
-          onQuestionClick={onQuestionStateChange}
-          answers={answers}
-          activeSection={data.sections[activeSectionIndex]}
-        />
-     
+      <Profile
+        profile={data.candidateData}
+        containerProps={{ gridArea: "profile" }}
+      />
+      <SymbolsInfo
+        containerProps={{
+          gridArea: "symbols_info",
+          minW: "220px",
+          border: "2px solid",
+          borderBottom: 0,
+        }}
+      />
+      <QuestionState
+        containerProps={{
+          gridArea: "question_state",
+          overflow: "auto",
+          minW: "220px",
+          border: "2px solid",
+          borderTop: 0,
+        }}
+        onQuestionClick={onQuestionStateChange}
+        answers={answers}
+        activeSection={data.sections[activeSectionIndex]}
+      />
 
-      
-        <Navigation
-          onClearResponse={onClearResponse}
-          onSaveAndNext={onSaveAndNext}
-          containerProps={{gridArea:"nav_left"}}
-          onMarkForReviewAndNext={onMarkForReviewAndNext}
-        />
+      <Navigation
+        onClearResponse={onClearResponse}
+        onSaveAndNext={onSaveAndNext}
+        containerProps={{ gridArea: "nav_left" }}
+        onMarkForReviewAndNext={onMarkForReviewAndNext}
+      />
       <SubmitExam containerProps={{ gridArea: "submit" }} />
     </Grid>
   );
