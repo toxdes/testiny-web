@@ -57,8 +57,14 @@ function InputField({
 
 function Header({ data }: HeaderProps) {
   return (
-    <HFlex bg="gray.700" w="100vw" minHeight={140} justify="space-between">
-      <VFlex align="flex-start" ml="8">
+    <HFlex
+      bg="gray.700"
+      w="100vw"
+      minHeight="140px"
+      justify="flex-start"
+      py="2"
+    >
+      <VFlex align="flex-start" ml="8" maxW="1250px">
         <Text color="white">System Name:</Text>
         <Text color="yellow.300" fontSize="32px">
           {data.systemName}
@@ -75,7 +81,14 @@ function Header({ data }: HeaderProps) {
         <Text color="white">Subject</Text>
         <Text color="yellow.300">{data.subject}</Text>
       </VFlex>
-      <Image size="130px" objectFit="cover" src={data.candidateAvatar} mr="4" />
+      <Image
+        w="140px"
+        h="140px"
+        overflow="hidden"
+        objectFit="cover"
+        src={data.candidateAvatar}
+        mr="4"
+      />
     </HFlex>
   );
 }
@@ -137,7 +150,8 @@ export default function Login({ onNextStep }: StepProps) {
         </Text>
         <Divider color="gray.600" />
         <FormControl
-          width="370px"
+          width={{ md: "370px", sm: "100%" }}
+          m="auto"
           onSubmit={onSubmit}
           onSubmitCapture={onSubmit}
         >
@@ -160,16 +174,20 @@ export default function Login({ onNextStep }: StepProps) {
           <Button
             onClick={onSubmit}
             colorScheme="cyan"
+            color="white"
             size="sm"
             width="100%"
             mt="8"
           >
             Sign in
           </Button>
+          {keyboard && (
+            <Keyboard
+              maxW="10px"
+              onChange={(text) => onTextChange(activeInput, text)}
+            />
+          )}
         </FormControl>
-        {keyboard && (
-          <Keyboard onChange={(text) => onTextChange(activeInput, text)} />
-        )}
       </VFlex>
     </VFlex>
   );

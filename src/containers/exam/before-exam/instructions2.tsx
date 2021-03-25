@@ -28,6 +28,7 @@ export default function PaperSpecificInstructions({
         <Checkbox
           mr="2"
           isChecked={checked}
+          colorScheme="cyan"
           onChange={(e) => setChecked(e.target.checked)}
         />
         <Text cursor="pointer" onClick={() => setChecked(!checked)}>
@@ -47,6 +48,7 @@ export default function PaperSpecificInstructions({
         <Button
           onClick={startExam}
           colorScheme="cyan"
+          color="white"
           m="4"
           isDisabled={!checked}
         >

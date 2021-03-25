@@ -17,7 +17,12 @@ export default function Instructions({
         >
           &lt; Previous
         </Button>
-        <Button onClick={() => onNextStep()} colorScheme="cyan" m="4">
+        <Button
+          onClick={() => onNextStep()}
+          colorScheme="cyan"
+          color="white"
+          m="4"
+        >
           Next &gt;
         </Button>
       </HFlex>
