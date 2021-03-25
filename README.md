@@ -49,3 +49,4 @@ See [contributing](./contributing.md) guidlines for more information about the p
 # References / Links
 
 1. https://themera.vercel.app/ - For generating color shades.
+2. [react rendering behaviour](https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior/#what-is-rendering)

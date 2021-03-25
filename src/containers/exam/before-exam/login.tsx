@@ -150,7 +150,8 @@ export default function Login({ onNextStep }: StepProps) {
         </Text>
         <Divider color="gray.600" />
         <FormControl
-          width="370px"
+          width={{ md: "370px", sm: "100%" }}
+          m="auto"
           onSubmit={onSubmit}
           onSubmitCapture={onSubmit}
         >
@@ -180,10 +181,13 @@ export default function Login({ onNextStep }: StepProps) {
           >
             Sign in
           </Button>
+          {/* {keyboard && ( */}
+          <Keyboard
+            maxW="10px"
+            onChange={(text) => onTextChange(activeInput, text)}
+          />
+          {/* )} */}
         </FormControl>
-        {keyboard && (
-          <Keyboard onChange={(text) => onTextChange(activeInput, text)} />
-        )}
       </VFlex>
     </VFlex>
   );

@@ -19,15 +19,18 @@ console.log("loaded persisted state", initialState.globalState);
 // set authorization header, if user is logged in, then token exists.
 if (initialState.globalState.token)
   api.defaults.headers.common["Authorization"] = `Bearer ${globalState.token}`;
+
+// redux devtools
+//ts-ignore
+const withDevTools =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 // compose middlewares
-const composed = compose(
+const composed = withDevTools(
   applyMiddleware(
     thunk.withExtraArgument({ api, token: initialState.globalState.token })
-  ),
+  )
   //ts-ignore
-  typeof window !== "undefined" &&
-    (window && (window as any)).__REDUX_DEVTOOLS_EXTENSION__ &&
-    (window && (window as any)).__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 // create the store
