@@ -3,7 +3,7 @@ import { RootState, AnswerStatus } from "./types";
 const initialState: RootState = {
   beforeExamState: {
     step: 0,
-    done: true, // TODO: set it to false during production
+    done: false,
   },
   examState: {
     activeQuestionIndex: 0,
