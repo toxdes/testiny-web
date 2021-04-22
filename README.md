@@ -1,11 +1,13 @@
 # [Visit Development Preview](https://testiny.vercel.app)
-If you are not able to login/signup, it means the free-tier dynos of heroku have been run out. If that's the case, you could either test this all locally, or wait for the next month's free credits. Apologies for the inconvenience.
+If you are not able to login/signup, it means the free-tier dynos of heroku have been run out. So, [backend](https://github.com/toxdes/testiny-backend) will be inactive. If that's the case, you could either test this all locally, or wait for the next month's free credits. Apologies for the inconvenience.
 
 # Introduction
 
 Hello!
 
 Testiny is a mock tests platform where individual users can create exams, even conduct these exams online with selected students and publish results/ranks along with healthy discussions of the problems.
+
+[Frontend](#tech-stack) is written in React, and [backend](https://github.com/toxdes/testiny-backend#tech-stack) is written in NodeJS.
 
 To know current state of things, 
 
@@ -43,7 +45,7 @@ $ yarn start
 | `ENV`                     | "production"                             |
 | `BACKEND_URL`             | "https://your-backend-app.herokuapp.com" |
 
-# Stack
+# Tech Stack
 
 | Library                               | Use                                                                    |
 | ------------------------------------- | ---------------------------------------------------------------------- |
