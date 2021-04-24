@@ -22,8 +22,9 @@ export default extendTheme({
       "*": DEBUG_MODE
         ? {
             border: "1px solid lightgreen",
+            fontFamily:"Lexend"
           }
-        : {},
+        : {fontFamily:"Lexend"},
     },
   },
   breakpoints: createBreakpoints({
@@ -33,7 +34,9 @@ export default extendTheme({
     xl: "1380px",
   }),
   fontWeights: {
-    bold: 800,
+    bold: 700,
+    normal:600
   },
   colors,
-});
+  }
+);

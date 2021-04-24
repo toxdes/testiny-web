@@ -6,6 +6,7 @@ import {
   Link,
   InputWithLabel,
   CheckboxWithLabel,
+  HFlex,
   Text,
   FormControl,
   Alert,
@@ -90,14 +91,13 @@ export function Login({ successRoute }: LoginProps) {
   };
 
   return (
-    <VFlex h="100vh" w="100vw">
+    <HFlex w="100vw" h="100vh">
       <VFlex
         w={{ base: "80%", lg: "50%" }}
         maxW="420px"
         border="1px solid"
         borderColor="gray.200"
         borderRadius="4px"
-        m="auto"
         p={{ base: "4", lg: "12" }}
       >
         <Heading as="h3" mb="4">
@@ -165,6 +165,6 @@ export function Login({ successRoute }: LoginProps) {
           Don't have an account? Sign up.
         </Link>
       </VFlex>
-    </VFlex>
+    </HFlex>
   );
 }
