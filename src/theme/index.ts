@@ -24,6 +24,7 @@ export default extendTheme({
   }),
   fontWeights: {
     extrabold: 900,
+    black: 900,
   },
   colors,
 });

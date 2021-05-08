@@ -96,8 +96,9 @@ export function Login({ successRoute }: LoginProps) {
         w={{ base: "80%", lg: "50%" }}
         maxW="420px"
         border="1px solid"
-        borderColor="gray.200"
+        borderColor="gray.100"
         borderRadius="4px"
+        bg="white"
         p={{ base: "4", lg: "12" }}
       >
         <Heading as="h3" mb="4">

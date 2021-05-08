@@ -82,10 +82,11 @@ export function Signup({ successRoute }: LoginProps) {
         w={{ base: "80%", lg: "50%" }}
         maxW="420px"
         border="1px solid"
-        borderColor="gray.200"
+        borderColor="gray.100"
         borderRadius="4px"
         m="auto"
         p={{ base: "4", lg: "12" }}
+        py={{ base: "8", lg: "12" }}
       >
         <Heading as="h2"> Signup </Heading>
         <Text color="gray.500" size="sm" my="2">

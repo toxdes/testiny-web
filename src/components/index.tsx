@@ -98,6 +98,7 @@ export function InputWithLabel({
         onBlur={onBlur}
         onBeforeInput={onActive}
         onSubmit={onSubmit}
+        borderColor="gray.100"
       />
     </VFlex>
   );
@@ -115,8 +116,22 @@ export function CheckboxWithLabel({
 }: CheckboxWithLabelProps) {
   return (
     <HFlex justify="center" mr="auto" my="2">
-      <ChakraCheckbox m="0" p="0" value="bruh" size="lg" isChecked={value} />
-      <ChakraText mt="1" p="0" ml="1ch" cursor="pointer" onClick={onChange}>
+      <ChakraCheckbox
+        m="0"
+        p="0"
+        value="bruh"
+        size="lg"
+        isChecked={value}
+        onChange={onChange}
+      />
+      <ChakraText
+        mt="1"
+        p="0"
+        ml="1ch"
+        color="gray.500"
+        cursor="pointer"
+        onClick={onChange}
+      >
         {label}
       </ChakraText>
     </HFlex>
