@@ -45,7 +45,7 @@ export default function Router() {
             )
           }
         />
-        <Route path="profile">
+        <Route path="users">
           <Route path="/" element={<NotFound />} />
           <Route path=":username" element={<UserProfile />} />
         </Route>

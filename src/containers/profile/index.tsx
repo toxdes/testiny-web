@@ -33,7 +33,7 @@ export default function Profile({ own, containerProps }: ProfileProps) {
         if (own) {
           res = await api.get("/me");
         } else {
-          res = await api.get(`/profile/${username}`);
+          res = await api.get(`/users/${username}`);
         }
         res = res.data;
         console.log(res);
@@ -93,7 +93,7 @@ export default function Profile({ own, containerProps }: ProfileProps) {
             </Badge>
           </HFlex>
           <Link
-            href={`/profile/${username}`}
+            href={`/users/${username}`}
             color="purple.400"
           >{`@${username}`}</Link>
           <Text
