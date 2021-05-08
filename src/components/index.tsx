@@ -4,11 +4,17 @@ import {
   Input as ChakraInput,
   Text as ChakraText,
   Checkbox as ChakraCheckbox,
+  Tag as ChakraTag,
 } from "@chakra-ui/react";
 export {
   Heading,
   Flex,
+  Avatar,
   Text,
+  TagLabel,
+  TagCloseButton,
+  TagLeftIcon,
+  TagRightIcon,
   Stack,
   Divider,
   Box,
@@ -57,6 +63,10 @@ export function VFlex(props: any) {
       {props.children}
     </ChakraFlex>
   );
+}
+
+export function Tag(props: any) {
+  return <ChakraTag cursor="pointer" {...props} />;
 }
 
 interface InputWithLabelProps {

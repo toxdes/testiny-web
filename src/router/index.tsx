@@ -7,8 +7,10 @@ import ExamsList from "../containers/exams-list";
 import ExamDetails from "../containers/exam-details";
 import StartExam from "../containers/exam";
 import { Login, Signup } from "../containers/auth";
-import UserProfile from "../containers/profile";
+import { Profile as UserProfile, UsersList } from "../containers/users";
+import { Question, QuestionsList } from "../containers/questions";
 import { useTypedSelector } from "../store/selector";
+
 export default function Router() {
   const { userLoggedIn, successRoute } = useTypedSelector(
     (state) => state.globalState
@@ -46,8 +48,12 @@ export default function Router() {
           }
         />
         <Route path="users">
-          <Route path="/" element={<NotFound />} />
+          <Route path="/" element={<UsersList />} />
           <Route path=":username" element={<UserProfile />} />
+        </Route>
+        <Route path="questions">
+          <Route path="/" element={<QuestionsList />} />
+          <Route path=":id" element={<Question />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

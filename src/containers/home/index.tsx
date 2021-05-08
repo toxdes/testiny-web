@@ -5,7 +5,7 @@ import LandingPage from "../landing-page";
 import { useTypedSelector } from "../../store/selector";
 import { logout } from "../../store/actions";
 import { useDispatch } from "react-redux";
-import Profile from "../profile";
+import { Profile } from "../users";
 export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

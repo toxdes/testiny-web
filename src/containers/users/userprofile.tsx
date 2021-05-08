@@ -19,7 +19,7 @@ interface ProfileProps {
   containerProps?: any;
 }
 
-export default function Profile({ own, containerProps }: ProfileProps) {
+export function Profile({ own, containerProps }: ProfileProps) {
   // if user is logged in, then we allow the user to edit the profile
   let username: string = useParams()?.username;
   const [data, setData] = React.useState<FetchDataType>({
