@@ -10,25 +10,25 @@ import {
   HFlex,
   Heading,
   Link,
-  Badge,
   Tag,
   Text,
   Code,
 } from "../../components";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { FetchDataType, ResponseStatusType } from "../../store/types";
 import api from "../../api";
-interface ProfileProps {
+interface QuestionProps {
   own?: boolean;
   containerProps?: any;
 }
 
-export function Question({ own, containerProps }: ProfileProps) {
+export function Question({ own, containerProps }: QuestionProps) {
   // if user is logged in, then we allow the user to edit the profile
   let question_id: string = useParams()?.id;
   const [data, setData] = React.useState<FetchDataType>({
     status: ResponseStatusType.IDLE,
   });
+  const navigate = useNavigate();
   React.useEffect(() => {
     const get = async () => {
       try {
@@ -89,9 +89,31 @@ export function Question({ own, containerProps }: ProfileProps) {
         <Text color="gray.500" fontSize="14px" mt="2">
           {questionId}{" "}
         </Text>
-        <Tag colorScheme="red" fontWeight="bold" mt="2">
-          {questionType}
-        </Tag>
+        <HFlex align="start" mt="2">
+          <Tag
+            colorScheme="red"
+            fontWeight="bold"
+            onClick={() => {
+              navigate(`/questions?questionType=${questionType}`);
+            }}
+          >
+            {questionType}
+          </Tag>
+          <Tag
+            colorScheme={license === "FREE" ? "green" : "yellow"}
+            onClick={() => {
+              alert(
+                license === "FREE"
+                  ? "This question is free to use for everyone."
+                  : "You might require permission from author to use this question."
+              );
+            }}
+            fontWeight="bold"
+            ml="2"
+          >
+            {license.replace("_", " ", "g")}
+          </Tag>
+        </HFlex>
         <HFlex align="start"></HFlex>
         <Divider mt="2" />
 
@@ -105,13 +127,31 @@ export function Question({ own, containerProps }: ProfileProps) {
             </Text>
           ))}
         </VFlex>
-        <Divider mb="2" />
+        {questionVisibility === "PRIVATE" && (
+          <Alert status="warning">
+            <AlertIcon />{" "}
+            <AlertDescription>
+              This question is private. Only selected people should be able to
+              see this.{" "}
+            </AlertDescription>
+          </Alert>
+        )}
+        {questionVisibility === "PUBLIC" && (
+          <Alert status="info">
+            <AlertIcon />{" "}
+            <AlertDescription>
+              This question is public. Everyone should be able to see this.{" "}
+            </AlertDescription>
+          </Alert>
+        )}
+        <Divider my="4" />
         <HFlex>
           <Tag
             borderRadius="full"
             colorScheme="purple"
             px="2ch"
             fontWeight="bold"
+            onClick={() => navigate(`/questions?difficulty=${difficulty}`)}
           >
             {difficulty}{" "}
           </Tag>
@@ -125,6 +165,7 @@ export function Question({ own, containerProps }: ProfileProps) {
                   ml="2ch"
                   fontWeight="bold"
                   textTransform="uppercase"
+                  onClick={() => navigate(`/questions?tag=${tag.tagName}`)}
                 >
                   {tag.tagName}
                 </Tag>

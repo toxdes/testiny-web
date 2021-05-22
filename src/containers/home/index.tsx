@@ -1,4 +1,12 @@
-import { Text, VFlex, Button, Grid } from "../../components";
+import {
+  Text,
+  VFlex,
+  Button,
+  Grid,
+  HFlex,
+  Heading,
+  Divider,
+} from "../../components";
 import * as React from "react";
 import { useNavigate } from "react-router";
 import LandingPage from "../landing-page";
@@ -12,7 +20,6 @@ export default function Home() {
   const userLoggedIn = useTypedSelector(
     (state) => state.globalState.userLoggedIn
   );
-  const token = useTypedSelector((state) => state.globalState.token);
   const navigateTo = (to: string) => {
     navigate(to, { replace: false });
   };
@@ -25,7 +32,7 @@ export default function Home() {
         w="100vw"
         h="100vh"
         templateAreas={{ lg: `"profile content"`, sm: `"profile""content"` }}
-        templateColumns={{ sm: "1fr", md: "0.24fr 0.86fr" }}
+        templateColumns={{ sm: "1fr", md: "0.14fr 0.86fr" }}
       >
         <Profile
           own
@@ -33,38 +40,43 @@ export default function Home() {
             area: "profile",
             justify: "flex-start",
             bg: "gray.100",
+            height: { md: "100vh", base: "100%" },
           }}
         />
         <VFlex area="content" w="100%">
           <Text>Welcome, you are logged in.</Text>
-          <Text w="40ch" textOverflow="ellipsis">
-            Token: {token}
-          </Text>
-          <Text mb="4">Currently Working on</Text>
-          <Button
-            onClick={() => navigateTo("/exams")}
-            w="48"
-            my="2"
-            colorScheme="green"
-          >
-            Exams
-          </Button>
-          <Button
-            onClick={() => navigateTo("/exams/one")}
-            w="48"
-            my="2"
-            colorScheme="green"
-          >
-            A single Exam
-          </Button>
-          <Button
-            onClick={() => navigateTo("/exams/one/start-exam")}
-            w="48"
-            my="2"
-            colorScheme="purple"
-          >
-            Start a single Exam
-          </Button>
+          <VFlex align="start">
+            <Heading as="h3" color="gray.500">
+              Exams
+            </Heading>
+            <Divider />
+            <HFlex justify="center" align="start" flexWrap="wrap">
+              <Button
+                onClick={() => navigateTo("/exams")}
+                my="2"
+                mx="2"
+                colorScheme="green"
+              >
+                Exams
+              </Button>
+              <Button
+                onClick={() => navigateTo("/exams/one")}
+                my="2"
+                mx="2"
+                colorScheme="green"
+              >
+                A single Exam
+              </Button>
+              <Button
+                onClick={() => navigateTo("/exams/one/start-exam")}
+                my="2"
+                mx="2"
+                colorScheme="purple"
+              >
+                Start a single Exam
+              </Button>
+            </HFlex>
+          </VFlex>
           <Button
             onClick={() => dispatch(logout())}
             w="48"
