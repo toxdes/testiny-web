@@ -5,6 +5,8 @@ import {
   Text as ChakraText,
   Checkbox as ChakraCheckbox,
   Tag as ChakraTag,
+  MenuItem as ChakraMenuItem,
+  HTMLChakraProps,
 } from "@chakra-ui/react";
 export {
   Heading,
@@ -29,6 +31,8 @@ export {
   Button,
   Checkbox,
   Link,
+  TabPanels,
+  TabPanel,
   TabList,
   Tab,
   Tabs,
@@ -51,6 +55,10 @@ export {
   SkeletonText,
   Spinner,
   Badge,
+  Menu,
+  MenuList,
+  MenuButton,
+  useToast,
 } from "@chakra-ui/react";
 
 export function HFlex(props: any) {
@@ -81,7 +89,7 @@ interface InputWithLabelProps {
   onChange: (e: any) => void;
   onBlur?: (e: any) => void;
   onActive?: (e: any) => void;
-  onSubmit?: (e: any) => void;
+  onKeyPress?: (e: any) => void;
   containerProps?: any;
 }
 
@@ -93,7 +101,7 @@ export function InputWithLabel({
   onChange,
   onBlur,
   onActive,
-  onSubmit,
+  onKeyPress,
   containerProps,
 }: InputWithLabelProps) {
   return (
@@ -111,7 +119,7 @@ export function InputWithLabel({
         mt="2"
         onBlur={onBlur}
         onBeforeInput={onActive}
-        onSubmit={onSubmit}
+        onKeyPress={onKeyPress}
         borderColor="gray.100"
       />
     </VFlex>
@@ -151,3 +159,20 @@ export function CheckboxWithLabel({
     </HFlex>
   );
 }
+
+export const MenuItem = (props: HTMLChakraProps<typeof ChakraMenuItem>) => {
+  return (
+    <ChakraMenuItem
+      _hover={{ bg: "gray.100" }}
+      _focus={{ bg: "gray.100" }}
+      _active={{ bg: "purple.500", color: "white" }}
+      color="gray.500"
+      fontWeight="bold"
+      py="2"
+      fontSize="13px"
+      {...props}
+    >
+      {props.children}
+    </ChakraMenuItem>
+  );
+};

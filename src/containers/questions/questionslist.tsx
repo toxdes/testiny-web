@@ -7,6 +7,8 @@ import {
   Code,
   HFlex,
   Tag,
+  TagLabel,
+  TagCloseButton,
   Avatar,
   Link,
 } from "../../components";
@@ -16,6 +18,7 @@ import api from "../../api";
 
 interface QuestionItemProps {
   data: any;
+  onFilter: (filteredData: any) => void;
 }
 function QuestionItem({ data }: QuestionItemProps) {
   const navigate = useNavigate();
@@ -63,13 +66,7 @@ function QuestionItem({ data }: QuestionItemProps) {
         </Tag>
         <Tag
           colorScheme={license === "FREE" ? "green" : "yellow"}
-          onClick={() => {
-            alert(
-              license === "FREE"
-                ? "This question is free to use for everyone."
-                : "You might require permission from author to use this question."
-            );
-          }}
+          onClick={() => navigate(`/questions?license=${license}`)}
           fontWeight="bold"
           ml="2"
         >
@@ -90,6 +87,7 @@ function QuestionItem({ data }: QuestionItemProps) {
                 colorScheme="purple"
                 fontWeight="bold"
                 ml="2"
+                key={tag.tagName}
                 textTransform="uppercase"
                 onClick={() => navigate(`/questions?tag=${tag.tagName}`)}
               >
@@ -120,13 +118,14 @@ function QuestionItem({ data }: QuestionItemProps) {
 
 interface QuestionsProps {
   data: any;
+  onFilter: (filteredData: any) => void;
 }
-function Questions({ data }: QuestionsProps) {
+function Questions({ data, onFilter }: QuestionsProps) {
   if (!data || data.status !== ResponseStatusType.SUCCESS) {
-    return <Text>Error fetching data</Text>;
+    return <Text>Error. Cannot fetch questions.</Text>;
   }
   return data.data.map((item: any) => (
-    <QuestionItem key={item.questionId} data={item} />
+    <QuestionItem key={item.questionId} data={item} onFilter={onFilter} />
   ));
 }
 
@@ -151,15 +150,27 @@ const getParams = (query: string) => {
   return { params: initialParams, query };
 };
 
+interface SidebarProps {
+  params: any;
+  onFilter: (filteredParams: any) => void;
+}
+function Sidebar({ params, onFilter }: SidebarProps) {
+  return (
+    <VFlex bg="purple.100" ml="auto" w="100%" maxW="80" overflow="auto">
+      <Text>Sidebar</Text>
+      <Text>Query parameters</Text>
+      <Code w="100%">{JSON.stringify(params)}</Code>
+    </VFlex>
+  );
+}
 interface QuestionsListProps {}
 export function QuestionsList(_: QuestionsListProps) {
   const search_q = useLocation().search;
   const [params, setParams] = React.useState<any>();
 
   React.useEffect(() => {
-    if (params) return;
     setParams(getParams(search_q));
-  }, [params, search_q]);
+  }, [search_q]);
 
   const [data, setData] = React.useState<FetchDataType>({
     status: ResponseStatusType.IDLE,
@@ -188,23 +199,51 @@ export function QuestionsList(_: QuestionsListProps) {
     get();
   }, [params]);
 
+  const onFilter = (filteredData: any) => {
+    setData(filteredData);
+  };
+
   return (
-    <VFlex maxW="1250px" m="auto" align="start" mt="12">
+    <VFlex maxW="1250px" mx="auto" align="start" mt="12" px="4">
       <Heading as="h1" color="gray.600">
         Questions
       </Heading>
+      {params &&
+        params.params &&
+        Object.keys(params.params).map((key) => (
+          <HFlex mt="4">
+            <Text color="gray.500" fontSize="18px" fontWeight="bold" mr="2ch">
+              {" "}
+              Filters:{" "}
+            </Text>
+            <Tag
+              variant="solid"
+              borderRadius="full"
+              colorScheme="purple"
+              fontWeight="bold"
+              size="md"
+            >
+              <TagLabel mt="2px" p="0">
+                {params.params[key] as string}
+              </TagLabel>
+              <TagCloseButton
+                onClick={() => {
+                  let newParams = params.params;
+                  delete newParams[key];
+                  setParams(newParams);
+                }}
+              />
+            </Tag>
+          </HFlex>
+        ))}
       <HFlex w="100%" align="start" mt="2" h="80vh">
         <VFlex w="100%" mr="4" h="100%" overflowY="auto" justify="start">
           {data.status === ResponseStatusType.FETCHING && <Loading />}
           {data.status === ResponseStatusType.SUCCESS && (
-            <Questions data={data} />
+            <Questions data={data} onFilter={onFilter} />
           )}
         </VFlex>
-        <VFlex bg="purple.100" ml="auto" w="100%" maxW="80" overflow="auto">
-          <Text>Sidebar</Text>
-          <Text>Query parameters</Text>
-          <Code w="100%">{JSON.stringify(params)}</Code>
-        </VFlex>
+        <Sidebar params={params} onFilter={onFilter} />
       </HFlex>
     </VFlex>
   );

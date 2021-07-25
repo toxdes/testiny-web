@@ -11,7 +11,7 @@ import {
   HFlex,
   Badge,
 } from "../../components";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { FetchDataType, ResponseStatusType } from "../../store/types";
 import api from "../../api";
 interface ProfileProps {

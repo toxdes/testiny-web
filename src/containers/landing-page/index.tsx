@@ -13,7 +13,7 @@ import {
 
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useDisableBodyScroll } from "../../hooks";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 interface CustomButtonProps {
   value?: string;
   variant: string;
@@ -128,7 +128,7 @@ export default function LandingPage() {
             justify="flex-start"
           >
             <Image
-              src={require("../../assets/landing-page/logo.svg")}
+              src={require("../../assets/landing-page/logo-dark-theme.svg")}
               h="12"
               // mx="12"
               my="4"
@@ -212,6 +212,15 @@ export default function LandingPage() {
             </Slide>
             <HFlex ml="auto" display={{ base: "none", lg: "flex" }}>
               <Link
+                href="questions"
+                onClick={() => navigateTo("/questions")}
+                color={"white"}
+                fontWeight="700"
+                mx="4"
+              >
+                Questions
+              </Link>
+              <Link
                 href="#how-it-works"
                 color={"white"}
                 fontWeight="700"
@@ -231,6 +240,7 @@ export default function LandingPage() {
               >
                 Feedback
               </Link>
+
               <CustomButton
                 value="Login"
                 onClick={() => navigateTo("/login")}

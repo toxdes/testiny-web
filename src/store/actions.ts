@@ -1,5 +1,9 @@
-import { Dispatch } from "redux";
-import { GenericAction, AnswerState, ResponseStatusType } from "./types";
+import {
+  GenericAction,
+  AnswerState,
+  ResponseStatusType,
+  UserDetails,
+} from "./types";
 export const SET_BEFORE_EXAM_STEP = "SET_BEFORE_EXAM_STEP";
 export const SET_BEFORE_EXAM_DONE = "SET_BEFORE_EXAM_DONE";
 export const INIT_ANSWERS = "INIT_ANSWERS";
@@ -10,6 +14,7 @@ export const LOGIN = "LOGIN";
 export const SIGNUP = "SIGNUP";
 export const LOGOUT = "LOGOUT";
 export const SET_STATUS = "SET_STATUS";
+export const SET_USER_DETAILS = "SET_USER_DETAILS";
 // action creators
 
 // before exam actions
@@ -57,44 +62,16 @@ export const commitAnswer = (answer?: AnswerState) => {
 };
 
 // global state updates
-// obviously this will change later, this is just temporary.
-export const login = (
-  username: string,
-  password: string,
-  remember: boolean
-) => {
-  return async (dispatch: Dispatch, _: any, { api }: any) => {
-    dispatch(setStatus("fetching", undefined));
-    try {
-      let data = await api.post("/login", { data: { username, password } });
-      data = data.data;
-      console.log("inside login", data);
-      if (data?.status === "error") {
-        dispatch(setStatus("error", data.message));
-        console.log("error", data);
-        return;
-      }
-      dispatch(setStatus("success", data));
-      dispatch(setUserLoggedIn(true, data.token));
-    } catch (e) {
-      console.log(JSON.stringify(e));
-    }
-  };
-
-  // return {
-  //   type: LOGIN,
-  //   payload: { username, password, remember },
-  // };
-};
 
 export const setUserLoggedIn = (
   userLoggedIn: boolean,
   token: string,
-  successRoute?: string
+  successRoute?: string,
+  userDetails?: UserDetails
 ) => {
   return {
     type: LOGIN,
-    payload: { userLoggedIn, token, successRoute },
+    payload: { userLoggedIn, token, successRoute, userDetails },
   };
 };
 

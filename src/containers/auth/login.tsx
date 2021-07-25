@@ -13,11 +13,16 @@ import {
   AlertIcon,
   FormErrorMessage,
 } from "../../components";
-import api from "../../api";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { ResponseStatusType, FetchDataType } from "../../store/types";
+import {
+  ResponseStatusType,
+  FetchDataType,
+  UserDetails,
+} from "../../store/types";
 import { setUserLoggedIn } from "../../store/actions";
+import api from "../../api";
+
 interface LoginProps {
   // if user was accessing something that required him to be signed in
   // then on successful sign in, we should redirect him there.
@@ -44,8 +49,9 @@ export function Login({ successRoute }: LoginProps) {
     if (params.success_redirect) successRoute = params.success_redirect;
   }
   const dispatch = useDispatch();
-  const validate = () => {
-    if (username === "" || password === "") {
+
+  const validate = (newUsername: string, newPassword: string) => {
+    if (!newUsername || !newPassword) {
       if (valid) setValid(false);
     } else {
       if (!valid) setValid(true);
@@ -58,7 +64,6 @@ export function Login({ successRoute }: LoginProps) {
 
   const doLogin = React.useCallback(async () => {
     if (username === "" || password === "" || !valid) {
-      console.log("username /password should not be empty");
       return;
     }
     if (data.status === ResponseStatusType.FETCHING) {
@@ -69,14 +74,33 @@ export function Login({ successRoute }: LoginProps) {
     try {
       let res: any = await api.post("/login", { data: { username, password } });
       res = res.data;
-      console.log("LOGIN RES", res);
       if (res.status === "error") {
         setData({ status: ResponseStatusType.ERROR, data: res.message });
         return;
       }
-
+      const token = res.token;
+      console.log("token", res);
+      // get user details after logging in.
+      res = await api.get("/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      res = res.data;
+      if (res.status === "error") {
+        setData({ status: ResponseStatusType.ERROR, data: res.message });
+        return;
+      }
+      let userDetails: UserDetails = {
+        username: res.username,
+        name: res.name,
+        bio: res.bio,
+        email: res.email,
+        emailVerified: res.emailVerified,
+        avatar: res.avatar,
+        createdAt: res.createdAt,
+        updatedAt: res.updatedAt,
+      };
       // update global state, to indicate that user has logged in successfully.
-      dispatch(setUserLoggedIn(true, res.token, successRoute));
+      dispatch(setUserLoggedIn(true, token, successRoute, userDetails));
     } catch (e) {
       console.log(JSON.stringify(e));
       setData({
@@ -84,14 +108,14 @@ export function Login({ successRoute }: LoginProps) {
         data: "Probably failed to connect to the backend.",
       });
     }
-  }, [valid, data, username, password, dispatch, successRoute]);
+  }, [username, password, valid, data, dispatch, successRoute]);
 
   const doSignup = () => {
     navigate("/signup");
   };
 
   return (
-    <HFlex w="100vw" h="100vh">
+    <HFlex w="100vw">
       <VFlex
         w={{ base: "80%", lg: "50%" }}
         maxW="420px"
@@ -99,6 +123,7 @@ export function Login({ successRoute }: LoginProps) {
         borderColor="gray.100"
         borderRadius="4px"
         bg="white"
+        mt="20"
         p={{ base: "4", lg: "12" }}
       >
         <Heading as="h3" mb="4">
@@ -127,16 +152,18 @@ export function Login({ successRoute }: LoginProps) {
             setUsername(e.target.value);
           }}
           value={username}
-          onBlur={validate}
         />
         <InputWithLabel
           type="password"
           label="Password"
           onChange={(e) => {
             setPassword(e.target.value);
+            validate(username, e.target.value);
           }}
           value={password}
-          onBlur={validate}
+          onKeyPress={(e) => {
+            if (e.key === "Enter" && valid) doLogin();
+          }}
         />
         <CheckboxWithLabel
           value={rememberMe}

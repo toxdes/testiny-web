@@ -11,10 +11,14 @@ import {
   Alert,
   AlertIcon,
 } from "../../components";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserLoggedIn } from "../../store/actions";
-import { FetchDataType, ResponseStatusType } from "../../store/types";
+import {
+  FetchDataType,
+  ResponseStatusType,
+  UserDetails,
+} from "../../store/types";
 import api from "../../api";
 interface LoginProps {
   // if user was accessing something that required him to be signed in
@@ -66,18 +70,37 @@ export function Signup({ successRoute }: LoginProps) {
         data: { username, email, password },
       });
       res = res.data;
-      console.log("SIGNUP RES", res);
       if (res.status === "error") {
         setData({ status: ResponseStatusType.ERROR, data: res.message });
         return;
       }
+      let token = res.token;
+      // get user details after logging in.
+      res = await api.get("/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      res = res.data;
+      if (res.status === "error") {
+        setData({ status: ResponseStatusType.ERROR, data: res.message });
+        return;
+      }
+      let userDetails: UserDetails = {
+        username: res.username,
+        name: res.name,
+        bio: res.bio,
+        email: res.email,
+        emailVerified: res.emailVerified,
+        avatar: res.avatar,
+        createdAt: res.createdAt,
+        updatedAt: res.updatedAt,
+      };
       // update global state, to indicate that user has logged in successfully.
-      dispatch(setUserLoggedIn(true, res.token, successRoute));
+      dispatch(setUserLoggedIn(true, token, successRoute, userDetails));
     } catch (e) {}
   }, [valid, data, email, username, password, dispatch, successRoute]);
 
   return (
-    <VFlex h="100vh" w="100vw">
+    <VFlex w="100vw">
       <VFlex
         w={{ base: "80%", lg: "50%" }}
         maxW="420px"
@@ -85,6 +108,7 @@ export function Signup({ successRoute }: LoginProps) {
         borderColor="gray.100"
         borderRadius="4px"
         m="auto"
+        mt="20"
         p={{ base: "4", lg: "12" }}
         py={{ base: "8", lg: "12" }}
       >
