@@ -1,6 +1,10 @@
-# [Visit Development Preview](https://testiny.vercel.app)
+# Visit[`testiny.live`](https://testiny.live)
 
-If you are not able to login/signup, it means the free-tier dynos of heroku have been run out. So, [backend](https://github.com/toxdes/testiny-backend) will be inactive. If that's the case, you could either test this all locally, or wait for the next month's free credits. Apologies for the inconvenience.
+![Screenshot](./images/testiny-logo.png)
+
+![GitHub](https://img.shields.io/github/license/toxdes/testiny-web?style=for-the-badge)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/toxdes/testiny-web?style=for-the-badge)
+![Lines of code](https://img.shields.io/tokei/lines/github/toxdes/testiny-web?style=for-the-badge)
 
 # Introduction
 
@@ -58,7 +62,7 @@ $ yarn start
 
 There's so many things you can contribute to, including but not limited to Design / UI / UX / development / testing / optimizations / backend as well.
 
-See [contributing](./contributing.md) guidlines for more information about the project structure.
+See [contributing](./contributing.md) guidelines for more information about the project structure.
 
 # References / Links for personal reference
 
