@@ -1,9 +1,5 @@
 # Contributing
 
-Bruh, some great technical information about the project here, which will be added later I think.
-
-So far the most important thing to add here is, the project structure, so here it is.
-
 # Project structure
 
 | Path              | Description                                                                    |

@@ -5,16 +5,17 @@ import {
   Image,
   Link,
   Text,
-  Input,
   Button,
   Slide,
   useDisclosure,
 } from "../../components";
 
+import { openInNewTab } from "../../config/helpers";
+
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { colors } from "./styles";
+import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
 import { useDisableBodyScroll } from "../../hooks";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 interface CustomButtonProps {
   value?: string;
   variant: string;
@@ -25,6 +26,7 @@ interface CustomButtonProps {
   IconComponent?: any;
   onClick: () => void;
 }
+
 function CustomButton({
   value,
   variant,
@@ -37,22 +39,25 @@ function CustomButton({
 }: CustomButtonProps) {
   let bg, fg;
   if (variant === "yellow") {
-    bg = colors.yellow;
-    fg = colors.purple;
+    bg = "yellow.500";
+    fg = "purple.600";
+  } else if (variant === "outline") {
+    bg = "transparent";
+    fg = "white";
   } else {
-    bg = colors.white2;
-    fg = colors.purple;
+    bg = "white";
+    fg = "purple.600";
   }
   return (
     <HFlex
       bg={bg}
-      {...bgProps}
       color={fg}
       onClick={onClick}
       justify="center"
       transition="0.2s ease-out"
       _hover={{ transform: "translateY(-2px)" }}
       _active={{ transform: "translateY(2px)" }}
+      {...bgProps}
     >
       {hasIcon && <IconComponent {...iconProps} />}
       {value && (
@@ -80,12 +85,30 @@ function PlayIcon() {
   );
 }
 
-// TODO: Figure out what to do with the background image
-//@body Currenntly I cannot tilt the background div as I wanted, it adds a horizontal scrollbar dispite having a `overflow:hidden` on the parent div. I thought I had all this figured out, but I don't.
+interface CardProps {
+  image: string;
+  title: string;
+  description: string;
+}
+
+function Card({ image, title, description }: CardProps) {
+  return (
+    <VFlex w="280px" mx={{ md: "12" }} textAlign="center">
+      <Image src={image} w="280px" my="12" h="auto" />
+      <Text my="4" fontSize="24px" color="gray.700" fontWeight="bold">
+        {title}
+      </Text>
+      <Text textAlign="center" fontSize="16px" my="2" color="gray.500">
+        {description}
+      </Text>
+    </VFlex>
+  );
+}
+
 export default function LandingPage() {
   const navigate = useNavigate();
-  const doLogin = () => {
-    navigate("/login");
+  const navigateTo = (path: string) => {
+    navigate(path);
   };
   const { isOpen, onToggle } = useDisclosure();
   useDisableBodyScroll(isOpen);
@@ -101,16 +124,16 @@ export default function LandingPage() {
         align="start"
       ></VFlex>
       <VFlex h="100vh" align="start" justify="start" w="100vw">
-        <VFlex w="100%" bg={colors.purple}>
+        <VFlex w="100%" backgroundColor="purple.600">
           <HFlex
             w="80%"
             mx="auto"
             // maxWidth="1250px"
-            backgroundColor={colors.purple}
+            bg={"purole.600"}
             justify="flex-start"
           >
             <Image
-              src={require("../../assets/landing-page/logo.svg")}
+              src={require("../../assets/landing-page/logo-dark-theme.svg")}
               h="12"
               // mx="12"
               my="4"
@@ -146,7 +169,7 @@ export default function LandingPage() {
                 align="center"
                 justify="center"
                 textAlign="center"
-                bg={colors.purple}
+                bg={"purple.600"}
               >
                 <VFlex mb="4">
                   <Link
@@ -154,7 +177,18 @@ export default function LandingPage() {
                     w="100%"
                     fontSize="28px"
                     fontWeight="bold"
-                    color={colors.white}
+                    color={"white"}
+                    href="/questions"
+                    py="8"
+                  >
+                    Explore Questions
+                  </Link>
+                  <Link
+                    onClick={onToggle}
+                    w="100%"
+                    fontSize="28px"
+                    fontWeight="bold"
+                    color={"white"}
                     href="#how-it-works"
                     py="8"
                   >
@@ -165,22 +199,11 @@ export default function LandingPage() {
                     w="100%"
                     fontSize="28px"
                     fontWeight="bold"
-                    color={colors.white}
+                    color={"white"}
                     href="#why"
                     py="8"
                   >
                     Why
-                  </Link>
-                  <Link
-                    onClick={onToggle}
-                    w="100%"
-                    fontSize="28px"
-                    fontWeight="bold"
-                    color={colors.white}
-                    href="#feedback"
-                    py="8"
-                  >
-                    Feedback
                   </Link>
                 </VFlex>
                 <CustomButton
@@ -188,34 +211,34 @@ export default function LandingPage() {
                   value="Login"
                   bgProps={{ w: "90%", h: "24" }}
                   fgProps={{ fontSize: "32px" }}
-                  onClick={doLogin}
+                  onClick={() => navigateTo("/login")}
                 />
               </VFlex>
             </Slide>
             <HFlex ml="auto" display={{ base: "none", lg: "flex" }}>
               <Link
+                href="questions"
+                onClick={() => navigateTo("/questions")}
+                color={"white"}
+                fontWeight="700"
+                mx="4"
+              >
+                Explore Questions
+              </Link>
+              <Link
                 href="#how-it-works"
-                color={colors.white2}
+                color={"white"}
                 fontWeight="700"
                 mx="4"
               >
                 How it works
               </Link>
-              <Link href="#why" color={colors.white2} fontWeight="700" mx="4">
+              <Link href="#why" color={"white"} fontWeight="700" mx="4">
                 Why
-              </Link>
-              <Link
-                href="#feedback"
-                color={colors.white2}
-                fontWeight="700"
-                mx="4"
-                mr="8"
-              >
-                Feedback
               </Link>
               <CustomButton
                 value="Login"
-                onClick={doLogin}
+                onClick={() => navigateTo("/login")}
                 variant="yellow"
                 bgProps={{
                   w: "140px",
@@ -238,14 +261,14 @@ export default function LandingPage() {
             >
               <Text
                 fontSize={{ base: "48px", md: "64px" }}
-                color={colors.white}
+                color={"white"}
                 fontWeight="extrabold"
               >
                 The best
               </Text>
               <Text
                 fontSize={{ base: "48px", md: "64px" }}
-                color={colors.white}
+                color={"white"}
                 fontWeight="extrabold"
               >
                 Mock Tests Platform
@@ -259,7 +282,7 @@ export default function LandingPage() {
               >
                 <CustomButton
                   variant="yellow"
-                  onClick={doLogin}
+                  onClick={() => navigateTo("/signup")}
                   value="Get Started"
                   bgProps={{
                     w: "260px",
@@ -275,7 +298,7 @@ export default function LandingPage() {
                 <CustomButton
                   variant="white"
                   value="Watch a video"
-                  onClick={() => navigate("#watch-a-video")}
+                  onClick={() => alert("Not ready yet :p")}
                   bgProps={{
                     w: "260px",
                     h: "56px",
@@ -309,61 +332,32 @@ export default function LandingPage() {
             <Text
               textDecoration="underline #DC188D double"
               fontSize="48px"
+              color="gray.600"
               mr="2"
               fontWeight="900"
             >
               How
             </Text>
-            <Text fontSize="48px" fontWeight="900">
+            <Text fontSize="48px" fontWeight="900" color="gray.700">
               it works
             </Text>
           </HFlex>
           <HFlex flexWrap="wrap" m="auto">
-            <VFlex w="280px" mx={{ md: "12" }} textAlign="center">
-              <Image
-                src={require("../../assets/landing-page/one.png")}
-                w="280px"
-                my="12"
-                h="auto"
-              />
-              <Text fontWeight="bold" my="4" fontSize="24px">
-                Create an exam
-              </Text>
-              <Text textAlign="center" fontSize="16px" my="2" fontWeight="300">
-                Write out the questions, let it be a quiz, an essay or a
-                multiple correct questions.
-              </Text>
-            </VFlex>
-            <VFlex w="280px" mx={{ md: "12" }} textAlign="center">
-              <Image
-                src={require("../../assets/landing-page/two.png")}
-                w="280px"
-                my="12"
-                h="auto"
-              />
-              <Text fontWeight="bold" my="4" fontSize="24px">
-                Select your aspirants
-              </Text>
-              <Text fontSize="16px" my="2" fontWeight="300">
-                Selected aspirants will get a special password that they can use
-                to login for the test
-              </Text>
-            </VFlex>
-            <VFlex w="280px" mx={{ md: "12" }} textAlign="center">
-              <Image
-                src={require("../../assets/landing-page/three.png")}
-                w="280px"
-                my="12"
-                h="auto"
-              />
-              <Text fontWeight="bold" my="4" fontSize="24px">
-                Discuss doubts after exam
-              </Text>
-              <Text fontSize="16px" my="2" w="280px" fontWeight="300">
-                Communicate with your followers about the difficulties and the
-                detailed solutions.
-              </Text>
-            </VFlex>
+            <Card
+              title="Create an exam"
+              image={require("../../assets/landing-page/one.png")}
+              description="Write out the questions, let it be a quiz, an essay or a multiple correct questions."
+            />
+            <Card
+              title="Select your aspirants"
+              image={require("../../assets/landing-page/two.png")}
+              description="Selected aspiratns will get a special password they can use to login for the test."
+            />
+            <Card
+              title="Discuss doubts after exam"
+              image={require("../../assets/landing-page/three.png")}
+              description="Communicate with your followers about the difficulties and the detailed solutions."
+            />
           </HFlex>
         </VFlex>
       </VFlex>
@@ -379,12 +373,13 @@ export default function LandingPage() {
           <Text
             textDecoration="underline #DC188D double"
             fontSize="48px"
+            color="gray.600"
             mr="2"
-            fontWeight="900"
+            fontWeight="700"
           >
             Video
           </Text>
-          <Text fontSize="48px" fontWeight="900">
+          <Text fontSize="48px" fontWeight="700" color="gray.700">
             Demo
           </Text>
         </HFlex>
@@ -392,6 +387,7 @@ export default function LandingPage() {
           w="720px"
           h="480px"
           cursor="pointer"
+          onClick={() => alert("Not ready yet, apologies.")}
           my="40px"
           mx="auto"
           bg="rgba(255, 255, 255, 0.69);"
@@ -404,7 +400,7 @@ export default function LandingPage() {
           />
         </VFlex>
       </VFlex>
-      <VFlex bg={colors.purple} id="why" mt="80px">
+      <VFlex bg={"purple.600"} id="why" mt="80px">
         <VFlex
           w="100vw"
           position="relative"
@@ -428,103 +424,124 @@ export default function LandingPage() {
           <Text
             fontWeight="900"
             fontSize={{ base: "24px", md: "36px", lg: "48px" }}
-            mt="40"
-            color={colors.white2}
+            mt="20"
+            color={"white"}
           >
             Why?
           </Text>
+
           <Text
-            fontWeight="900"
-            fontSize={{ base: "72px", lg: "96px" }}
-            mt="60px"
-            textAlign="center"
-            color={colors.yellow}
-          >
-            I wish I knew.
-          </Text>
-          <Text
-            fontWeight="700"
-            fontSize="24px"
-            opacity={0.7}
+            fontWeight="normal"
+            fontSize="lg"
             mt="40px"
-            lineHeight="164%"
-            maxW="960px"
-            color={colors.white2}
-            textAlign="center"
+            lineHeight="180%"
+            maxW="640px"
+            color="white"
+            textAlign="justify"
           >
-            There are some reasons to be honest, but it’s all in the air for
-            now. Nothing concrete, so hang in there.{" "}
+            First, thank you for taking your time to check this website. The
+            primary goal of this project is to bridge the gap between
+            just-a-showcase project, to a real-world application. I'm working on
+            that.
           </Text>
-          <HFlex mt="120px" direction={{ base: "column", lg: "row" }}>
-            <Text
-              fontWeight="700"
-              fontSize="24px"
-              lineHeight="164%"
-              color={colors.white2}
-              textAlign="center"
-            >
-              Want to reach out?
-            </Text>
-            <Text
-              fontWeight="700"
-              fontSize="24px"
-              lineHeight="164%"
-              mx="2px"
-              color={colors.pink}
-              cursor="pointer"
-              textDecoration="underline"
-              textAlign="center"
-            >
-              Email us,
-            </Text>
-            <Text
-              fontWeight="700"
-              fontSize="24px"
-              lineHeight="164%"
-              color={colors.white2}
-              textAlign="center"
-            >
-              or give us your email, and we'll get back to you.
-            </Text>
-          </HFlex>
-          <HFlex
-            mt="60px"
-            mb="200px"
-            id="feedback"
-            w={{ base: "90%", lg: "70%" }}
-            maxW="940px"
-            mx="auto"
+          <Text
+            fontWeight="normal"
+            fontSize="lg"
+            mt="40px"
+            lineHeight="180%"
+            maxW="640px"
+            color="white"
+            textAlign="justify"
           >
-            <Input
-              type="email"
-              placeholder="Email"
-              fontSize={{ sm: "18px", md: "28px" }}
-              flex={0.7}
-              border="none"
-              py={{ sm: "24px", md: "30px" }}
-              borderRadius="0px"
-              pl={{ sm: "4", md: "12" }}
-              h={{ sm: "60px", md: "100px" }}
-              fontWeight="900"
-              w="100%"
+            If you are really interested in contributing, or tracking
+            development progress of this project, or the current state of
+            things, check the project out on github or join the discord server.
+          </Text>
+
+          <HFlex mt="20" pb="240px" direction={{ base: "column", md: "row" }}>
+            <CustomButton
               variant="outline"
-              bgColor="white"
+              onClick={() =>
+                openInNewTab("https://github.com/toxdes/testiny-web")
+              }
+              value="View Source"
+              hasIcon
+              IconComponent={FaGithub}
+              bgProps={{
+                w: "240px",
+                m: "2",
+                h: "56px",
+                borderWidth: "1px",
+                borderRadius: "12px",
+                cursor: "pointer",
+                _hover: {
+                  bg: "white",
+                  borderWidth: "0",
+                  color: "purple.600",
+                },
+              }}
+              fgProps={{
+                fontSize: "22px",
+                fontWeight: "bold",
+              }}
+              iconProps={{
+                size: "24px",
+              }}
             />
-            <Button
-              variant="solid"
-              // w="360px"
-              h={{ sm: "60px", md: "100px" }}
-              borderRadius="0px"
-              bg={colors.pink}
-              px="2"
-              flex={0.3}
-              _hover={{ bg: colors.yellow, color: colors.purple }}
-              color={colors.white}
-              fontSize={{ sm: "18px", md: "28px" }}
-              fontWeight="700"
-            >
-              Let's talk!
-            </Button>
+            <CustomButton
+              variant="outline"
+              onClick={() => openInNewTab("https://discord.gg/NXNjzYxQ2W")}
+              value="Join Discord"
+              hasIcon
+              IconComponent={FaDiscord}
+              bgProps={{
+                w: "240px",
+                h: "56px",
+                m: "2",
+                borderWidth: "1px",
+                borderRadius: "12px",
+                cursor: "pointer",
+                _hover: {
+                  bg: "white",
+                  borderWidth: "0",
+                  color: "purple.600",
+                },
+              }}
+              fgProps={{
+                fontSize: "22px",
+                fontWeight: "bold",
+              }}
+              iconProps={{
+                size: "24px",
+              }}
+            />
+            <CustomButton
+              variant="outline"
+              onClick={() => openInNewTab("https://twitter.com/testinylive")}
+              value="@testinylive"
+              hasIcon
+              IconComponent={FaTwitter}
+              bgProps={{
+                w: "240px",
+                h: "56px",
+                m: "2",
+                borderWidth: "1px",
+                borderRadius: "12px",
+                cursor: "pointer",
+                _hover: {
+                  bg: "white",
+                  borderWidth: "0",
+                  color: "purple.600",
+                },
+              }}
+              fgProps={{
+                fontSize: "22px",
+                fontWeight: "bold",
+              }}
+              iconProps={{
+                size: "24px",
+              }}
+            />
           </HFlex>
         </VFlex>
       </VFlex>

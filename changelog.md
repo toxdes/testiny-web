@@ -1,5 +1,16 @@
 # Developer Changelog
 
+#### v0.0.8
+
+- Added GPLv3 license and badges on the README file.
+- Updated Landing Page, added social links, fixed styling issues
+- Worked on `/questions` route, from designs to development (testing is remaining)
+- Worked on `/users` route, from designs to development
+- Added a global Header component because it was necessary
+- Added `openInNewTab` method to open certain URLs in a separate tab
+- Improved styling so the design looks usable on mobile screens
+- Many more changes to APIs, Data store, project structure and other minor bugfixes
+
 #### v0.0.7
 
 - Added a landing page, used figma to design a simple one, cause I'm not creative enough to create vector illustrations myself, so used some random geometric figures.

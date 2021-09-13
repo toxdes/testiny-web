@@ -6,17 +6,24 @@ import {
   Link,
   InputWithLabel,
   CheckboxWithLabel,
+  HFlex,
   Text,
   FormControl,
   Alert,
   AlertIcon,
   FormErrorMessage,
+  useToast,
 } from "../../components";
-import api from "../../api";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { ResponseStatusType, FetchDataType } from "../../store/types";
+import {
+  ResponseStatusType,
+  FetchDataType,
+  UserDetails,
+} from "../../store/types";
 import { setUserLoggedIn } from "../../store/actions";
+import api from "../../api";
+
 interface LoginProps {
   // if user was accessing something that required him to be signed in
   // then on successful sign in, we should redirect him there.
@@ -26,7 +33,7 @@ export function Login({ successRoute }: LoginProps) {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [valid, setValid] = React.useState<boolean>(true);
-
+  const toast = useToast();
   // TODO: Implement Remember Me in Login
   //@body Currently, once a user is logged in, they stay logged in unless they logout themselves.
   const [rememberMe, setRememberMe] = React.useState<boolean>(true);
@@ -43,8 +50,9 @@ export function Login({ successRoute }: LoginProps) {
     if (params.success_redirect) successRoute = params.success_redirect;
   }
   const dispatch = useDispatch();
-  const validate = () => {
-    if (username === "" || password === "") {
+
+  const validate = (newUsername: string, newPassword: string) => {
+    if (!newUsername || !newPassword) {
       if (valid) setValid(false);
     } else {
       if (!valid) setValid(true);
@@ -57,7 +65,6 @@ export function Login({ successRoute }: LoginProps) {
 
   const doLogin = React.useCallback(async () => {
     if (username === "" || password === "" || !valid) {
-      console.log("username /password should not be empty");
       return;
     }
     if (data.status === ResponseStatusType.FETCHING) {
@@ -68,14 +75,42 @@ export function Login({ successRoute }: LoginProps) {
     try {
       let res: any = await api.post("/login", { data: { username, password } });
       res = res.data;
-      console.log("LOGIN RES", res);
       if (res.status === "error") {
         setData({ status: ResponseStatusType.ERROR, data: res.message });
         return;
       }
-
+      const token = res.token;
+      console.log("token", res);
+      // get user details after logging in.
+      res = await api.get("/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      res = res.data;
+      if (res.status === "error") {
+        setData({ status: ResponseStatusType.ERROR, data: res.message });
+        return;
+      }
+      let userDetails: UserDetails = {
+        username: res.username,
+        name: res.name,
+        bio: res.bio,
+        email: res.email,
+        emailVerified: res.emailVerified,
+        avatar: res.avatar,
+        createdAt: res.createdAt,
+        updatedAt: res.updatedAt,
+        followingCount: res.followingCount,
+        followersCount: res.followersCount,
+      };
       // update global state, to indicate that user has logged in successfully.
-      dispatch(setUserLoggedIn(true, res.token, successRoute));
+      toast({
+        title: "Logged in successfully.",
+        status: "success",
+        duration: 1200,
+        isClosable: true,
+        position: "top-right",
+      });
+      dispatch(setUserLoggedIn(true, token, successRoute, userDetails));
     } catch (e) {
       console.log(JSON.stringify(e));
       setData({
@@ -83,21 +118,22 @@ export function Login({ successRoute }: LoginProps) {
         data: "Probably failed to connect to the backend.",
       });
     }
-  }, [valid, data, username, password, dispatch, successRoute]);
+  }, [username, password, valid, data, dispatch, successRoute, toast]);
 
   const doSignup = () => {
     navigate("/signup");
   };
 
   return (
-    <VFlex h="100vh" w="100vw">
+    <HFlex w="100vw">
       <VFlex
         w={{ base: "80%", lg: "50%" }}
         maxW="420px"
         border="1px solid"
-        borderColor="gray.200"
+        borderColor="gray.100"
         borderRadius="4px"
-        m="auto"
+        bg="white"
+        mt="20"
         p={{ base: "4", lg: "12" }}
       >
         <Heading as="h3" mb="4">
@@ -122,20 +158,26 @@ export function Login({ successRoute }: LoginProps) {
         <InputWithLabel
           type="text"
           label="Username /  Email"
-          onChange={(e) => {
-            setUsername(e.target.value);
+          inputProps={{
+            onChange: (e) => {
+              setUsername(e.target.value);
+            },
           }}
           value={username}
-          onBlur={validate}
         />
         <InputWithLabel
           type="password"
           label="Password"
-          onChange={(e) => {
-            setPassword(e.target.value);
+          inputProps={{
+            onChange: (e) => {
+              setPassword(e.target.value);
+              validate(username, e.target.value);
+            },
+            onKeyPress: (e) => {
+              if (e.key === "Enter" && valid) doLogin();
+            },
           }}
           value={password}
-          onBlur={validate}
         />
         <CheckboxWithLabel
           value={rememberMe}
@@ -165,6 +207,6 @@ export function Login({ successRoute }: LoginProps) {
           Don't have an account? Sign up.
         </Link>
       </VFlex>
-    </VFlex>
+    </HFlex>
   );
 }

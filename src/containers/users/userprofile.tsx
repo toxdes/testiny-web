@@ -3,7 +3,7 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
-  Spinner,
+  Loading,
   VFlex,
   Text,
   Image,
@@ -11,7 +11,7 @@ import {
   HFlex,
   Badge,
 } from "../../components";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { FetchDataType, ResponseStatusType } from "../../store/types";
 import api from "../../api";
 interface ProfileProps {
@@ -19,7 +19,7 @@ interface ProfileProps {
   containerProps?: any;
 }
 
-export default function Profile({ own, containerProps }: ProfileProps) {
+export function Profile({ own, containerProps }: ProfileProps) {
   // if user is logged in, then we allow the user to edit the profile
   let username: string = useParams()?.username;
   const [data, setData] = React.useState<FetchDataType>({
@@ -33,7 +33,7 @@ export default function Profile({ own, containerProps }: ProfileProps) {
         if (own) {
           res = await api.get("/me");
         } else {
-          res = await api.get(`/profile/${username}`);
+          res = await api.get(`/users/${username}`);
         }
         res = res.data;
         console.log(res);
@@ -93,7 +93,7 @@ export default function Profile({ own, containerProps }: ProfileProps) {
             </Badge>
           </HFlex>
           <Link
-            href={`/profile/${username}`}
+            href={`/users/${username}`}
             color="purple.400"
           >{`@${username}`}</Link>
           <Text
@@ -118,16 +118,13 @@ export default function Profile({ own, containerProps }: ProfileProps) {
   if (data.status === ResponseStatusType.FETCHING) {
     return (
       <VFlex w="100%" m="auto" h="100%" {...containerProps}>
-        <VFlex mt="40" p={{ base: "4", lg: "12" }}>
-          <Text>Loading...</Text>
-          <Spinner
-            size="xl"
-            speed="0.8s"
-            color="purple.500"
-            // emptyColor="gray.200"
-            thickness="4px"
-          />
-        </VFlex>
+        <Loading
+          containerProps={{ mt: 40 }}
+          spinnerProps={{
+            size: "xl",
+            thickness: "4px",
+          }}
+        />
       </VFlex>
     );
   }
