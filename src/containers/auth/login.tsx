@@ -12,6 +12,7 @@ import {
   Alert,
   AlertIcon,
   FormErrorMessage,
+  useToast,
 } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -32,7 +33,7 @@ export function Login({ successRoute }: LoginProps) {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [valid, setValid] = React.useState<boolean>(true);
-
+  const toast = useToast();
   // TODO: Implement Remember Me in Login
   //@body Currently, once a user is logged in, they stay logged in unless they logout themselves.
   const [rememberMe, setRememberMe] = React.useState<boolean>(true);
@@ -98,8 +99,17 @@ export function Login({ successRoute }: LoginProps) {
         avatar: res.avatar,
         createdAt: res.createdAt,
         updatedAt: res.updatedAt,
+        followingCount: res.followingCount,
+        followersCount: res.followersCount,
       };
       // update global state, to indicate that user has logged in successfully.
+      toast({
+        title: "Logged in successfully.",
+        status: "success",
+        duration: 1200,
+        isClosable: true,
+        position: "top-right",
+      });
       dispatch(setUserLoggedIn(true, token, successRoute, userDetails));
     } catch (e) {
       console.log(JSON.stringify(e));
@@ -108,7 +118,7 @@ export function Login({ successRoute }: LoginProps) {
         data: "Probably failed to connect to the backend.",
       });
     }
-  }, [username, password, valid, data, dispatch, successRoute]);
+  }, [username, password, valid, data, dispatch, successRoute, toast]);
 
   const doSignup = () => {
     navigate("/signup");
@@ -148,22 +158,26 @@ export function Login({ successRoute }: LoginProps) {
         <InputWithLabel
           type="text"
           label="Username /  Email"
-          onChange={(e) => {
-            setUsername(e.target.value);
+          inputProps={{
+            onChange: (e) => {
+              setUsername(e.target.value);
+            },
           }}
           value={username}
         />
         <InputWithLabel
           type="password"
           label="Password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-            validate(username, e.target.value);
+          inputProps={{
+            onChange: (e) => {
+              setPassword(e.target.value);
+              validate(username, e.target.value);
+            },
+            onKeyPress: (e) => {
+              if (e.key === "Enter" && valid) doLogin();
+            },
           }}
           value={password}
-          onKeyPress={(e) => {
-            if (e.key === "Enter" && valid) doLogin();
-          }}
         />
         <CheckboxWithLabel
           value={rememberMe}

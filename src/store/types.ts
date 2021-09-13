@@ -25,6 +25,8 @@ export type UserDetails = {
   updatedAt: string;
   bio?: string;
   emailVerified: boolean;
+  followersCount: number;
+  followingCount: number;
 };
 
 export type GlobalVolatileState = {};

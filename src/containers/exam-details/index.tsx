@@ -1,34 +1,33 @@
 import * as React from "react";
-import { Text, VFlex, Button, Code, Heading } from "../../components";
+import { HFlex, VFlex, Button, Code, Heading } from "../../components";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../header";
+import { openInNewTab } from "../../config/helpers";
 export default function ExamsList() {
   const params = useParams();
   const navigate = useNavigate();
   return (
     <>
       <Header />
-      <VFlex w="100vw" h="100vh">
-        <Heading as="h2" size="md" m="4">
-          Details about a single Exam
+      <VFlex maxW="1250px" w="100%" m="auto" align="start">
+        <Heading m="4" color="gray.500" mt="20">
+          Exam Details
         </Heading>
-        <Text>Information from the URL</Text>
-        <Code p="2">Information from the URL: {JSON.stringify(params)}</Code>
-        <Button
-          onClick={() => navigate("start-exam", { replace: true })}
-          colorScheme="green"
-          my="4"
-        >
-          Start Exam
-        </Button>
-        <Button
-          mt="12"
-          onClick={() => navigate(-1)}
-          colorScheme="red"
-          size="lg"
-        >
-          Go back
-        </Button>
+        <VFlex m="auto" mt="20">
+          <Code p="2">Information from the URL: {JSON.stringify(params)}</Code>
+          <HFlex mt="8">
+            <Button
+              onClick={() => openInNewTab(`/exams/${params.id}/start-exam`)}
+              colorScheme="green"
+              mx="2"
+            >
+              Start Exam
+            </Button>
+            <Button mx="2" onClick={() => navigate(-1)} colorScheme="red">
+              Go back
+            </Button>
+          </HFlex>
+        </VFlex>
       </VFlex>
     </>
   );

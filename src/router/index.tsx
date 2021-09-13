@@ -61,6 +61,7 @@ export default function Router() {
           {settingsTabs.map((tab: string) => (
             <Route
               path={tab}
+              key={tab}
               element={userLoggedIn ? <Settings activeTab={tab} /> : <Login />}
             />
           ))}

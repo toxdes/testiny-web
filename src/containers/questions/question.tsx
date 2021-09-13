@@ -4,7 +4,7 @@ import {
   AlertDescription,
   AlertIcon,
   Divider,
-  Spinner,
+  Loading,
   VFlex,
   Avatar,
   HFlex,
@@ -12,7 +12,6 @@ import {
   Link,
   Tag,
   Text,
-  Code,
 } from "../../components";
 import { useParams, useNavigate } from "react-router-dom";
 import { FetchDataType, ResponseStatusType } from "../../store/types";
@@ -78,7 +77,6 @@ export function Question({ own, containerProps }: QuestionProps) {
       tags,
       author,
       createdAt,
-      updatedAt,
     } = data.data;
     text = text.slice(0, Math.min(text.length, 150));
     return (
@@ -188,35 +186,25 @@ export function Question({ own, containerProps }: QuestionProps) {
             {author.username}
           </Link>
         </HFlex>
-        <Code mt="4">
-          {JSON.stringify(
-            {
-              questionId,
-              questionType,
-              text,
-              questionVisibility,
-              license,
-              choices,
-              difficulty,
-              tags,
-              author,
-              createdAt,
-              updatedAt,
-            },
-            null,
-            2
-          )}
-        </Code>
+        <Text fontSize="lg" fontWeight="bold" color="gray.600" m="auto" my="40">
+          {" "}
+          No Answers Yet. :({" "}
+        </Text>
       </VFlex>
     );
   }
   if (data.status === ResponseStatusType.FETCHING) {
     return (
       <VFlex w="100%" m="auto" h="100%" {...containerProps}>
-        <VFlex mt="40" p={{ base: "4", lg: "12" }}>
-          <Text>Loading...</Text>
-          <Spinner size="xl" speed="0.8s" color="purple.500" thickness="4px" />
-        </VFlex>
+        <Loading
+          containerProps={{ mt: 40 }}
+          spinnerProps={{
+            size: "xl",
+            speed: "0.8s",
+            color: "purple.500",
+            thickness: "4px",
+          }}
+        />
       </VFlex>
     );
   }

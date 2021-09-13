@@ -4,12 +4,17 @@ import {
   Input as ChakraInput,
   Text as ChakraText,
   Checkbox as ChakraCheckbox,
+  Spinner as ChakraSpinner,
   Tag as ChakraTag,
   MenuItem as ChakraMenuItem,
   HTMLChakraProps,
+  SpinnerProps,
+  FlexProps,
+  InputProps,
 } from "@chakra-ui/react";
 export {
   Heading,
+  Center,
   Flex,
   Avatar,
   Tooltip,
@@ -47,6 +52,14 @@ export {
   FormErrorMessage,
   FormHelperText,
   useDisclosure,
+  useBreakpointValue,
+  Drawer,
+  DrawerCloseButton,
+  DrawerBody,
+  DrawerHeader,
+  DrawerFooter,
+  DrawerContent,
+  DrawerOverlay,
   Alert,
   AlertIcon,
   AlertDescription,
@@ -58,6 +71,9 @@ export {
   Menu,
   MenuList,
   MenuButton,
+  MenuItemOption,
+  MenuOptionGroup,
+  Select,
   useToast,
 } from "@chakra-ui/react";
 
@@ -82,45 +98,45 @@ export function Tag(props: any) {
 }
 
 interface InputWithLabelProps {
-  label: string;
+  label?: string;
   value?: string;
-  type: string;
-  required?: boolean;
-  onChange: (e: any) => void;
-  onBlur?: (e: any) => void;
-  onActive?: (e: any) => void;
-  onKeyPress?: (e: any) => void;
+  type?: string;
+  inputProps?: InputProps;
   containerProps?: any;
+  required?: boolean;
+  placeholder?: string;
 }
 
 export function InputWithLabel({
   label,
   value,
   type,
-  required,
-  onChange,
-  onBlur,
-  onActive,
-  onKeyPress,
   containerProps,
+  inputProps,
+  required,
+  placeholder,
 }: InputWithLabelProps) {
   return (
     <VFlex align="flex-start" my="2" w="100%" {...containerProps}>
-      <ChakraText fontWeight="semibold" color="gray.500" fontSize="12px">
-        {label}
-      </ChakraText>
+      {label && (
+        <ChakraText fontWeight="semibold" color="gray.500" fontSize="12px">
+          {label}
+        </ChakraText>
+      )}
       <ChakraInput
-        type={type}
-        w="100%"
-        placeholder={label}
+        type={type ? type : "text"}
+        variant="unstyled"
+        bg="gray.50"
+        py="2"
+        pl="4"
+        border="2px solid"
+        borderColor="gray.50"
+        placeholder={placeholder ? placeholder : label}
         value={value}
+        _focus={{ borderColor: "purple.200", bg: "white" }}
         required={required}
-        onChange={onChange}
-        mt="2"
-        onBlur={onBlur}
-        onBeforeInput={onActive}
-        onKeyPress={onKeyPress}
-        borderColor="gray.100"
+        mt={label ? "2" : "0"}
+        {...inputProps}
       />
     </VFlex>
   );
@@ -176,3 +192,25 @@ export const MenuItem = (props: HTMLChakraProps<typeof ChakraMenuItem>) => {
     </ChakraMenuItem>
   );
 };
+
+interface LoadingProps {
+  spinnerProps?: SpinnerProps;
+  containerProps?: FlexProps;
+  label?: string;
+}
+
+export function Loading({ spinnerProps, label, containerProps }: LoadingProps) {
+  return (
+    <VFlex {...containerProps}>
+      {label && <ChakraText>{label}</ChakraText>}
+      <ChakraSpinner
+        size="xl"
+        speed="0.8s"
+        color="purple.500"
+        emptyColor="gray.200"
+        thickness="4px"
+        {...spinnerProps}
+      />
+    </VFlex>
+  );
+}

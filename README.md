@@ -60,8 +60,9 @@ There's so many things you can contribute to, including but not limited to Desig
 
 See [contributing](./contributing.md) guidlines for more information about the project structure.
 
-# References / Links
+# References / Links for personal reference
 
-1. https://themera.vercel.app/ - For generating color shades.
-2. [react rendering behaviour](https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior/#what-is-rendering) - Read Later
-3. [react-router API reference](https://github.com/ReactTraining/react-router/blob/dev/docs/api-reference.md)
+1. [themera](https://themera.vercel.app/) - For generating color shades for chakra.
+2. [React Rendering Behaviour (blog)](https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior/#what-is-rendering)
+3. [react-router API Reference (for v6)](https://github.com/ReactTraining/react-router/blob/dev/docs/api-reference.md)
+4. [loadable-components (for code-splitting)](https://loadable-components.com/docs/getting-started/)

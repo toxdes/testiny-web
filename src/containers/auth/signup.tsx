@@ -93,6 +93,8 @@ export function Signup({ successRoute }: LoginProps) {
         avatar: res.avatar,
         createdAt: res.createdAt,
         updatedAt: res.updatedAt,
+        followersCount: res.followersCount,
+        followingCount: res.followingCount,
       };
       // update global state, to indicate that user has logged in successfully.
       dispatch(setUserLoggedIn(true, token, successRoute, userDetails));
@@ -129,32 +131,42 @@ export function Signup({ successRoute }: LoginProps) {
             </Alert>
           </FormErrorMessage>
         </FormControl>
+
         <InputWithLabel
           type="text"
           label="Email"
           value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
+          inputProps={{
+            onChange: (e) => {
+              setEmail(e.target.value);
+            },
+            onBlur: validate,
           }}
-          onBlur={validate}
           required
         />
+
         <InputWithLabel
           type="text"
           label="Username"
           value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
+          inputProps={{
+            onChange: (e) => {
+              setUsername(e.target.value);
+            },
+            onBlur: validate,
           }}
-          onBlur={validate}
           required
         />
         <InputWithLabel
           type="password"
           label="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onBlur={validate}
+          inputProps={{
+            onChange: (e) => {
+              setPassword(e.target.value);
+            },
+            onBlur: validate,
+          }}
           required
         />
 
@@ -162,8 +174,12 @@ export function Signup({ successRoute }: LoginProps) {
           type="password"
           label="Confirm Password"
           value={passwordConfirm}
-          onChange={(e) => setPasswordConfirm(e.target.value)}
-          onBlur={validate}
+          inputProps={{
+            onChange: (e) => {
+              setPasswordConfirm(e.target.value);
+            },
+            onBlur: validate,
+          }}
           required
         />
         <Button

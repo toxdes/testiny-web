@@ -2,12 +2,8 @@ import React from "react";
 import { Text, VFlex, HFlex, Heading } from "../../components";
 import Header from "../header";
 import { useNavigate } from "react-router-dom";
-
+import { firstUpperCase } from "../../config/helpers";
 export const settingsTabs = ["profile", "notifications", "privacy", "account"];
-
-const firstUppercase = (s: string): string => {
-  return s[0].toUpperCase() + s.substr(1);
-};
 
 interface TabListProps {
   activeTab: string;
@@ -35,7 +31,7 @@ function TabList({ activeTab }: TabListProps) {
             _active={{ bg: "purple.500", color: "white" }}
             onClick={() => navigate(`/settings/${tab}`)}
           >
-            {firstUppercase(tab)}
+            {firstUpperCase(tab)}
           </Text>
         );
       })}
@@ -51,7 +47,7 @@ function Tab({ activeTab }: TabProps) {
   return (
     <VFlex align="start" ml="8" mt="2">
       <Heading as="h1" color="gray.500" fontWeight="bold">
-        {firstUppercase(activeTab)} settings{" "}
+        {firstUpperCase(activeTab)} settings{" "}
       </Heading>
       <VFlex mt="10" fontWeight="bold">
         <Text color="gray.500"> Not implemented yet. :) </Text>

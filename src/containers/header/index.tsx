@@ -2,7 +2,6 @@ import React from "react";
 import {
   HFlex,
   Image,
-  Text,
   Button,
   Avatar,
   Menu,
@@ -15,7 +14,7 @@ import {
 
 import { PROJECT_LINK } from "../../config/constants";
 import { EditIcon } from "@chakra-ui/icons";
-import { FaBookmark, FaRegPaperPlane } from "react-icons/fa/";
+import { FaBookmark, FaRegPaperPlane, FaUserFriends } from "react-icons/fa/";
 import { FiLogOut } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTypedSelector } from "../../store/selector";
@@ -114,6 +113,12 @@ export default function Header({ absolutePos }: HeaderProps) {
                 onClick={() => navigate(`/users/${userDetails.username}`)}
               >
                 {userDetails.username}
+              </MenuItem>
+              <MenuItem
+                icon={<FaUserFriends size="16" />}
+                onClick={() => navigate(`/users`)}
+              >
+                Discover People
               </MenuItem>
               <MenuItem
                 icon={<EditIcon w={4} h={4} />}
