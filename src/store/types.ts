@@ -11,8 +11,22 @@ export type BeforeExamState = {
 
 export type GlobalState = {
   userLoggedIn: boolean;
+  userDetails?: UserDetails;
   token: string;
   successRoute: string;
+};
+
+export type UserDetails = {
+  username: string;
+  name?: string;
+  avatar?: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  bio?: string;
+  emailVerified: boolean;
+  followersCount: number;
+  followingCount: number;
 };
 
 export type GlobalVolatileState = {};

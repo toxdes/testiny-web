@@ -5,15 +5,17 @@ import {
   Image,
   Link,
   Text,
-  Input,
   Button,
   Slide,
   useDisclosure,
 } from "../../components";
 
+import { openInNewTab } from "../../config/helpers";
+
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
 import { useDisableBodyScroll } from "../../hooks";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 interface CustomButtonProps {
   value?: string;
   variant: string;
@@ -39,6 +41,9 @@ function CustomButton({
   if (variant === "yellow") {
     bg = "yellow.500";
     fg = "purple.600";
+  } else if (variant === "outline") {
+    bg = "transparent";
+    fg = "white";
   } else {
     bg = "white";
     fg = "purple.600";
@@ -46,13 +51,13 @@ function CustomButton({
   return (
     <HFlex
       bg={bg}
-      {...bgProps}
       color={fg}
       onClick={onClick}
       justify="center"
       transition="0.2s ease-out"
       _hover={{ transform: "translateY(-2px)" }}
       _active={{ transform: "translateY(2px)" }}
+      {...bgProps}
     >
       {hasIcon && <IconComponent {...iconProps} />}
       {value && (
@@ -128,7 +133,7 @@ export default function LandingPage() {
             justify="flex-start"
           >
             <Image
-              src={require("../../assets/landing-page/logo.svg")}
+              src={require("../../assets/landing-page/logo-dark-theme.svg")}
               h="12"
               // mx="12"
               my="4"
@@ -173,6 +178,17 @@ export default function LandingPage() {
                     fontSize="28px"
                     fontWeight="bold"
                     color={"white"}
+                    href="/questions"
+                    py="8"
+                  >
+                    Explore Questions
+                  </Link>
+                  <Link
+                    onClick={onToggle}
+                    w="100%"
+                    fontSize="28px"
+                    fontWeight="bold"
+                    color={"white"}
                     href="#how-it-works"
                     py="8"
                   >
@@ -189,17 +205,6 @@ export default function LandingPage() {
                   >
                     Why
                   </Link>
-                  <Link
-                    onClick={onToggle}
-                    w="100%"
-                    fontSize="28px"
-                    fontWeight="bold"
-                    color={"white"}
-                    href="#feedback"
-                    py="8"
-                  >
-                    Feedback
-                  </Link>
                 </VFlex>
                 <CustomButton
                   variant="yellow"
@@ -212,6 +217,15 @@ export default function LandingPage() {
             </Slide>
             <HFlex ml="auto" display={{ base: "none", lg: "flex" }}>
               <Link
+                href="questions"
+                onClick={() => navigateTo("/questions")}
+                color={"white"}
+                fontWeight="700"
+                mx="4"
+              >
+                Explore Questions
+              </Link>
+              <Link
                 href="#how-it-works"
                 color={"white"}
                 fontWeight="700"
@@ -221,15 +235,6 @@ export default function LandingPage() {
               </Link>
               <Link href="#why" color={"white"} fontWeight="700" mx="4">
                 Why
-              </Link>
-              <Link
-                href="#feedback"
-                color={"white"}
-                fontWeight="700"
-                mx="4"
-                mr="8"
-              >
-                Feedback
               </Link>
               <CustomButton
                 value="Login"
@@ -419,118 +424,124 @@ export default function LandingPage() {
           <Text
             fontWeight="900"
             fontSize={{ base: "24px", md: "36px", lg: "48px" }}
-            mt="40"
+            mt="20"
             color={"white"}
           >
             Why?
           </Text>
+
           <Text
-            fontWeight="900"
-            fontSize={{ base: "72px", lg: "96px" }}
-            mt="60px"
-            textAlign="center"
-            color="yellow.500"
+            fontWeight="normal"
+            fontSize="lg"
+            mt="40px"
+            lineHeight="180%"
+            maxW="640px"
+            color="white"
+            textAlign="justify"
           >
-            I wish I knew.
+            First, thank you for taking your time to check this website. The
+            primary goal of this project is to bridge the gap between
+            just-a-showcase project, to a real-world application. I'm working on
+            that.
           </Text>
           <Text
-            fontWeight="600"
-            fontSize="24px"
+            fontWeight="normal"
+            fontSize="lg"
             mt="40px"
-            lineHeight="164%"
-            maxW="960px"
+            lineHeight="180%"
+            maxW="640px"
             color="white"
-            textAlign="center"
+            textAlign="justify"
           >
             If you are really interested in contributing, or tracking
             development progress of this project, or the current state of
-            things,
+            things, check the project out on github or join the discord server.
           </Text>
 
-          <Link
-            href="https://github.com/toxdes/testiny-web/projects"
-            rel="noopener noreferer"
-            target="_blank"
-            mt="2ch"
-            fontWeight="700"
-            color="pink.400"
-            fontSize="24px"
-          >
-            Check this out.
-          </Link>
-
-          <HFlex mt="120px" direction={{ base: "column", lg: "row" }}>
-            <Text
-              fontWeight="600"
-              fontSize="24px"
-              lineHeight="164%"
-              color="white"
-              textAlign="center"
-            >
-              Want to reach out?
-            </Text>
-            <Link
-              fontWeight="600"
-              fontSize="24px"
-              lineHeight="164%"
-              mx="1ch"
-              href="mailto://malivp3494@gmail.com"
-              color="pink.500"
-              cursor="pointer"
-              textAlign="center"
-            >
-              Email us
-            </Link>
-            <Text
-              fontWeight="600"
-              fontSize="24px"
-              lineHeight="164%"
-              color={"white"}
-              textAlign="center"
-            >
-              or give us your email, and we'll get back to you.
-            </Text>
-          </HFlex>
-          <HFlex
-            mt="60px"
-            mb="200px"
-            id="feedback"
-            w={{ base: "90%", lg: "70%" }}
-            maxW="940px"
-            mx="auto"
-          >
-            <Input
-              type="email"
-              placeholder="Email"
-              fontSize={{ base: "18px", md: "28px" }}
-              flex={0.7}
-              border="none"
-              py={{ base: "24px", md: "30px" }}
-              borderRadius="0px"
-              pl={{ base: "4", md: "12" }}
-              h={{ base: "60px", md: "100px" }}
-              fontWeight="900"
-              w="100%"
+          <HFlex mt="20" pb="240px" direction={{ base: "column", md: "row" }}>
+            <CustomButton
               variant="outline"
-              bgColor="white"
+              onClick={() =>
+                openInNewTab("https://github.com/toxdes/testiny-web")
+              }
+              value="View Source"
+              hasIcon
+              IconComponent={FaGithub}
+              bgProps={{
+                w: "240px",
+                m: "2",
+                h: "56px",
+                borderWidth: "1px",
+                borderRadius: "12px",
+                cursor: "pointer",
+                _hover: {
+                  bg: "white",
+                  borderWidth: "0",
+                  color: "purple.600",
+                },
+              }}
+              fgProps={{
+                fontSize: "22px",
+                fontWeight: "bold",
+              }}
+              iconProps={{
+                size: "24px",
+              }}
             />
-            <Button
-              variant="solid"
-              // w="360px"
-              h={{ base: "60px", md: "100px" }}
-              borderRadius="0px"
-              bg={"pink.500"}
-              onClick={() => alert("Does nothing, by the way.")}
-              px="2"
-              flex={0.3}
-              minW="120px"
-              _hover={{ bg: "yellow.500", color: "purple.600" }}
-              color={"white"}
-              fontSize={{ base: "18px", md: "28px" }}
-              fontWeight="700"
-            >
-              Let's talk!
-            </Button>
+            <CustomButton
+              variant="outline"
+              onClick={() => openInNewTab("https://discord.gg/NXNjzYxQ2W")}
+              value="Join Discord"
+              hasIcon
+              IconComponent={FaDiscord}
+              bgProps={{
+                w: "240px",
+                h: "56px",
+                m: "2",
+                borderWidth: "1px",
+                borderRadius: "12px",
+                cursor: "pointer",
+                _hover: {
+                  bg: "white",
+                  borderWidth: "0",
+                  color: "purple.600",
+                },
+              }}
+              fgProps={{
+                fontSize: "22px",
+                fontWeight: "bold",
+              }}
+              iconProps={{
+                size: "24px",
+              }}
+            />
+            <CustomButton
+              variant="outline"
+              onClick={() => openInNewTab("https://twitter.com/testinylive")}
+              value="@testinylive"
+              hasIcon
+              IconComponent={FaTwitter}
+              bgProps={{
+                w: "240px",
+                h: "56px",
+                m: "2",
+                borderWidth: "1px",
+                borderRadius: "12px",
+                cursor: "pointer",
+                _hover: {
+                  bg: "white",
+                  borderWidth: "0",
+                  color: "purple.600",
+                },
+              }}
+              fgProps={{
+                fontSize: "22px",
+                fontWeight: "bold",
+              }}
+              iconProps={{
+                size: "24px",
+              }}
+            />
           </HFlex>
         </VFlex>
       </VFlex>
