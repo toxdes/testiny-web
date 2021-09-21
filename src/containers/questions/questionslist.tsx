@@ -25,6 +25,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { FetchDataType, ResponseStatusType } from "../../store/types";
 import api from "../../api";
+import { fromNow } from "../../config/helpers";
 
 interface QuestionItemProps {
   data: any;
@@ -109,7 +110,7 @@ function QuestionItem({ data }: QuestionItemProps) {
       <HFlex mt="4">
         <Avatar src={author.profile.avatar} size="xs" mr="4" cursor="pointer" />
         <Text color="gray.500">
-          Posted <b>{createdAt}</b> by
+          Posted <b>{fromNow(createdAt)}</b> by
         </Text>
         <Link
           href={`/users/${author.username}`}

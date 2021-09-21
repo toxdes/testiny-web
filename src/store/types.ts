@@ -21,8 +21,8 @@ export type UserDetails = {
   name?: string;
   avatar?: string;
   email: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   bio?: string;
   emailVerified: boolean;
   followersCount: number;
