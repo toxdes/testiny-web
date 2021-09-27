@@ -154,7 +154,6 @@ export function UsersList() {
         setData({ status: ResponseStatusType.FETCHING });
         res = await api.get(`/users`);
         res = res.data;
-        console.log(res);
         if (res.status === "error") {
           setData({ status: ResponseStatusType.ERROR, data: res.message });
           return;

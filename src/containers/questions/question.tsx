@@ -36,7 +36,6 @@ export function Question({ own, containerProps }: QuestionProps) {
         setData({ status: ResponseStatusType.FETCHING });
         res = await api.get(`/questions/${question_id}`);
         res = res.data;
-        console.log(res);
         if (res.status === "error") {
           setData({ status: ResponseStatusType.ERROR, data: res.message });
           return;

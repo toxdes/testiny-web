@@ -36,7 +36,6 @@ export function Profile({ own, containerProps }: ProfileProps) {
           res = await api.get(`/users/${username}`);
         }
         res = res.data;
-        console.log(res);
         if (res.status === "error") {
           setData({ status: ResponseStatusType.ERROR, data: res.message });
           return;
@@ -73,9 +72,7 @@ export function Profile({ own, containerProps }: ProfileProps) {
 
   if (data.status === ResponseStatusType.SUCCESS) {
     let { avatar, username, email_verified, bio, ownProfile } = data.data;
-    console.log("profile data", data.data);
     let name = data.data.name ? data.data.name : username;
-    if (!avatar) avatar = fallBackImg;
     return (
       <VFlex w="100%" m="auto" h="100%" {...containerProps}>
         <VFlex mt="40" p={{ base: "4", lg: "12" }}>

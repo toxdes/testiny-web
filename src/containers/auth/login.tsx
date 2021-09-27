@@ -68,7 +68,6 @@ export function Login({ successRoute }: LoginProps) {
       return;
     }
     if (data.status === ResponseStatusType.FETCHING) {
-      console.log("already fetching.");
       return;
     }
     setData({ status: ResponseStatusType.FETCHING });
@@ -80,7 +79,6 @@ export function Login({ successRoute }: LoginProps) {
         return;
       }
       const token = res.token;
-      console.log("token", res);
       // get user details after logging in.
       res = await api.get("/me", {
         headers: { Authorization: `Bearer ${token}` },
@@ -112,7 +110,7 @@ export function Login({ successRoute }: LoginProps) {
       });
       dispatch(setUserLoggedIn(true, token, successRoute, userDetails));
     } catch (e) {
-      console.log(JSON.stringify(e));
+      // console.log(JSON.stringify(e));
       setData({
         status: ResponseStatusType.ERROR,
         data: "Probably failed to connect to the backend.",
