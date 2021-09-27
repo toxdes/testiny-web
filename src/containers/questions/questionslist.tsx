@@ -26,7 +26,6 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { FetchDataType, ResponseStatusType } from "../../store/types";
 import api from "../../api";
 import { fromNow } from "../../config/helpers";
-
 interface QuestionItemProps {
   data: any;
 }
@@ -66,41 +65,28 @@ function QuestionItem({ data }: QuestionItemProps) {
         Q. {text.length > 120 ? `${text.substring(0, 120)}...` : text}{" "}
       </Link>
       <HFlex justify="start" mt="2" overflowX="auto" width="100%">
-        <Tag
-          colorScheme="red"
-          fontWeight="bold"
-          onClick={() => {
-            navigate(`/questions?questionType=${questionType}`);
-          }}
-        >
+        <Tag colorScheme="red" fontWeight="bold">
           {questionType}
         </Tag>
         <Tag
           colorScheme={license === "FREE" ? "green" : "yellow"}
-          onClick={() => navigate(`/questions?license=${license}`)}
           fontWeight="bold"
           ml="2"
         >
           {license.replace("_", " ", "g")}
         </Tag>
-        <Tag
-          colorScheme="purple"
-          fontWeight="bold"
-          ml="2"
-          onClick={() => navigate(`/questions?difficulty=${difficulty}`)}
-        >
+        <Tag colorScheme="purple" fontWeight="bold" ml="2">
           {difficulty}{" "}
         </Tag>
         {tags &&
           tags.map((tag: any) => {
             return (
               <Tag
-                colorScheme="purple"
+                colorScheme="cyan"
                 fontWeight="bold"
                 ml="2"
                 key={tag.tagName}
                 textTransform="uppercase"
-                onClick={() => navigate(`/questions?tag=${tag.tagName}`)}
               >
                 {tag.tagName}
               </Tag>
@@ -132,9 +118,18 @@ interface QuestionsProps {
 }
 
 function Questions({ data }: QuestionsProps) {
-  if (!data || data.status !== ResponseStatusType.SUCCESS) {
+  if (!data || data.data.length <= 0) {
+    return (
+      <Text fontWeight="normal" color="gray.500">
+        No Questions to show.{" "}
+      </Text>
+    );
+  }
+
+  if (data.status !== ResponseStatusType.SUCCESS) {
     return <Text>Error. Cannot fetch questions.</Text>;
   }
+
   return data.data.map((item: any) => (
     <QuestionItem key={item.questionId} data={item} />
   ));
@@ -155,7 +150,7 @@ const getParams = (query: string) => {
   }
   return {
     params: initialParams,
-    query,
+    query: query.startsWith("?") ? query.substring(1) : query,
   };
 };
 
@@ -203,6 +198,7 @@ function Sidebar(_: SidebarProps) {
 interface FilterProps {
   onFilter: (key: string, newData: string[]) => void;
   onClearAllFilters: () => void;
+  onSetParams: (newParams: TParams) => void;
   params: TParamsObject;
 }
 
@@ -275,7 +271,12 @@ function DropdownMenu({
   );
 }
 
-function Filter({ params, onFilter, onClearAllFilters }: FilterProps) {
+function Filter({
+  params,
+  onFilter,
+  onClearAllFilters,
+  onSetParams,
+}: FilterProps) {
   const handleFilterChange = (key: string, newOptions: string | string[]) => {
     if (Array.isArray(newOptions)) {
       onFilter(key, newOptions);
@@ -328,7 +329,11 @@ function Filter({ params, onFilter, onClearAllFilters }: FilterProps) {
           />
         </HFlex>
       </HFlex>
-      <ActiveParams params={params} onClearAllFilters={onClearAllFilters} />
+      <ActiveParams
+        params={params}
+        onClearAllFilters={onClearAllFilters}
+        onSetParams={onSetParams}
+      />
     </VFlex>
   );
 }
@@ -359,6 +364,7 @@ const DEFAULT_PARAMS: TParams = {
 interface ActiveParamsProps {
   params: TParamsObject;
   onClearAllFilters: () => void;
+  onSetParams: (newParams: TParams) => void;
 }
 
 const tagProps = {
@@ -370,7 +376,11 @@ const tagProps = {
   mr: "2",
 };
 
-function ActiveParams({ params, onClearAllFilters }: ActiveParamsProps) {
+function ActiveParams({
+  params,
+  onClearAllFilters,
+  onSetParams,
+}: ActiveParamsProps) {
   const navigate = useNavigate();
   let hasActiveParams = false;
   Object.keys(params).forEach((key) => {
@@ -386,9 +396,13 @@ function ActiveParams({ params, onClearAllFilters }: ActiveParamsProps) {
               <TagLabel>{val}</TagLabel>
               <TagCloseButton
                 onClick={() => {
-                  let newParams = params;
-                  newParams[key] = newParams[key].filter((v) => v !== val);
-                  navigate(`/questions?${convertToQueryString(newParams)}`);
+                  let newParams = { params, query: "" };
+                  newParams.params[key] = newParams.params[key].filter(
+                    (v) => v !== val
+                  );
+                  newParams.query = convertToQueryString(newParams.params);
+                  onSetParams(newParams);
+                  navigate(`/questions?${newParams.query}`);
                 }}
               />{" "}
             </Tag>
@@ -412,7 +426,8 @@ export function QuestionsList(_: QuestionsListProps) {
   // BRUH MOMENT: there exists https://github.com/remix-run/react-router/blob/dev/docs/api-reference.md#usesearchparams
   // so no need to implement from scratch
   // BRUH MOMENT FOR THE PREVIOUS BRUH MOMENT: it doesn't work like I want it to so using `navigate`
-  // so the code is literally a mess, needs refactoring
+  // TODO: Refactor `QuestionsList`
+  // @body Since the primary target is to write a working implementation, the code is all over the place. Need to move things around, so that the code is more human-accessible.
   // Also, not sure if filtering logic should be on the frontend or backend, currently feels easier to do this on backend.
 
   let search_q = useLocation().search;
@@ -428,6 +443,7 @@ export function QuestionsList(_: QuestionsListProps) {
     setParams(getParams(""));
     navigate("/questions");
   };
+
   React.useEffect(() => {
     const get = async () => {
       try {
@@ -435,7 +451,6 @@ export function QuestionsList(_: QuestionsListProps) {
         setData({ status: ResponseStatusType.FETCHING });
         res = await api.get(`/questions?${params?.query}`);
         res = res.data;
-        console.log(res);
         if (res.status === "error") {
           setData({ status: ResponseStatusType.ERROR, data: res.message });
           return;
@@ -453,12 +468,16 @@ export function QuestionsList(_: QuestionsListProps) {
   }, [params]);
 
   const onFilter = (key: keyof TParamsObject, newValue: string[]) => {
-    let newParams = params;
+    let newParams = { ...params };
     if (newParams) newParams.params[key] = newValue;
     newParams.query = convertToQueryString(newParams.params);
+    setParams(newParams);
     navigate(`/questions?${newParams.query}`, { replace: true });
   };
 
+  const onSetParams = (newParams: TParams) => {
+    setParams(newParams);
+  };
   return (
     <VFlex maxW="1250px" mx="auto" align="start" mt="12" px="4">
       <Heading as="h1" color="gray.600">
@@ -476,6 +495,7 @@ export function QuestionsList(_: QuestionsListProps) {
             params={params.params}
             onFilter={onFilter}
             onClearAllFilters={onClearAllFilters}
+            onSetParams={onSetParams}
           />
           {data.status === ResponseStatusType.FETCHING && <Loading />}
           {data.status === ResponseStatusType.SUCCESS && (

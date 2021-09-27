@@ -105,7 +105,7 @@ export default function Login({ onNextStep }: StepProps) {
 
   const onTextChange = (id: number, text: string) => {
     if (id > inputs?.length || id < 0) return;
-    let newInputs = inputs;
+    let newInputs = { ...inputs };
     newInputs[id] = text;
     setTimeout(() => setInputs(newInputs), 0);
     forceUpdate();

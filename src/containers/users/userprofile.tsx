@@ -6,7 +6,7 @@ import {
   Loading,
   VFlex,
   Text,
-  Image,
+  Avatar,
   Link,
   HFlex,
   Badge,
@@ -68,7 +68,6 @@ export function Profile({ own, containerProps }: ProfileProps) {
       </VFlex>
     );
   }
-  const fallBackImg = "https://randomuser.me/api/portraits/men/81.jpg";
 
   if (data.status === ResponseStatusType.SUCCESS) {
     let { avatar, username, email_verified, bio, ownProfile } = data.data;
@@ -76,7 +75,8 @@ export function Profile({ own, containerProps }: ProfileProps) {
     return (
       <VFlex w="100%" m="auto" h="100%" {...containerProps}>
         <VFlex mt="40" p={{ base: "4", lg: "12" }}>
-          <Image src={avatar} w="120px" height="120px" />
+          {/* <Image src={avatar} w="120px" height="120px" /> */}
+          <Avatar size="2xl" src={avatar} />
           <HFlex mt="12">
             <Text fontWeight="bold" fontSize="24px">
               {name}
