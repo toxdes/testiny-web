@@ -5,7 +5,8 @@ import colors from "./colors";
 
 export default extendTheme({
   fonts: {
-    serif: "'Spectral', 'Georgia', 'Times New Roman', serif",
+    body: `Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"`,
+    heading: `Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"`,
   },
   styles: {
     global: {
@@ -23,8 +24,9 @@ export default extendTheme({
     xl: "1380px",
   }),
   fontWeights: {
-    extrabold: 900,
-    black: 900,
+    bold: 600,
+    extrabold: 800,
+    black: 800,
   },
   colors,
 });

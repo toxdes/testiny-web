@@ -63,7 +63,7 @@ function CustomButton({
       {value && (
         <Button
           {...fgProps}
-          fontWeight="700"
+          fontWeight="bold"
           variant="ghost"
           colorScheme="whitealpha"
         >
@@ -220,7 +220,7 @@ export default function LandingPage() {
                 href="questions"
                 onClick={() => navigateTo("/questions")}
                 color={"white"}
-                fontWeight="700"
+                fontWeight="bold"
                 mx="4"
               >
                 Explore Questions
@@ -228,12 +228,12 @@ export default function LandingPage() {
               <Link
                 href="#how-it-works"
                 color={"white"}
-                fontWeight="700"
+                fontWeight="bold"
                 mx="4"
               >
                 How it works
               </Link>
-              <Link href="#why" color={"white"} fontWeight="700" mx="4">
+              <Link href="#why" color={"white"} fontWeight="bold" mx="4">
                 Why
               </Link>
               <CustomButton
@@ -334,11 +334,11 @@ export default function LandingPage() {
               fontSize="48px"
               color="gray.600"
               mr="2"
-              fontWeight="900"
+              fontWeight="extrabold"
             >
               How
             </Text>
-            <Text fontSize="48px" fontWeight="900" color="gray.700">
+            <Text fontSize="48px" fontWeight="extrabold" color="gray.700">
               it works
             </Text>
           </HFlex>
@@ -375,11 +375,11 @@ export default function LandingPage() {
             fontSize="48px"
             color="gray.600"
             mr="2"
-            fontWeight="700"
+            fontWeight="bold"
           >
             Video
           </Text>
-          <Text fontSize="48px" fontWeight="700" color="gray.700">
+          <Text fontSize="48px" fontWeight="bold" color="gray.700">
             Demo
           </Text>
         </HFlex>
@@ -422,7 +422,7 @@ export default function LandingPage() {
         </VFlex>
         <VFlex w="80%" mx="auto">
           <Text
-            fontWeight="900"
+            fontWeight="extrabold"
             fontSize={{ base: "24px", md: "36px", lg: "48px" }}
             mt="20"
             color={"white"}

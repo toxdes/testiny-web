@@ -57,11 +57,11 @@ export function Signup({ successRoute }: LoginProps) {
 
   const doSignup = React.useCallback(async () => {
     if (!valid) {
-      console.log("fields are not valid, cannot post to the API.");
+      // console.log("fields are not valid, cannot post to the API.");
       return;
     }
     if (data.status === ResponseStatusType.FETCHING) {
-      console.log("already fetching...");
+      // console.log("already fetching...");
       return;
     }
     setData({ status: ResponseStatusType.FETCHING });

@@ -95,7 +95,7 @@ function UserProfileCard({ user }: UserProfileCardProps) {
         <Heading fontSize={"2xl"} fontFamily={"body"}>
           {user.name ? user.name : user.username}
         </Heading>
-        <Text fontWeight={600} color={"purple.500"} mb={4}>
+        <Text fontWeight="bold" color={"purple.500"} mb={4}>
           {user.username}
         </Text>
         <Text textAlign={"center"} color={"gray.700"} px={3}>
@@ -154,7 +154,6 @@ export function UsersList() {
         setData({ status: ResponseStatusType.FETCHING });
         res = await api.get(`/users`);
         res = res.data;
-        console.log(res);
         if (res.status === "error") {
           setData({ status: ResponseStatusType.ERROR, data: res.message });
           return;

@@ -8,7 +8,6 @@ export default (state: GlobalState, action: GenericAction): GlobalState => {
       api.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${action.payload.token}`;
-      console.log(action.payload.token);
       return {
         ...state,
         userLoggedIn: true,

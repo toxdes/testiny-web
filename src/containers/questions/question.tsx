@@ -16,6 +16,7 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { FetchDataType, ResponseStatusType } from "../../store/types";
 import api from "../../api";
+import { fromNow } from "../../config/helpers";
 interface QuestionProps {
   own?: boolean;
   containerProps?: any;
@@ -35,7 +36,6 @@ export function Question({ own, containerProps }: QuestionProps) {
         setData({ status: ResponseStatusType.FETCHING });
         res = await api.get(`/questions/${question_id}`);
         res = res.data;
-        console.log(res);
         if (res.status === "error") {
           setData({ status: ResponseStatusType.ERROR, data: res.message });
           return;
@@ -173,7 +173,7 @@ export function Question({ own, containerProps }: QuestionProps) {
         <HFlex mt="4" ml="auto">
           <Avatar src={author.profile.avatar} size="sm" mr="4" />
           <Text color="gray.500">
-            Posted <b>{createdAt}</b> by
+            Posted <b>{fromNow(createdAt)}</b> by
           </Text>
           <Link
             href={`/users/${author.username}`}
