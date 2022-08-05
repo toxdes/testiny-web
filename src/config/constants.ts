@@ -4,8 +4,8 @@ const DEBUG_MODE = false;
 // link to source code
 const PROJECT_LINK = "https://github.com/toxdes/testiny-web";
 
-let API_BASE_URL = "https://api.testiny.live/";
-// let API_BASE_URL = "http://172.25.241.170:8000";
+// let API_BASE_URL = "https://api.testiny.live/";
+let API_BASE_URL = "http://172.31.12.44:8000";
 // let API_BASE_URL = "http://localhost:8000/";
 
 // TODO: Figure out a flawless way to handle production builds
