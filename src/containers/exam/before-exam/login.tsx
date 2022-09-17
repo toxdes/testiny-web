@@ -105,7 +105,7 @@ export default function Login({ onNextStep }: StepProps) {
 
   const onTextChange = (id: number, text: string) => {
     if (id > inputs?.length || id < 0) return;
-    let newInputs = { ...inputs };
+    let newInputs = [...inputs];
     newInputs[id] = text;
     setTimeout(() => setInputs(newInputs), 0);
     forceUpdate();
@@ -114,6 +114,7 @@ export default function Login({ onNextStep }: StepProps) {
   const onSubmit = (e: any) => {
     e.preventDefault();
     let okay = true;
+    console.log("INPUTS", inputs);
     for (let input of inputs) {
       if (!input || input === "") {
         okay = false;
