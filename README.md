@@ -1,4 +1,4 @@
-# Visit[`testiny.live`](https://testiny.live)
+# Visit[`testiny.txds.me`](https://testiny.txds.me)
 
 ![Screenshot](./images/testiny-logo.png)
 
