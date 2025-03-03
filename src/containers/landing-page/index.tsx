@@ -13,7 +13,7 @@ import {
 import { openInNewTab } from "../../config/helpers";
 
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
+import { FaGithub, FaTwitter } from "react-icons/fa";
 import { useDisableBodyScroll } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 interface CustomButtonProps {
@@ -464,7 +464,7 @@ export default function LandingPage() {
               onClick={() =>
                 openInNewTab("https://github.com/toxdes/testiny-web")
               }
-              value="View Source"
+              value="View on Github"
               hasIcon
               IconComponent={FaGithub}
               bgProps={{
@@ -488,33 +488,7 @@ export default function LandingPage() {
                 size: "24px",
               }}
             />
-            <CustomButton
-              variant="outline"
-              onClick={() => openInNewTab("https://discord.gg/NXNjzYxQ2W")}
-              value="Join Discord"
-              hasIcon
-              IconComponent={FaDiscord}
-              bgProps={{
-                w: "240px",
-                h: "56px",
-                m: "2",
-                borderWidth: "1px",
-                borderRadius: "12px",
-                cursor: "pointer",
-                _hover: {
-                  bg: "white",
-                  borderWidth: "0",
-                  color: "purple.600",
-                },
-              }}
-              fgProps={{
-                fontSize: "22px",
-                fontWeight: "bold",
-              }}
-              iconProps={{
-                size: "24px",
-              }}
-            />
+
             <CustomButton
               variant="outline"
               onClick={() => openInNewTab("https://twitter.com/testinylive")}
